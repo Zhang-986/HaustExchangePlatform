@@ -1,0 +1,13 @@
+haust:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    host: 117.72.112.62
+    port: 3306
+    database: dev_job_exchange
+    username: root
+    password: 200522
+  redis:
+    port: 6379
+    host: 117.72.112.62
+    password: 200522
+    timeout: 200ms

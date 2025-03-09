@@ -1,4 +1,4 @@
-package com.share.haust;
+package com.haust;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
