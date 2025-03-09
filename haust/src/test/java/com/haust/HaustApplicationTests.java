@@ -8,6 +8,7 @@ class HaustApplicationTests {
 
     @Test
     void contextLoads() {
+
     }
 
 }
