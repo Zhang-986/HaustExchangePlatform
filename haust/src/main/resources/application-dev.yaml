@@ -1,6 +1,6 @@
 haust:
   datasource:
-    driver-class-name: com.cj.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     host: 117.72.112.62
     port: 3306
     database: dev_job_exchange
