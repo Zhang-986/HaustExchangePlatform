@@ -34,16 +34,23 @@ public class UserServiceImpl implements UserService {
         // 1.查看账号数据库是否存在
         User user = userMapper.selectById(accountDTO);
         if(BeanUtil.isEmpty(user)){
-
+            throw  new UserException(UserConstant.LOGIN_CHECK_EMPTY);
         }
         // 2. 判断传入密码与加密后的密码
         if(!PasswordUtil.matches(accountDTO.getPassword(), user.getPassword())){
             throw new UserException(UserConstant.PASSWORD_WRONG);
         }
+        // 2.5 判断当前账户状态
+        if(user.getRole()==2){
+            throw new UserException(UserConstant.USER_TROUBLE);
+        }
+
         // 3.生成JWT令牌
         String jwt = JwtUtil.generateToken(String.valueOf(user.getId()));
+
         // 4. 将JWT存储到Redis中
         authUtil.saveToken(String.valueOf(user.getId()), jwt);
+
         return jwt;
     }
 }
