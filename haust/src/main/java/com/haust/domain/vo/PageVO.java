@@ -1,0 +1,20 @@
+package com.haust.domain.vo;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
+
+import java.util.Date;
+import java.util.List;
+@ApiModel(description = "分页查询所得数据")
+public class PageVO {
+    @ApiModelProperty("内推数据")
+    List<CodingSharingVO> data;
+    @ApiModelProperty("总条数")
+    Integer total;
+    @ApiModelProperty("当前页码")
+    Integer page;
+    @ApiModelProperty("每页条数")
+    Integer pageSize;
+
+}
