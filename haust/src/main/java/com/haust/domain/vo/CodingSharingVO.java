@@ -3,9 +3,10 @@ package com.haust.domain.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import java.time.LocalDateTime;
-
+@Data
 @ApiModel(description = "内推信息VO")
 public class CodingSharingVO {
 

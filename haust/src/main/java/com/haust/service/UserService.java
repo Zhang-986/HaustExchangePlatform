@@ -1,5 +1,7 @@
 package com.haust.service;
 
+import com.haust.domain.dto.AccountDTO;
+
 public interface UserService {
-    void loginByAdmin();
+    String loginByAdmin(AccountDTO accountDTO);
 }

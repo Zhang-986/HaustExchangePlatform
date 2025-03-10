@@ -4,4 +4,6 @@ package com.haust.constant;
  */
 public class MessageConstant {
 
+
+
 }

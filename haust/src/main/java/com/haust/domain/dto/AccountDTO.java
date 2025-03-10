@@ -3,7 +3,9 @@ package com.haust.domain.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
+import lombok.Data;
 
+@Data
 @ApiModel(description = "用户信息类")
 public class AccountDTO {
     @ApiModelProperty("账号")
