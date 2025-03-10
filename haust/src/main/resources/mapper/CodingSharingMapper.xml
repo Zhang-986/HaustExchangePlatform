@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.haust.mapper.CodingSharingMapper">
+
+
+    <insert id="insert">
+        insert into coding_sharing (user_id, company_name, detail, remark,
+                                    recommander_email, click_number, recommand_index, status, code_id)
+        values (
+
+               )
+    </insert>
+</mapper>
