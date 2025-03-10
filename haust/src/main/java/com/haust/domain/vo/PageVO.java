@@ -7,9 +7,9 @@ import io.swagger.models.auth.In;
 import java.util.Date;
 import java.util.List;
 @ApiModel(description = "分页查询所得数据")
-public class PageVO {
+public class PageVO<T> {
     @ApiModelProperty("内推数据")
-    List<CodingSharingVO> data;
+    List<T> data;
     @ApiModelProperty("总条数")
     Integer total;
     @ApiModelProperty("当前页码")
