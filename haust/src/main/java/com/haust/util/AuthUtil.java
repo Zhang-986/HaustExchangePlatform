@@ -13,9 +13,11 @@ public class AuthUtil {
 
     private static final String REDIS_TOKEN_PREFIX = "user_token:";
 
+
     // 保存 JWT 到 Redis
+    // Redis过期时间>JWT时间
     public void saveToken(String userId, String token) {
-        redisTemplate.opsForValue().set(REDIS_TOKEN_PREFIX + userId, token, 30, TimeUnit.DAYS);
+        redisTemplate.opsForValue().set(REDIS_TOKEN_PREFIX + userId, token, 1, TimeUnit.DAYS);
     }
 
     // 从 Redis 中获取 Token
