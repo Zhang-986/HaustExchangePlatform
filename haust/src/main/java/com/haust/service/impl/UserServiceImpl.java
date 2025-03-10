@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserService {
         if(BeanUtil.isEmpty(accountDTO)){
             throw new UserException(UserConstant.LOGIN_EMPTY);
         }
+
         // 1.查看账号数据库是否存在
         User user = userMapper.selectById(accountDTO);
         if(BeanUtil.isEmpty(user)){
