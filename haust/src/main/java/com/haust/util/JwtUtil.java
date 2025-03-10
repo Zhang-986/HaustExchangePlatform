@@ -36,8 +36,8 @@ public class JwtUtil {
      * @return 解析后的 DecodedJWT 对象
      */
     public static DecodedJWT parseToken(String token) {
-        return JWT.require(Algorithm.HMAC256(SECRET_KEY))
-                .build()
+            return JWT.require(Algorithm.HMAC256(SECRET_KEY))
+                    .build()
                 .verify(token);
     }
 
