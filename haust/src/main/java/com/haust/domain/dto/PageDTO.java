@@ -7,7 +7,6 @@ import io.swagger.models.auth.In;
 
 @ApiModel(description = "传递查询参数")
 public class PageDTO {
-
     @ApiModelProperty("页码")
     Integer page;
     @ApiModelProperty("一页展示数据")
