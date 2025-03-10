@@ -32,7 +32,11 @@
             <artifactId>knife4j-spring-boot-starter</artifactId>
             <version>3.0.3</version> <!-- 推荐使用 3.0.3 或更高版本 -->
         </dependency>
-
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+        </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
