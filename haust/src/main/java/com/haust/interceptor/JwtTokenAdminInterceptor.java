@@ -1,9 +1,9 @@
 package com.haust.interceptor;
 
+import cn.hutool.jwt.JWT;
 import com.haust.constant.UserConstant;
 import com.haust.context.BaseContext;
 import com.haust.exception.UserException;
-import com.haust.util.AuthUtil;
 import com.haust.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,12 +12,13 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Enumeration;
 
 @Component
 @Slf4j
 @RequiredArgsConstructor
 public class JwtTokenAdminInterceptor implements HandlerInterceptor {
-    private final AuthUtil authUtil;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 1. 获取JWT令牌
@@ -26,26 +27,29 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
         boolean temp = JwtUtil.validateToken(token);
         if(!temp){
             // 当前令牌不合法
-            response.setStatus(401);
-            return false;
+           writeResponse(response,401,UserConstant.JWT_FORMAT_FAIL);
+           return false;
         }
         // 3. 是否是当前管理员
         String userId = JwtUtil.getUserIdFromToken(token);
-        // 3.1 得到现在UserId
-        String redisToken = authUtil.getToken(userId);
         if(!userId.equals("1")){
             // 不是对应用户
-            response.setStatus(401);
-            return false;
-        }
-        // 3.2 现在对redis里边验证
-        if(redisToken.equals(token)){
-            response.setStatus(401);
+            writeResponse(response,401,UserConstant.JWT_FAIL);
             return false;
         }
         // 4. 存入当前用户线程
         BaseContext.setId(Long.valueOf(userId));
-        log.info("{}得到登入权限",userId);
         return true;
+    }
+    private void writeResponse(HttpServletResponse response, int code, String message) throws IOException {
+        // 设置响应内容类型和状态码
+        response.setContentType("application/json;charset=UTF-8");
+        response.setStatus(code);
+
+        // 构建 JSON 字符串
+        String jsonResponse = String.format("{\"code\": %d, \"message\": \"%s\", \"data\": null}", code, message);
+
+        // 将 JSON 写入响应
+        response.getWriter().write(jsonResponse);
     }
 }

@@ -1,7 +1,8 @@
 package com.haust.interceptor;
 
+import com.haust.constant.UserConstant;
 import com.haust.context.BaseContext;
-import com.haust.util.AuthUtil;
+import com.haust.result.ResultResponse;
 import com.haust.util.JwtUtil;
 import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
@@ -12,11 +13,13 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+
 @RequiredArgsConstructor
 @Component
 @Slf4j
 public class JwtTokenUserInterceptor implements HandlerInterceptor {
-    private final AuthUtil authUtil;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 1. 获取JWT令牌
@@ -25,21 +28,24 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor {
         boolean temp = JwtUtil.validateToken(token);
         if(!temp){
             // 当前令牌不合法
-            response.setStatus(401);
+            writeResponse(response, 401, UserConstant.JWT_FORMAT_FAIL);
             return false;
         }
-        // 3. 用户这边得到信息，从redis进行比对
+        // 3. 用户这边得到信息
         String userId = JwtUtil.getUserIdFromToken(token);
-        String redisToken = authUtil.getToken(userId);
-        // 3.5 当前redis拿出来的token与拿到的进行比较
-        if (StringUtil.isNullOrEmpty(redisToken)) {
-            // TODO 封装类进行请求的处理
-            response.setStatus(401);
-            return false;
-        }
         // 4. 存入当前用户线程
         BaseContext.setId(Long.valueOf(userId));
-        log.info("{}",userId);
         return true;
+    }
+    private void writeResponse(HttpServletResponse response, int code, String message) throws IOException {
+        // 设置响应内容类型和状态码
+        response.setContentType("application/json;charset=UTF-8");
+        response.setStatus(code);
+
+        // 构建 JSON 字符串
+        String jsonResponse = String.format("{\"code\": %d, \"message\": \"%s\", \"data\": null}", code, message);
+
+        // 将 JSON 写入响应
+        response.getWriter().write(jsonResponse);
     }
 }
