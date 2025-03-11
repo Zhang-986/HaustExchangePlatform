@@ -27,4 +27,8 @@ public class PasswordUtil {
         return encoder.matches(rawPassword, encodedPassword);
     }
 
+    public static void main(String[] args) {
+        String s = encryptPassword("123456");
+        System.out.println(s);
+    }
 }

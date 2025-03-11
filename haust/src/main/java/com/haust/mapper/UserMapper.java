@@ -7,4 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper {
 
     User selectById(AccountDTO accountDTO);
+
+    void insert(User user);
 }

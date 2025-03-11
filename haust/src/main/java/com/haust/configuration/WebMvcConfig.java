@@ -1,6 +1,7 @@
 package com.haust.configuration;
 
 import com.haust.interceptor.JwtTokenAdminInterceptor;
+import com.haust.interceptor.JwtTokenUserInterceptor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Slf4j
 public class WebMvcConfig implements WebMvcConfigurer {
     private final JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
+    private final JwtTokenUserInterceptor jwtTokenUserInterceptor;
     @Override
     public  void addInterceptors(InterceptorRegistry registry) {
         log.info("------------------开启Haust拦截器------------------");
@@ -21,8 +23,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/admin/**")
                 .excludePathPatterns("/admin/login");
 
-        // TODO 用户接口
-
-
+        // 用户接口
+        registry.addInterceptor(jwtTokenUserInterceptor)
+                .addPathPatterns("/user/**")
+                .excludePathPatterns("/user/login")
+                .excludePathPatterns("/user/register");
     }
 }
