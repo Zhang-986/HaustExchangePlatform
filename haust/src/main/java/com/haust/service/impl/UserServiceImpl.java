@@ -9,8 +9,7 @@ import com.haust.exception.MessageException;
 import com.haust.exception.UserException;
 import com.haust.mapper.UserMapper;
 import com.haust.service.UserService;
-import com.haust.util.AuthUtil;
-import com.haust.util.JwtUtil;
+;import com.haust.util.JwtUtil;
 import com.haust.util.PasswordUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final AuthUtil authUtil;
     private final UserMapper userMapper;
     @Override
     public String loginByAdmin(AccountDTO accountDTO) {
@@ -44,12 +42,8 @@ public class UserServiceImpl implements UserService {
         if(user.getRole()==2){
             throw new UserException(UserConstant.USER_TROUBLE);
         }
-
         // 3.生成JWT令牌
         String jwt = JwtUtil.generateToken(String.valueOf(user.getId()));
-
-        // 4. 将JWT存储到Redis中
-        authUtil.saveToken(String.valueOf(user.getId()), jwt);
 
         return jwt;
     }

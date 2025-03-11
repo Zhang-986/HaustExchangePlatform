@@ -28,4 +28,9 @@ public class AdminController {
         String token = userService.loginByAdmin(accountDTO);
         return token;
     }
+    @ApiOperation("测试拦截器")
+    @GetMapping("/a")
+    public String a (){
+        return "aaa";
+    }
 }

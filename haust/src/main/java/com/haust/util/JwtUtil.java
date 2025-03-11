@@ -11,7 +11,7 @@ import java.util.Date;
 public class JwtUtil {
 
     // 密钥
-    private static final String SECRET_KEY = "$2a$10$KusLM9P0RxNB4a4ZcZ1Ocev/SbMLr8PMIZzYkNEZ1KPBMJuuc2.0W";
+    private static final String SECRET_KEY = "21413253453535342434324";
     // 过期时间（单位：毫秒）
     private static final long EXPIRATION_TIME = 3600 * 1000 * 8; // 8 小时
 
@@ -36,8 +36,8 @@ public class JwtUtil {
      * @return 解析后的 DecodedJWT 对象
      */
     public static DecodedJWT parseToken(String token) {
-        return JWT.require(Algorithm.HMAC256(SECRET_KEY))
-                .build()
+            return JWT.require(Algorithm.HMAC256(SECRET_KEY))
+                    .build()
                 .verify(token);
     }
 
