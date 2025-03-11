@@ -67,18 +67,5 @@ public class JwtUtil {
         return decodedJWT.getSubject();
     }
 
-    public static void main(String[] args) {
-        // 生成 JWT
-        String userId = "123456";
-        String token = generateToken(userId);
-        System.out.println("Generated Token: " + token);
 
-        // 验证 JWT
-        boolean isValid = validateToken(token);
-        System.out.println("Is Token Valid? " + isValid);
-
-        // 从 JWT 中获取用户 ID
-        String extractedUserId = getUserIdFromToken(token);
-        System.out.println("Extracted User ID: " + extractedUserId);
-    }
 }

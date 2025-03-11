@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /*
@@ -23,14 +24,9 @@ public class AdminController {
 
     @ApiOperation("登入接口")
     @PostMapping("/login")
-    public String login(@RequestBody AccountDTO accountDTO){
+    public String login(@Validated @RequestBody AccountDTO accountDTO){
         log.info("管理员-登入接收{}",accountDTO);
         String token = userService.loginByAdmin(accountDTO);
         return token;
-    }
-    @ApiOperation("测试拦截器")
-    @GetMapping("/a")
-    public String a (){
-        return "aaa";
     }
 }

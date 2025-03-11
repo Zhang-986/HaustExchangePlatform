@@ -2,8 +2,9 @@ package com.haust.domain.po;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Data;
-
+@Builder
 @Data
 @ApiModel(value = "conding_sharing",description = "交流信息表")
 public class CodingSharing {
