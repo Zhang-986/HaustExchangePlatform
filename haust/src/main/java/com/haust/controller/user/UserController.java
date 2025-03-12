@@ -35,8 +35,8 @@ public class UserController {
      */
     @ApiOperation("用户提交内推信息")
     @PostMapping("/addInfo")
-    public void addInfo(@RequestBody CodingSharingDTO codingSharingDTO){
-        log.info("用户提交内推信息：{}",codingSharingDTO);
+    public void addInfo(@Validated @RequestBody CodingSharingDTO codingSharingDTO) {
+        log.info("用户提交内推信息：{}", codingSharingDTO);
         codingSharingService.addInfo(codingSharingDTO);
     }
     @ApiOperation("用户登入")
@@ -45,9 +45,15 @@ public class UserController {
         log.info("用户端登入-> {}",accountDTO);
         return userService.loginByUser(accountDTO);
     }
-    @ApiOperation("asd")
-    @PostMapping("/ada")
-    public void asd(){
-        System.out.println("sadas");
+
+    /**
+     * 修改内推信息
+     * @param codingSharingDTO
+     */
+    @ApiOperation("修改内推信息")
+    @PutMapping("/modify")
+    public void modify(@Validated @RequestBody CodingSharingDTO codingSharingDTO){
+        log.info("修改内推信息:{}",codingSharingDTO);
+        codingSharingService.modify(codingSharingDTO);
     }
 }

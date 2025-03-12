@@ -8,4 +8,10 @@ public interface CodingSharingService {
      * @param codingSharingDTO
      */
     void addInfo(CodingSharingDTO codingSharingDTO);
+
+    /**
+     * 修改内推信息
+     * @param codingSharingDTO
+     */
+    void modify(CodingSharingDTO codingSharingDTO);
 }

@@ -10,4 +10,38 @@
                    #{userId},#{companyName},#{detail},#{remark},#{recommanderEmail},#{recommanIndex},#{codeId}
                )
     </insert>
+    <update id="update">
+        update coding_sharing
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="companyName != null">
+                company_name = #{companyName},
+            </if>
+            <if test="detail != null">
+                detail = #{detail},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="recommanderEmail != null">
+                recommander_email = #{recommanderEmail},
+            </if>
+            <if test="clickNumber != null">
+                click_number = #{clickNumber},
+            </if>
+            <if test="recommandIndex != null">
+                recommand_index = #{recommandIndex},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="codeId != null">
+                code_id = #{codeId},
+            </if>
+        </set>
+        where user_id = #{userId} and id = #{id}
+    </update>
+
 </mapper>

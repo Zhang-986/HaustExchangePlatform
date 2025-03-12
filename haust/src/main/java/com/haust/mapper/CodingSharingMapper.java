@@ -5,6 +5,15 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface CodingSharingMapper {
-    //插入内推信息数据
+    /**
+     * 修改内推数据
+     * @param codingSharing
+     */
+    void update(CodingSharing codingSharing);
+
+    /**
+     * 插入内推数据
+     * @param codingSharing
+     */
     void insert(CodingSharing codingSharing);
 }
