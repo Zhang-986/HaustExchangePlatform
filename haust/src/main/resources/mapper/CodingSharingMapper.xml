@@ -10,9 +10,6 @@
                    #{userId},#{companyName},#{detail},#{remark},#{recommanderEmail},#{recommanIndex},#{codeId}
                )
     </insert>
-    <insert id="insert">
-        insert into coding_sharing ()
-    </insert>
     <update id="update">
         update coding_sharing
         <set>
