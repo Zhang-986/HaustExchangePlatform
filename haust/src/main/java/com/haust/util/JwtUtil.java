@@ -8,6 +8,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.haust.configuration.JwtConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 
@@ -19,6 +20,7 @@ public class JwtUtil {
     private static final String SECRET_KEY = "21413253453535342434324";
     // 过期时间（单位：毫秒）
     private static final long EXPIRATION_TIME = 3600*8*1000*10; // 8 小时
+
 
     /**
      * 生成 JWT

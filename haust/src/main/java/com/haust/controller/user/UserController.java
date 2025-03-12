@@ -2,6 +2,8 @@ package com.haust.controller.user;
 
 import com.haust.domain.dto.CodingSharingDTO;
 import com.haust.domain.dto.AccountDTO;
+import com.haust.domain.dto.PageDTO;
+import com.haust.domain.vo.CodingSharingVO;
 import com.haust.domain.vo.PageVO;
 import com.haust.service.CodingSharingService;
 import com.haust.service.UserService;
@@ -55,5 +57,11 @@ public class UserController {
     public void modify(@Validated @RequestBody CodingSharingDTO codingSharingDTO){
         log.info("修改内推信息:{}",codingSharingDTO);
         codingSharingService.modify(codingSharingDTO);
+        }
+
+    @ApiOperation("分页查询")
+    @PostMapping("/page")
+    public PageVO<CodingSharingVO> pageQuery(@RequestBody PageDTO pageDTO){
+        return codingSharingService.page(pageDTO);
     }
 }

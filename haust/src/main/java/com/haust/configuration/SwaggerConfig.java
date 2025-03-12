@@ -35,6 +35,16 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .paths(PathSelectors.any())
                 .build();
     }
+    @Bean
+    public Docket all(){
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("通用接口")
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.haust.controller.all"))
+                .paths(PathSelectors.any())
+                .build();
+    }
     private ApiInfo apiInfo(){
         ApiInfo apiInfo = new ApiInfoBuilder()
                 .title("Haust共享项目接口文档")

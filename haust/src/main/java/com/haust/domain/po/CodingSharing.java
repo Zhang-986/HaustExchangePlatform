@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Builder
 @Data
 @NoArgsConstructor
@@ -33,4 +35,8 @@ public class CodingSharing {
     private Integer status;
     @ApiModelProperty(value = "内推码" , example = "2231")
     private String codeId;
+    @ApiModelProperty(value = "创建时间",example = "2023-10-05T14:30:00Z")
+    private LocalDateTime createTime;
+    @ApiModelProperty(value = "更改时间",example = "2023-10-05T14:30:00Z")
+    private LocalDateTime updateTime;
 }

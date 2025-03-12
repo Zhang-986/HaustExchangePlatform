@@ -1,6 +1,10 @@
 package com.haust.service;
 
 import com.haust.domain.dto.CodingSharingDTO;
+import com.haust.domain.dto.PageDTO;
+import com.haust.domain.po.CodingSharing;
+import com.haust.domain.vo.CodingSharingVO;
+import com.haust.domain.vo.PageVO;
 
 public interface CodingSharingService {
     /**
@@ -14,4 +18,8 @@ public interface CodingSharingService {
      * @param codingSharingDTO
      */
     void modify(CodingSharingDTO codingSharingDTO);
+
+    CodingSharing getDetail(Long id);
+
+    PageVO<CodingSharingVO> page(PageDTO pageDTO);
 }

@@ -44,4 +44,31 @@
         where user_id = #{userId} and id = #{id}
     </update>
 
+    <select id="getDetailById" resultType="com.haust.domain.po.CodingSharing" parameterType="java.lang.Long">
+        select user_id, company_name, detail, remark, recommander_email, click_number, recommand_index, status, code_id, create_time, update_time  from coding_sharing where id = #{id}
+    </select>
+    <select id="page" resultType="com.haust.domain.vo.CodingSharingVO"
+            parameterType="com.haust.domain.dto.PageDTO">
+        select
+        id,
+        company_name as companyName,
+        code_id as codeId,
+        click_number as clickNumber,
+        create_time as createDate  from coding_sharing
+        <where>
+            <if test="status!=null">
+                and status = #{status}
+            </if>
+        </where>
+        order by
+            <choose>
+                <when test="orderBy == 1">
+                    click_number DESC
+                </when>
+                <otherwise>
+                    create_time ASC
+                </otherwise>
+            </choose>
+    </select>
+
 </mapper>
