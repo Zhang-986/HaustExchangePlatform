@@ -2,6 +2,8 @@ package com.haust.controller.user;
 
 import com.haust.domain.dto.CodingSharingDTO;
 import com.haust.domain.dto.AccountDTO;
+import com.haust.domain.dto.PageDTO;
+import com.haust.domain.vo.CodingSharingVO;
 import com.haust.domain.vo.PageVO;
 import com.haust.service.CodingSharingService;
 import com.haust.service.UserService;
@@ -45,9 +47,9 @@ public class UserController {
         log.info("用户端登入-> {}",accountDTO);
         return userService.loginByUser(accountDTO);
     }
-    @ApiOperation("asd")
-    @PostMapping("/ada")
-    public void asd(){
-        System.out.println("sadas");
+    @ApiOperation("分页查询")
+    @PostMapping("/page")
+    public PageVO<CodingSharingVO> pageQuery(@RequestBody PageDTO pageDTO){
+        return codingSharingService.page(pageDTO);
     }
 }

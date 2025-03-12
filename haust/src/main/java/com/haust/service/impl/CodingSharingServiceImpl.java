@@ -1,15 +1,22 @@
 package com.haust.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.haust.context.BaseContext;
 import com.haust.domain.dto.CodingSharingDTO;
+import com.haust.domain.dto.PageDTO;
 import com.haust.domain.po.CodingSharing;
+import com.haust.domain.vo.CodingSharingVO;
+import com.haust.domain.vo.PageVO;
 import com.haust.exception.BusinessException;
 import com.haust.mapper.CodingSharingMapper;
 import com.haust.service.CodingSharingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -39,5 +46,26 @@ public class CodingSharingServiceImpl implements CodingSharingService {
             throw new BusinessException("THERE IS NULL","TRY AGAGIN");
         }
         return codingSharing;
+    }
+
+    @Override
+    public PageVO<CodingSharingVO> page(PageDTO pageDTO) {
+        // 0.设置分页参数
+        PageHelper.startPage(pageDTO.getPage(),pageDTO.getPageSize());
+        // 1.判断参数是否为空
+        if(BeanUtil.isEmpty(pageDTO)){
+            throw new BusinessException("ITEM IS NULL ","TRY AGAGIN");
+        }
+        // 2.开始分页查询
+        List<CodingSharingVO> list = codingSharingMapper.page(pageDTO);
+        // 3.封装使用 PageInfo 获取分页信息
+        PageInfo<CodingSharingVO> pageInfo = new PageInfo<>(list);
+        // 4. 封装数据
+        PageVO<CodingSharingVO> pageVO = new PageVO<>();
+        pageVO.setData(pageInfo.getList());     // 设置当前内容
+        pageVO.setPage(pageInfo.getPageNum()); // 设置当前页码
+        pageVO.setPageSize(pageInfo.getPageSize()); // 设置每页条数
+        pageVO.setTotal((int) pageInfo.getTotal()); // 设置总条数
+        return pageVO;
     }
 }

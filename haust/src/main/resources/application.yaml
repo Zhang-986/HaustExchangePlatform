@@ -21,5 +21,12 @@ knife4j:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.haust.domain.po
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  return-page-info: check
+  params: count=countSql

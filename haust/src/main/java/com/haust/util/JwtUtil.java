@@ -15,7 +15,7 @@ public class JwtUtil {
     private static final String SECRET_KEY = "21413253453535342434324";
     // 过期时间（单位：毫秒）
 
-    private static final long EXPIRATION_TIME = 3600 * 1000 * 8 * 100; // 800 小时
+    private static final long EXPIRATION_TIME = 3600 * 1000 * 8 * 10; // 800 小时
 
     /**
      * 生成 JWT
@@ -69,5 +69,10 @@ public class JwtUtil {
         return decodedJWT.getSubject();
     }
 
-
+    public static void main(String[] args) {
+        String s = JwtUtil.generateToken(String.valueOf(19));
+        boolean b = JwtUtil.validateToken(s);
+        System.out.println("b = " + b);
+        System.out.println(JwtUtil.getUserIdFromToken(s));
+    }
 }
