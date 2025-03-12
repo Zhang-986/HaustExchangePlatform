@@ -13,7 +13,7 @@ public class BaseContext {
         threadLocal.set(id);
     }
     // 获取对应用户Id
-    public static Long getId(Long id){
+    public static Long getId(){
         return threadLocal.get();
     }
 }

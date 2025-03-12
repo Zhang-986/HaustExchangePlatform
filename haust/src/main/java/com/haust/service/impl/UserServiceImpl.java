@@ -32,25 +32,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public String loginByAdmin(AccountDTO accountDTO) {
         // 0.判断当前DTO是否为null
-        if(BeanUtil.isEmpty(accountDTO)){
-            return UserConstant.LOGIN_EMPTY;
+        if (BeanUtil.isEmpty(accountDTO)) {
+            throw new BusinessException("LOGIN_EMPTY", "AccountDTO cannot be empty");
         }
         // 1.查看账号数据库是否存在
         User user = userMapper.selectById(accountDTO);
         if(BeanUtil.isEmpty(user)){
-            return UserConstant.LOGIN_CHECK_EMPTY;
+            throw  new BusinessException("NO_ACCOUNT","The current account is null");
         }
         // 2. 判断传入密码与加密后的密码
         if(!PasswordUtil.matches(accountDTO.getPassword(), user.getPassword())){
-            return UserConstant.PASSWORD_WRONG;
+            throw new BusinessException("PASSWORD_WRONG","The password is wrong");
         }
         // 2.5 判断当前账户状态
         if(user.getRole()==2){
-            return UserConstant.USER_TROUBLE;
+            throw new BusinessException("ACCOUNT_WRONG","The account is trouble");
         }
         // 3.生成JWT令牌
         String jwt = JwtUtil.generateToken(String.valueOf(user.getId()));
-
         return jwt;
     }
 
@@ -73,17 +72,32 @@ public class UserServiceImpl implements UserService {
         }
 
     }
-/*
-  // 4. 异步提交到 Redis
-        String userId = RedisConstant.PREFIX_USER + user.getId();
-        CompletableFuture.runAsync(() -> makeToRedis(user, userId), redisExecutor)
-                .exceptionally(ex -> {
-                    log.error("Failed to save user data to Redis for userId: {}", userId, ex);
-                    return null;
-                });
- */
-    public void makeToRedis(User user, String userId) {
 
+    @Override
+    public String loginByUser(AccountDTO accountDTO) {
+        // 1. 判断当前DTO是否有效
+        if (BeanUtil.isEmpty(accountDTO)) {
+            throw new BusinessException("LOGIN_EMPTY", "AccountDTO cannot be empty");
+        }
+        // 2.查看账号数据库是否存在
+        User user = userMapper.selectById(accountDTO);
+        if(BeanUtil.isEmpty(user)){
+            throw new BusinessException("NO_ACCOUNT","The current account is null");
+        }
+        // 3. 判断当前账户状态
+        if(user.getRole()==2){
+            throw new BusinessException("ACCOUNT_WRONG","The account is trouble");
+        }
+        // 4.生成JWT令牌
+        String jwt = JwtUtil.generateToken(String.valueOf(user.getId()));
+        // 5.线程异步里边存数据
+        String prefix = RedisConstant.PREFIX_USER + user.getId();
+        CompletableFuture.runAsync(() -> makeToRedis(user, prefix));
+        return jwt;
+
+    }
+
+    private void makeToRedis(User user, String userId) {
         HashMap<String, String> map = new HashMap<>();
         map.put("account", user.getAccount());
         map.put("role", String.valueOf(user.getRole()));
