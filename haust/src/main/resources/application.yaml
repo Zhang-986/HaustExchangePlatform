@@ -30,8 +30,3 @@ pagehelper:
   support-methods-arguments: true
   return-page-info: check
   params: count=countSql
-haust:
-  jwt:
-    user-ttl: 3600*8*1000*10
-    admin-ttl: 3600*8*1000*10
-#自定义

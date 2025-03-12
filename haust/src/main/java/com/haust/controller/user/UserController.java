@@ -54,10 +54,10 @@ public class UserController {
      */
     @ApiOperation("修改内推信息")
     @PutMapping("/modify")
-    public void modify(@Validated @RequestBody CodingSharingDTO codingSharingDTO){
-        log.info("修改内推信息:{}",codingSharingDTO);
+    public void modify(@Validated @RequestBody CodingSharingDTO codingSharingDTO) {
+        log.info("修改内推信息:{}", codingSharingDTO);
         codingSharingService.modify(codingSharingDTO);
-        }
+    }
 
     @ApiOperation("分页查询")
     @PostMapping("/page")
