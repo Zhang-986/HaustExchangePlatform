@@ -1,5 +1,6 @@
 package com.haust.service.impl;
 
+import com.haust.context.BaseContext;
 import com.haust.domain.dto.CodingSharingDTO;
 import com.haust.domain.po.CodingSharing;
 import com.haust.mapper.CodingSharingMapper;
@@ -20,8 +21,8 @@ public class CodingSharingServiceImpl implements CodingSharingService {
     public void addInfo(CodingSharingDTO codingSharingDTO) {
         CodingSharing codingSharing = new CodingSharing();
         BeanUtils.copyProperties(codingSharingDTO,codingSharing);
-        //TODO 缺少插入用户id
 
+        codingSharing.setUserId(BaseContext.getId());
         codingSharingMapper.insert(codingSharing);
     }
 }

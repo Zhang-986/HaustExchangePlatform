@@ -5,9 +5,9 @@
 
     <insert id="insert">
         insert into coding_sharing (user_id, company_name, detail, remark,
-                                    recommander_email, click_number, recommand_index, status, code_id)
+                                    recommander_email, recommand_index, code_id)
         values (
-
+                   #{userId},#{companyName},#{detail},#{remark},#{recommanderEmail},#{recommanIndex},#{codeId}
                )
     </insert>
 </mapper>
