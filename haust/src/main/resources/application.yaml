@@ -24,3 +24,8 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.haust.domain.po
+haust:
+  jwt:
+    user-ttl: 3600*8*1000*10
+    admin-ttl: 3600*8*1000*10
+#自定义

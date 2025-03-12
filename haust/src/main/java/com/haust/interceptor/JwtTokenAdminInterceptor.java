@@ -1,6 +1,7 @@
 package com.haust.interceptor;
 
 import cn.hutool.jwt.JWT;
+import com.haust.configuration.JwtConfig;
 import com.haust.constant.UserConstant;
 import com.haust.context.BaseContext;
 import com.haust.exception.UserException;
@@ -19,6 +20,7 @@ import java.util.Enumeration;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtTokenAdminInterceptor implements HandlerInterceptor {
+    private final JwtConfig jwtConfig;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 1. 获取JWT令牌
