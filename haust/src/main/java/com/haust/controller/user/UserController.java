@@ -25,7 +25,7 @@ public class UserController {
     @ApiOperation("用户注册")
     @PostMapping("/register")
     public void register(@Validated @RequestBody AccountDTO accountDTO){
-        log.info("用户端-> {}",accountDTO);
+        log.info("用户端注册-> {}",accountDTO);
         userService.register(accountDTO);
     }
 
@@ -38,6 +38,16 @@ public class UserController {
     public void addInfo(@RequestBody CodingSharingDTO codingSharingDTO){
         log.info("用户提交内推信息：{}",codingSharingDTO);
         codingSharingService.addInfo(codingSharingDTO);
-
+    }
+    @ApiOperation("用户登入")
+    @PostMapping("/login")
+    public String login(@Validated @RequestBody AccountDTO accountDTO){
+        log.info("用户端登入-> {}",accountDTO);
+        return userService.loginByUser(accountDTO);
+    }
+    @ApiOperation("asd")
+    @PostMapping("/ada")
+    public void asd(){
+        System.out.println("sadas");
     }
 }

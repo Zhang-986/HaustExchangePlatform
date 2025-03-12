@@ -6,4 +6,6 @@ public interface UserService {
     String loginByAdmin(AccountDTO accountDTO);
 
     void register(AccountDTO accountDTO);
+
+    String loginByUser(AccountDTO accountDTO);
 }
