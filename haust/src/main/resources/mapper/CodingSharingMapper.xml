@@ -10,4 +10,7 @@
                    #{userId},#{companyName},#{detail},#{remark},#{recommanderEmail},#{recommanIndex},#{codeId}
                )
     </insert>
+    <select id="getDetailById" resultType="com.haust.domain.po.CodingSharing" parameterType="java.lang.Long">
+        select user_id, company_name, detail, remark, recommander_email, click_number, recommand_index, status, code_id, create_time, update_time  from coding_sharing where id = #{id}
+    </select>
 </mapper>

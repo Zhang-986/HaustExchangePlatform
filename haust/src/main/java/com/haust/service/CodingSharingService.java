@@ -1,6 +1,7 @@
 package com.haust.service;
 
 import com.haust.domain.dto.CodingSharingDTO;
+import com.haust.domain.po.CodingSharing;
 
 public interface CodingSharingService {
     /**
@@ -8,4 +9,6 @@ public interface CodingSharingService {
      * @param codingSharingDTO
      */
     void addInfo(CodingSharingDTO codingSharingDTO);
+
+    CodingSharing getDetail(Long id);
 }

@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Builder
 @Data
 @NoArgsConstructor
@@ -26,9 +28,13 @@ public class CodingSharing {
     @ApiModelProperty(value = "浏览次数" ,example = "1242")
     private Integer clickNumber;
     @ApiModelProperty(value = "推荐指数",example = "1,2,3")
-    private Integer recommanIndex;
+    private Integer recommandIndex;
     @ApiModelProperty(value = "状态" ,example = "0是未审核,1是已通过，-1是未通过")
     private Integer status;
     @ApiModelProperty(value = "内推码" , example = "2231")
     private String codeId;
+    @ApiModelProperty(value = "创建时间",example = "2023-10-05T14:30:00Z")
+    private LocalDateTime createTime;
+    @ApiModelProperty(value = "更改时间",example = "2023-10-05T14:30:00Z")
+    private LocalDateTime updateTime;
 }

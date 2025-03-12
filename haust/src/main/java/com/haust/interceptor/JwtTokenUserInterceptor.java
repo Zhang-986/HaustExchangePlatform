@@ -37,12 +37,6 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor {
         }
         // 3. 用户这边得到信息
         String userId = JwtUtil.getUserIdFromToken(token);
-        // 3.5 在拦截器当中判断当前用户是否有问题
-        Object o = template.opsForHash().get(RedisConstant.PREFIX_USER + userId, "role");
-        log.info("当前用户类型为1");
-        if(!o.equals("1")){
-            throw new BusinessException("ACCOUNT_WRONG","The account is trouble");
-        }
         // 4. 存入当前用户线程
         BaseContext.setId(Long.valueOf(userId));
         return true;
