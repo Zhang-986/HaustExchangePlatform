@@ -1,12 +1,16 @@
 package com.haust.util;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.haust.configuration.JwtConfig;
+import com.haust.domain.vo.PageVO;
+import com.haust.domain.vo.RoleVo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -74,5 +78,25 @@ public class JwtUtil {
         return decodedJWT.getSubject();
     }
 
+    public static void main(String[] args) {
+        String s = JwtUtil.generateToken("17");
+        String s1 = JwtUtil.generateToken("17");
+        String s2 = JwtUtil.generateToken("17");
+        String s3 = JwtUtil.generateToken("17");
+        String s4 = JwtUtil.generateToken("17");
+        System.out.println(s);
+        System.out.println(s1);
+        System.out.println(s2);
+        System.out.println(s3);
+        System.out.println(s4);
+        System.out.println(JwtUtil.validateToken(s));
+        System.out.println(JwtUtil.validateToken(s1));
+        System.out.println(JwtUtil.validateToken(s2));
+        System.out.println(JwtUtil.validateToken(s3));
+        System.out.println(JwtUtil.validateToken(s4));
+        PageVO<Object> objectPageVO = new PageVO<>();
+        RoleVo bean = BeanUtil.toBean(objectPageVO, RoleVo.class);
+
+    }
 
 }

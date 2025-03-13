@@ -58,7 +58,7 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.8.11</version> <!-- 请使用最新版本 -->
+            <version>5.7.17</version> <!-- 请使用最新版本 -->
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
