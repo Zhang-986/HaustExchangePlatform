@@ -18,10 +18,8 @@ public class CodingSharingDTO {
     private String remark;
     @ApiModelProperty(value = "推荐者邮箱地址",example = "2332@129.com")
     private String recommanderEmail;
-
-    @ApiModelProperty(value = "推荐指数",example = "1,2,3")
+    @ApiModelProperty(value = "推荐指数",example = "1")
     private Integer recommandIndex;
-
     @ApiModelProperty(value = "内推码" , example = "2231")
     private String codeId;
 }

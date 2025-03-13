@@ -43,10 +43,30 @@
         </set>
         where user_id = #{userId} and id = #{id}
     </update>
+    <update id="permitInfo">
+        update coding_sharing
+        set status =#{status}
+        <where>
+            <if test="id!=null">
+                AND id = #{id}
+            </if>
+        </where>
+    </update>
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from coding_sharing
+        <where>
+            <if test="id!=null">
+                id = #{id}
+            </if>
+        </where>
+    </delete>
 
-    <select id="getDetailById" resultType="com.haust.domain.po.CodingSharing" parameterType="java.lang.Long">
-        select user_id, company_name, detail, remark, recommander_email, click_number, recommand_index, status, code_id, create_time, update_time  from coding_sharing where id = #{id}
+    <select id="getDetailById" resultType="com.haust.domain.po.CodingSharing" parameterType="java.lang.Long" >
+        select id,user_id, company_name, detail, remark, recommander_email, click_number, recommand_index, status, code_id, create_time, update_time  from coding_sharing where id = #{id}
     </select>
+
+
+
     <select id="page" resultType="com.haust.domain.vo.CodingSharingVO"
             parameterType="com.haust.domain.dto.PageDTO">
         select
@@ -66,9 +86,31 @@
                     click_number DESC
                 </when>
                 <otherwise>
-                    create_time ASC
+                    create_time DESC
                 </otherwise>
             </choose>
+    </select>
+    <select id="pageMyInfo" resultType="com.haust.domain.vo.CodingSharingVO" parameterType="com.haust.domain.dto.PageDTO">
+        select
+        id,
+        company_name as companyName,
+        code_id as codeId,
+        click_number as clickNumber,
+        create_time as createDate  from coding_sharing
+        <where>
+            <if test="userId!=null">
+                user_id=#{userId}
+            </if>
+        </where>
+        order by
+        <choose>
+            <when test="pageDTO.orderBy == 1">
+                click_number DESC
+            </when>
+            <otherwise>
+                create_time DESC
+            </otherwise>
+        </choose>
     </select>
 
 </mapper>

@@ -22,4 +22,12 @@ public interface CodingSharingService {
     CodingSharing getDetail(Long id);
 
     PageVO<CodingSharingVO> page(PageDTO pageDTO);
+
+    PageVO<CodingSharingVO> pageByAdmin(PageDTO pageDTO);
+
+    void permit(Long id, Integer status);
+
+    void delete(Long id);
+
+    PageVO<CodingSharingVO> pageMyInfo(PageDTO pageDTO);
 }

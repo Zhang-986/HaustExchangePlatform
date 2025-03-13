@@ -4,6 +4,7 @@ import com.haust.domain.dto.PageDTO;
 import com.haust.domain.po.CodingSharing;
 import com.haust.domain.vo.CodingSharingVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -25,4 +26,10 @@ public interface CodingSharingMapper {
 
 
     List<CodingSharingVO> page(PageDTO pageDTO);
+
+    void permitInfo(@Param("id")Long id,@Param("status") Integer status);
+
+    void delete(@Param("id") Long id);
+
+    List<CodingSharingVO> pageMyInfo(@Param("pageDTO") PageDTO pageDTO, @Param("userId") Long userId);
 }

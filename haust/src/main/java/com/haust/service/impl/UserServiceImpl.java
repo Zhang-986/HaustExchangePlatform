@@ -1,21 +1,18 @@
 package com.haust.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.haust.constant.MessageConstant;
 import com.haust.constant.RedisConstant;
-import com.haust.constant.UserConstant;
 import com.haust.domain.dto.AccountDTO;
 import com.haust.domain.po.User;
+import com.haust.domain.vo.RoleVo;
 import com.haust.exception.BusinessException;
-import com.haust.exception.MessageException;
-import com.haust.exception.UserException;
 import com.haust.mapper.UserMapper;
+import com.haust.result.ResultResponse;
 import com.haust.service.UserService;
 ;import com.haust.util.JwtUtil;
 import com.haust.util.PasswordUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -30,7 +27,7 @@ public class UserServiceImpl implements UserService {
     private final StringRedisTemplate redisTemplate;
     private final UserMapper userMapper;
     @Override
-    public String loginByAdmin(AccountDTO accountDTO) {
+    public RoleVo loginByAdmin(AccountDTO accountDTO) {
         // 0.判断当前DTO是否为null
         if (BeanUtil.isEmpty(accountDTO)) {
             throw new BusinessException("LOGIN_EMPTY", "AccountDTO cannot be empty");
@@ -38,7 +35,7 @@ public class UserServiceImpl implements UserService {
         // 1.查看账号数据库是否存在
         User user = userMapper.selectById(accountDTO);
         if(BeanUtil.isEmpty(user)){
-            throw  new BusinessException("NO_ACCOUNT","The current account is null");
+            throw new BusinessException("NO_ACCOUNT","The current account is null");
         }
         // 2. 判断传入密码与加密后的密码
         if(!PasswordUtil.matches(accountDTO.getPassword(), user.getPassword())){
@@ -50,11 +47,15 @@ public class UserServiceImpl implements UserService {
         }
         // 3.生成JWT令牌
         String jwt = JwtUtil.generateToken(String.valueOf(user.getId()));
-        return jwt;
+        RoleVo roleVo = new RoleVo();
+        roleVo.setRole(user.getRole());
+        roleVo.setToken(jwt);
+        return roleVo;
     }
 
     @Override
     public void register(AccountDTO accountDTO) {
+        // 0 当前参数为null
         if (BeanUtil.isEmpty(accountDTO)) {
             throw new BusinessException("LOGIN_EMPTY", "AccountDTO cannot be empty");
         }
@@ -74,7 +75,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String loginByUser(AccountDTO accountDTO) {
+    public RoleVo loginByUser(AccountDTO accountDTO) {
         // 1. 判断当前DTO是否有效
         if (BeanUtil.isEmpty(accountDTO)) {
             throw new BusinessException("LOGIN_EMPTY", "AccountDTO cannot be empty");
@@ -90,10 +91,14 @@ public class UserServiceImpl implements UserService {
         }
         // 4.生成JWT令牌
         String jwt = JwtUtil.generateToken(String.valueOf(user.getId()));
+        RoleVo roleVo = new RoleVo();
+        roleVo.setToken(jwt);
+        roleVo.setRole(user.getRole());
+
         // 5.线程异步里边存数据
         String prefix = RedisConstant.PREFIX_USER + user.getId();
         CompletableFuture.runAsync(() -> makeToRedis(user, prefix));
-        return jwt;
+        return roleVo;
 
     }
 

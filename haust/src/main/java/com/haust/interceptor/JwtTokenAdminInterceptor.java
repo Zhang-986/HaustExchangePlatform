@@ -34,11 +34,6 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
         }
         // 3. 是否是当前管理员
         String userId = JwtUtil.getUserIdFromToken(token);
-        if(!userId.equals("1")){
-            // 不是对应用户
-            writeResponse(response,401,UserConstant.JWT_FAIL);
-            return false;
-        }
         // 4. 存入当前用户线程
         BaseContext.setId(Long.valueOf(userId));
         return true;

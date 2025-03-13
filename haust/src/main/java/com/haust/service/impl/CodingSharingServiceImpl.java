@@ -15,6 +15,7 @@ import com.haust.service.CodingSharingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -45,6 +46,12 @@ public class CodingSharingServiceImpl implements CodingSharingService {
         if(BeanUtil.isEmpty(codingSharing)){
             throw new BusinessException("THERE IS NULL","TRY AGAGIN");
         }
+
+        // 3. 浏览量+1
+        CodingSharing codingSharing1 = new CodingSharing();
+        codingSharing1.setClickNumber(codingSharing.getClickNumber()+1);
+        codingSharing1.setId(id);
+        codingSharingMapper.update(codingSharing1);
         return codingSharing;
     }
 
@@ -56,8 +63,70 @@ public class CodingSharingServiceImpl implements CodingSharingService {
         if(BeanUtil.isEmpty(pageDTO)){
             throw new BusinessException("ITEM IS NULL ","TRY AGAGIN");
         }
+        // 1.1 设置用户查看权限
+        // 赋予已通过的权限
+        pageDTO.setStatus(1);
         // 2.开始分页查询
         List<CodingSharingVO> list = codingSharingMapper.page(pageDTO);
+        // 3.封装使用 PageInfo 获取分页信息
+        PageInfo<CodingSharingVO> pageInfo = new PageInfo<>(list);
+        // 4. 封装数据
+        PageVO<CodingSharingVO> pageVO = new PageVO<>();
+        pageVO.setData(pageInfo.getList());     // 设置当前内容
+        pageVO.setPage(pageInfo.getPageNum()); // 设置当前页码
+        pageVO.setPageSize(pageInfo.getPageSize()); // 设置每页条数
+        pageVO.setTotal((int) pageInfo.getTotal()); // 设置总条数
+        return pageVO;
+    }
+
+    @Override
+    public PageVO<CodingSharingVO> pageByAdmin(PageDTO pageDTO) {
+        // 1. 判断当前集合是否为null
+        if(BeanUtil.isEmpty(pageDTO)){
+            throw new BusinessException("ITEM IS NULL ","TRY AGAGIN");
+        }
+        // 2.开始分页查询
+        List<CodingSharingVO> list = codingSharingMapper.page(pageDTO);
+        // 3.封装使用 PageInfo 获取分页信息
+        PageInfo<CodingSharingVO> pageInfo = new PageInfo<>(list);
+        // 4. 封装数据
+        PageVO<CodingSharingVO> pageVO = new PageVO<>();
+        pageVO.setData(pageInfo.getList());     // 设置当前内容
+        pageVO.setPage(pageInfo.getPageNum()); // 设置当前页码
+        pageVO.setPageSize(pageInfo.getPageSize()); // 设置每页条数
+        pageVO.setTotal((int) pageInfo.getTotal()); // 设置总条数
+        return pageVO;
+    }
+
+    @Override
+    public void permit(Long id, Integer status) {
+        if (id == null) {
+            throw new BusinessException("ID cannot be null","TRY AGAIN");
+        }
+        if (status == null) {
+            throw new BusinessException("STATUS cannot be null","TRY AGAIN");
+        }
+        codingSharingMapper.permitInfo(id,status);
+    }
+
+    @Override
+    public void delete(Long id) {
+
+        if(id == null){
+            throw new BusinessException("The Id is null","try again");
+        }
+        codingSharingMapper.delete(id);
+    }
+
+    @Override
+    public PageVO<CodingSharingVO> pageMyInfo(PageDTO pageDTO) {
+        // 1. 判断当前集合是否为null
+        if(BeanUtil.isEmpty(pageDTO)){
+            throw new BusinessException("ITEM IS NULL ","TRY AGAGIN");
+        }
+        // 2.开始分页查询
+        Long userId = BaseContext.getId();
+        List<CodingSharingVO> list = codingSharingMapper.pageMyInfo(pageDTO,userId);
         // 3.封装使用 PageInfo 获取分页信息
         PageInfo<CodingSharingVO> pageInfo = new PageInfo<>(list);
         // 4. 封装数据

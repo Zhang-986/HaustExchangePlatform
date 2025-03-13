@@ -5,6 +5,7 @@ import com.haust.domain.dto.AccountDTO;
 import com.haust.domain.dto.PageDTO;
 import com.haust.domain.vo.CodingSharingVO;
 import com.haust.domain.vo.PageVO;
+import com.haust.domain.vo.RoleVo;
 import com.haust.service.CodingSharingService;
 import com.haust.service.UserService;
 import io.swagger.annotations.Api;
@@ -43,7 +44,7 @@ public class UserController {
     }
     @ApiOperation("用户登入")
     @PostMapping("/login")
-    public String login(@Validated @RequestBody AccountDTO accountDTO){
+    public RoleVo login(@Validated @RequestBody AccountDTO accountDTO){
         log.info("用户端登入-> {}",accountDTO);
         return userService.loginByUser(accountDTO);
     }
@@ -60,8 +61,18 @@ public class UserController {
     }
 
     @ApiOperation("分页查询")
-    @PostMapping("/page")
-    public PageVO<CodingSharingVO> pageQuery(@RequestBody PageDTO pageDTO){
+    @GetMapping("/page")
+    public PageVO<CodingSharingVO> pageQuery(PageDTO pageDTO){
         return codingSharingService.page(pageDTO);
+    }
+    @ApiOperation("删除信息")
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable Long id){
+        codingSharingService.delete(id);
+    }
+    @ApiOperation("查看用户值")
+    @GetMapping("/myInfo")
+    public PageVO<CodingSharingVO> pageMyInfo(PageDTO pageDTO){
+        return codingSharingService.pageMyInfo(pageDTO);
     }
 }
