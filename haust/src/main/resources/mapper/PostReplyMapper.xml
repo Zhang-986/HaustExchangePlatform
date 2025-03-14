@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.haust.mapper.PostReplyMapper">
+    <insert id="addPost" parameterType="com.haust.domain.po.PostReply">
+        insert into post_reply
+        (post_id, answer_id, user_id, content, target_user_id, target_reply_id, anonymity)
+        VALUES
+            (#{postId},#{answerId},#{userId},#{content},#{targetUserId},#{targetReplyId},#{anonymity})
+    </insert>
+    <update id="updateReplyTimes" parameterType="com.haust.domain.po.PostReply">
+        update post_reply set reply_times = #{replyTimes}  where id = #{id}
+    </update>
+
+
+    <select id="selectById" resultType="com.haust.domain.po.PostReply" parameterType="java.lang.Long">
+        select * from post_reply where id = #{id};
+    </select>
+</mapper>
