@@ -34,17 +34,17 @@ public class PostReply  {
     * 帖子id
     */
     @ApiModelProperty("帖子id")
-    private Long post_id;
+    private Long postId;
     /**
     * 回复的上级回答id
     */
     @ApiModelProperty("回复的上级回答id")
-    private Long answer_id;
+    private Long answerId;
     /**
     * 回答者id
     */
     @ApiModelProperty("回答者id")
-    private Long user_id;
+    private Long userId;
     /**
     * 回答内容
     */
@@ -54,22 +54,22 @@ public class PostReply  {
     * 回复的目标用户id
     */
     @ApiModelProperty("回复的目标用户id")
-    private Long target_user_id;
+    private Long targetUserId;
     /**
     * 回复的目标回复id
     */
     @ApiModelProperty("回复的目标回复id")
-    private Long target_reply_id;
+    private Long targetReplyId;
     /**
     * 评论数量
     */
     @ApiModelProperty("评论数量")
-    private Integer reply_times;
+    private Integer replyTimes;
     /**
     * 点赞数量
     */
     @ApiModelProperty("点赞数量")
-    private Integer liked_times;
+    private Integer likedTimes;
     /**
     * 是否匿名，默认true
     */
@@ -79,12 +79,12 @@ public class PostReply  {
     * 创建时间
     */
     @ApiModelProperty("创建时间")
-    private LocalDateTime create_time;
+    private LocalDateTime createTime;
     /**
     * 更新时间
     */
     @ApiModelProperty("更新时间")
-    private LocalDateTime update_time;
+    private LocalDateTime updateTsime;
 
 
 }

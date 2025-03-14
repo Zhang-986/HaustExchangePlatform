@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 
 import java.io.Serializable;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -39,17 +40,17 @@ public class Post  {
     * 用户id
     */
     @ApiModelProperty("用户id")
-    private Long user_id;
+    private Long userId;
     /**
     * 最新的一个回答的id
     */
     @ApiModelProperty("最新的一个回答的id")
-    private Long latest_answer_id;
+    private Long latestAnswerId;
     /**
     * 问题下的回答数量
     */
     @ApiModelProperty("问题下的回答数量")
-    private Integer answer_times;
+    private Integer answerTimes;
     /**
     * 是否匿名，默认true
     */
@@ -59,22 +60,22 @@ public class Post  {
     * 浏览次数
     */
     @ApiModelProperty("浏览次数")
-    private Long click_count;
+    private Long clickCount;
     /**
     * 点赞数量
     */
     @ApiModelProperty("点赞数量")
-    private Integer liked_times;
+    private Integer likedTimes;
     /**
     * 提问时间
     */
     @ApiModelProperty("提问时间")
-    private Date create_time;
+    private LocalDateTime createTime;
     /**
     * 更新时间
     */
     @ApiModelProperty("更新时间")
-    private Date update_time;
+    private LocalDateTime updateTime;
 
 
 }
