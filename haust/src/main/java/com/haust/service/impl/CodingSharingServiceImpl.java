@@ -151,7 +151,7 @@ public class CodingSharingServiceImpl implements CodingSharingService {
         Long userId = BaseContext.getId();
         codingSharing.setUserId(userId);
         BeanUtils.copyProperties(codingSharingDTO,codingSharing);
-
+        codingSharing.setStatus(0);
         codingSharingMapper.update(codingSharing);
     }
 }

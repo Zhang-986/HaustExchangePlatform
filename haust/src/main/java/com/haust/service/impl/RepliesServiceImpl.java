@@ -10,6 +10,7 @@ import com.haust.mapper.PostMapper;
 import com.haust.mapper.PostReplyMapper;
 import com.haust.service.RepliesService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class RepliesServiceImpl implements RepliesService {
     private final PostMapper postMapper;
     private final PostReplyMapper postReplyMapper;
+    /*
+        事务失效的原因
+        1. 最低级的原因：没有被Spring管理
+        2. 异常类型不对：要被RuntimeException
+        3. 非事务方法调用事务注解方法: 没有经过一个Beans在AOP中被强化
+        4. 非public方法修饰,
+        5. 事务传播方法不对
+     */
     @Override
     public void addReply(CreateReplyDTO createReplyDTO) {
         // 1. 检查DTO是否为空
@@ -28,11 +37,11 @@ public class RepliesServiceImpl implements RepliesService {
         Long targetReplyId = createReplyDTO.getTargetReplyId();
         if(targetReplyId==null){
             // 3 是给帖子评论的
-            post(createReplyDTO);
+            ((RepliesServiceImpl) AopContext.currentProxy()).post(createReplyDTO);
             return;
         }
         // 3 是给评论评论的
-        reply(createReplyDTO);
+        ((RepliesServiceImpl) AopContext.currentProxy()).reply(createReplyDTO);
     }
 
     @Transactional
@@ -75,6 +84,5 @@ public class RepliesServiceImpl implements RepliesService {
         }
         // 3. 更新最新回答ID,增加问题下的回答数量
         postMapper.updateIdAndReplyTimes(po);
-
     }
 }
