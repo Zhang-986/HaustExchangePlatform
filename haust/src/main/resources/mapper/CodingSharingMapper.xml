@@ -67,7 +67,7 @@
 
 
 
-    <select id="page" resultType="com.haust.domain.vo.CodingSharingVO"
+    <select id="page" resultType="com.haust.domain.vo.CodingSharingVo"
             parameterType="com.haust.domain.dto.PageDTO">
         select
         id,
@@ -90,13 +90,21 @@
                 </otherwise>
             </choose>
     </select>
-    <select id="pageMyInfo" resultType="com.haust.domain.vo.CodingSharingVO" parameterType="com.haust.domain.dto.PageDTO">
+    <select id="pageMyInfo" resultType="com.haust.domain.po.CodingSharing" parameterType="com.haust.domain.dto.PageDTO">
         select
         id,
+        user_id as userId,
+        recommand_index as recommandIndex,
+        recommander_email as recommanderEmail,
+        remark,
+        status,
+        detail,
         company_name as companyName,
         code_id as codeId,
         click_number as clickNumber,
-        create_time as createDate  from coding_sharing
+        create_time as createDate,
+        update_time as updateTime
+        from coding_sharing
         <where>
             <if test="userId!=null">
                 user_id=#{userId}

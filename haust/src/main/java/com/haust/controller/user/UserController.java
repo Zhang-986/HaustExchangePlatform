@@ -3,7 +3,8 @@ package com.haust.controller.user;
 import com.haust.domain.dto.CodingSharingDTO;
 import com.haust.domain.dto.AccountDTO;
 import com.haust.domain.dto.PageDTO;
-import com.haust.domain.vo.CodingSharingVO;
+import com.haust.domain.po.CodingSharing;
+import com.haust.domain.vo.CodingSharingVo;
 import com.haust.domain.vo.PageVO;
 import com.haust.domain.vo.RoleVo;
 import com.haust.service.CodingSharingService;
@@ -62,7 +63,7 @@ public class UserController {
 
     @ApiOperation("分页查询")
     @GetMapping("/page")
-    public PageVO<CodingSharingVO> pageQuery(PageDTO pageDTO){
+    public PageVO<CodingSharingVo> pageQuery(PageDTO pageDTO){
         return codingSharingService.page(pageDTO);
     }
     @ApiOperation("删除信息")
@@ -70,9 +71,9 @@ public class UserController {
     public void delete(@PathVariable Long id){
         codingSharingService.delete(id);
     }
-    @ApiOperation("查看用户值")
+    @ApiOperation("查看用户内推信息")
     @GetMapping("/myInfo")
-    public PageVO<CodingSharingVO> pageMyInfo(PageDTO pageDTO){
+    public PageVO<CodingSharing> pageMyInfo(PageDTO pageDTO){
         return codingSharingService.pageMyInfo(pageDTO);
     }
 

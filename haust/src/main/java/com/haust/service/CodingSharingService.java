@@ -3,7 +3,7 @@ package com.haust.service;
 import com.haust.domain.dto.CodingSharingDTO;
 import com.haust.domain.dto.PageDTO;
 import com.haust.domain.po.CodingSharing;
-import com.haust.domain.vo.CodingSharingVO;
+import com.haust.domain.vo.CodingSharingVo;
 import com.haust.domain.vo.PageVO;
 
 public interface CodingSharingService {
@@ -19,15 +19,15 @@ public interface CodingSharingService {
      */
     void modify(CodingSharingDTO codingSharingDTO);
 
-    CodingSharing getDetail(Long id);
+    com.haust.domain.po.CodingSharing getDetail(Long id);
 
-    PageVO<CodingSharingVO> page(PageDTO pageDTO);
+    PageVO<CodingSharingVo> page(PageDTO pageDTO);
 
-    PageVO<CodingSharingVO> pageByAdmin(PageDTO pageDTO);
+    PageVO<CodingSharingVo> pageByAdmin(PageDTO pageDTO);
 
     void permit(Long id, Integer status);
 
     void delete(Long id);
 
-    PageVO<CodingSharingVO> pageMyInfo(PageDTO pageDTO);
+    PageVO<CodingSharing> pageMyInfo(PageDTO pageDTO);
 }

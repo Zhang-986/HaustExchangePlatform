@@ -8,7 +8,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 @Data
 @ApiModel(description = "内推信息VO")
-public class CodingSharingVO {
+public class CodingSharingVo {
 
     @ApiModelProperty("内推信息主键")
     Long id;

@@ -2,7 +2,7 @@ package com.haust.mapper;
 
 import com.haust.domain.dto.PageDTO;
 import com.haust.domain.po.CodingSharing;
-import com.haust.domain.vo.CodingSharingVO;
+import com.haust.domain.vo.CodingSharingVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,22 +14,22 @@ public interface CodingSharingMapper {
      * 修改内推数据
      * @param codingSharing
      */
-    void update(CodingSharing codingSharing);
+    void update(com.haust.domain.po.CodingSharing codingSharing);
 
     /**
      * 插入内推数据
      * @param codingSharing
      */
-    void insert(CodingSharing codingSharing);
+    void insert(com.haust.domain.po.CodingSharing codingSharing);
     // 获取详细信息
-    CodingSharing getDetailById(Long id);
+    com.haust.domain.po.CodingSharing getDetailById(Long id);
 
 
-    List<CodingSharingVO> page(PageDTO pageDTO);
+    List<CodingSharingVo> page(PageDTO pageDTO);
 
     void permitInfo(@Param("id")Long id,@Param("status") Integer status);
 
     void delete(@Param("id") Long id);
 
-    List<CodingSharingVO> pageMyInfo(@Param("pageDTO") PageDTO pageDTO, @Param("userId") Long userId);
+    List<CodingSharing> pageMyInfo(@Param("pageDTO") PageDTO pageDTO, @Param("userId") Long userId);
 }

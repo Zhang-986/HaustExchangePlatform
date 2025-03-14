@@ -2,22 +2,17 @@ package com.haust.controller.admin;
 
 import com.haust.domain.dto.AccountDTO;
 import com.haust.domain.dto.PageDTO;
-import com.haust.domain.po.CodingSharing;
-import com.haust.domain.vo.CodingSharingVO;
+import com.haust.domain.vo.CodingSharingVo;
 import com.haust.domain.vo.PageVO;
 import com.haust.domain.vo.RoleVo;
-import com.haust.result.ResultResponse;
 import com.haust.service.CodingSharingService;
 import com.haust.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.management.relation.Role;
 
 /*
 管理员接口
@@ -39,7 +34,7 @@ public class AdminController {
     }
     @ApiOperation("分页查询信息")
     @GetMapping("/page")
-    public PageVO<CodingSharingVO> pageVO(PageDTO pageDTO){
+    public PageVO<CodingSharingVo> pageVO(PageDTO pageDTO){
         log.info("管理员-分页接收{}",pageDTO);
         return codingSharingService.pageByAdmin(pageDTO);
     }

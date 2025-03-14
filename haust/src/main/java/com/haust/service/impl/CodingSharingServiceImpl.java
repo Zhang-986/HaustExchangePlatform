@@ -7,7 +7,7 @@ import com.haust.context.BaseContext;
 import com.haust.domain.dto.CodingSharingDTO;
 import com.haust.domain.dto.PageDTO;
 import com.haust.domain.po.CodingSharing;
-import com.haust.domain.vo.CodingSharingVO;
+import com.haust.domain.vo.CodingSharingVo;
 import com.haust.domain.vo.PageVO;
 import com.haust.exception.BusinessException;
 import com.haust.mapper.CodingSharingMapper;
@@ -15,7 +15,6 @@ import com.haust.service.CodingSharingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,26 +28,26 @@ public class CodingSharingServiceImpl implements CodingSharingService {
      */
     @Override
     public void addInfo(CodingSharingDTO codingSharingDTO) {
-        CodingSharing codingSharing = new CodingSharing();
+        com.haust.domain.po.CodingSharing codingSharing = new com.haust.domain.po.CodingSharing();
         BeanUtils.copyProperties(codingSharingDTO,codingSharing);
 
         codingSharing.setUserId(BaseContext.getId());
         codingSharingMapper.insert(codingSharing);
     }
     @Override
-    public CodingSharing getDetail(Long id) {
+    public com.haust.domain.po.CodingSharing getDetail(Long id) {
         // 1. 判断是否为空
         if(BeanUtil.isEmpty(id)){
             throw new BusinessException("Id IS NULL ","TRY AGAGIN");
         }
         // 2. 查询对应ID的数据信息
-        CodingSharing codingSharing = codingSharingMapper.getDetailById(id);
+        com.haust.domain.po.CodingSharing codingSharing = codingSharingMapper.getDetailById(id);
         if(BeanUtil.isEmpty(codingSharing)){
             throw new BusinessException("THERE IS NULL","TRY AGAGIN");
         }
 
         // 3. 浏览量+1
-        CodingSharing codingSharing1 = new CodingSharing();
+        com.haust.domain.po.CodingSharing codingSharing1 = new com.haust.domain.po.CodingSharing();
         codingSharing1.setClickNumber(codingSharing.getClickNumber()+1);
         codingSharing1.setId(id);
         codingSharingMapper.update(codingSharing1);
@@ -56,7 +55,7 @@ public class CodingSharingServiceImpl implements CodingSharingService {
     }
 
     @Override
-    public PageVO<CodingSharingVO> page(PageDTO pageDTO) {
+    public PageVO<CodingSharingVo> page(PageDTO pageDTO) {
         // 0.设置分页参数
         PageHelper.startPage(pageDTO.getPage(),pageDTO.getPageSize());
         // 1.判断参数是否为空
@@ -67,11 +66,11 @@ public class CodingSharingServiceImpl implements CodingSharingService {
         // 赋予已通过的权限
         pageDTO.setStatus(1);
         // 2.开始分页查询
-        List<CodingSharingVO> list = codingSharingMapper.page(pageDTO);
+        List<CodingSharingVo> list = codingSharingMapper.page(pageDTO);
         // 3.封装使用 PageInfo 获取分页信息
-        PageInfo<CodingSharingVO> pageInfo = new PageInfo<>(list);
+        PageInfo<CodingSharingVo> pageInfo = new PageInfo<>(list);
         // 4. 封装数据
-        PageVO<CodingSharingVO> pageVO = new PageVO<>();
+        PageVO<CodingSharingVo> pageVO = new PageVO<>();
         pageVO.setData(pageInfo.getList());     // 设置当前内容
         pageVO.setPage(pageInfo.getPageNum()); // 设置当前页码
         pageVO.setPageSize(pageInfo.getPageSize()); // 设置每页条数
@@ -80,17 +79,19 @@ public class CodingSharingServiceImpl implements CodingSharingService {
     }
 
     @Override
-    public PageVO<CodingSharingVO> pageByAdmin(PageDTO pageDTO) {
+    public PageVO<CodingSharingVo> pageByAdmin(PageDTO pageDTO) {
+        // 0.设置分页参数
+        PageHelper.startPage(pageDTO.getPage(),pageDTO.getPageSize());
         // 1. 判断当前集合是否为null
         if(BeanUtil.isEmpty(pageDTO)){
             throw new BusinessException("ITEM IS NULL ","TRY AGAGIN");
         }
         // 2.开始分页查询
-        List<CodingSharingVO> list = codingSharingMapper.page(pageDTO);
+        List<CodingSharingVo> list = codingSharingMapper.page(pageDTO);
         // 3.封装使用 PageInfo 获取分页信息
-        PageInfo<CodingSharingVO> pageInfo = new PageInfo<>(list);
+        PageInfo<CodingSharingVo> pageInfo = new PageInfo<>(list);
         // 4. 封装数据
-        PageVO<CodingSharingVO> pageVO = new PageVO<>();
+        PageVO<CodingSharingVo> pageVO = new PageVO<>();
         pageVO.setData(pageInfo.getList());     // 设置当前内容
         pageVO.setPage(pageInfo.getPageNum()); // 设置当前页码
         pageVO.setPageSize(pageInfo.getPageSize()); // 设置每页条数
@@ -119,18 +120,20 @@ public class CodingSharingServiceImpl implements CodingSharingService {
     }
 
     @Override
-    public PageVO<CodingSharingVO> pageMyInfo(PageDTO pageDTO) {
+    public PageVO<CodingSharing> pageMyInfo(PageDTO pageDTO) {
+        // 0.设置分页参数
+        PageHelper.startPage(pageDTO.getPage(),pageDTO.getPageSize());
         // 1. 判断当前集合是否为null
         if(BeanUtil.isEmpty(pageDTO)){
             throw new BusinessException("ITEM IS NULL ","TRY AGAGIN");
         }
         // 2.开始分页查询
         Long userId = BaseContext.getId();
-        List<CodingSharingVO> list = codingSharingMapper.pageMyInfo(pageDTO,userId);
+        List<CodingSharing> list = codingSharingMapper.pageMyInfo(pageDTO,userId);
         // 3.封装使用 PageInfo 获取分页信息
-        PageInfo<CodingSharingVO> pageInfo = new PageInfo<>(list);
+        PageInfo<CodingSharing> pageInfo = new PageInfo<>(list);
         // 4. 封装数据
-        PageVO<CodingSharingVO> pageVO = new PageVO<>();
+        PageVO<CodingSharing> pageVO = new PageVO<>();
         pageVO.setData(pageInfo.getList());     // 设置当前内容
         pageVO.setPage(pageInfo.getPageNum()); // 设置当前页码
         pageVO.setPageSize(pageInfo.getPageSize()); // 设置每页条数
@@ -144,7 +147,7 @@ public class CodingSharingServiceImpl implements CodingSharingService {
      */
     @Override
     public void modify(CodingSharingDTO codingSharingDTO) {
-        CodingSharing codingSharing = new CodingSharing();
+        com.haust.domain.po.CodingSharing codingSharing = new com.haust.domain.po.CodingSharing();
         Long userId = BaseContext.getId();
         codingSharing.setUserId(userId);
         BeanUtils.copyProperties(codingSharingDTO,codingSharing);

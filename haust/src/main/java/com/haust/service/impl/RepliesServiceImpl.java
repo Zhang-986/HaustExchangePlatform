@@ -3,15 +3,20 @@ package com.haust.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.haust.context.BaseContext;
 import com.haust.domain.dto.CreateReplyDTO;
+import com.haust.domain.po.Post;
 import com.haust.domain.po.PostReply;
 import com.haust.exception.BusinessException;
+import com.haust.mapper.PostMapper;
 import com.haust.mapper.PostReplyMapper;
 import com.haust.service.RepliesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 @RequiredArgsConstructor
 @Service
 public class RepliesServiceImpl implements RepliesService {
+    private final PostMapper postMapper;
     private final PostReplyMapper postReplyMapper;
     @Override
     public void addReply(CreateReplyDTO createReplyDTO) {
@@ -28,10 +33,10 @@ public class RepliesServiceImpl implements RepliesService {
         }
         // 3 是给评论评论的
         reply(createReplyDTO);
-        return;
     }
 
-    private void reply(CreateReplyDTO createReplyDTO) {
+    @Transactional
+    public void reply(CreateReplyDTO createReplyDTO) {
         // 1. 获取当前用户ID
         Long userId = BaseContext.getId();
         // 2. 得到对应评论ID
@@ -47,19 +52,29 @@ public class RepliesServiceImpl implements RepliesService {
         po.setUserId(userId);
         // 5.插入表中
         postReplyMapper.addPost(po);
-        // 998. 对已有字段进行更新
+        // 6. 对已有字段进行更新
         postReply.setReplyTimes(postReply.getReplyTimes()+1);
-        // 999. 对已有评论进行更新
+        // 7. 对已有评论进行更新
         postReplyMapper.updateReplyTimes(postReply);
     }
 
-    private void post(CreateReplyDTO createReplyDTO) {
+    @Transactional
+    public void post(CreateReplyDTO createReplyDTO) {
         // 1. 获取当前当前用户ID
         Long userId = BaseContext.getId();
+        // 2. 转成PO类处理
+        PostReply po = BeanUtil.toBean(createReplyDTO, PostReply.class);
+        po.setAnswerId(createReplyDTO.getTargetReplyId());
+        po.setUserId(userId);
+        postReplyMapper.addPost(po);
         // 2  获取目标帖子信息
+        Long postId = createReplyDTO.getPostId();
+        Post post = postMapper.selectById(postId);
+        if(BeanUtil.isEmpty(post)){
+            throw new BusinessException("THE CURRENT OBJ IS NULL","TRY AGAGIN");
+        }
+        // 3. 更新最新回答ID,增加问题下的回答数量
+        postMapper.updateIdAndReplyTimes(po);
 
-        // 3. 更新最新回答ID
-
-        // 4. 增加问题下的回答数量
     }
 }

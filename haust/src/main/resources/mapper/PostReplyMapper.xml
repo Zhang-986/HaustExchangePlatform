@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.haust.mapper.PostReplyMapper">
-    <insert id="addPost" parameterType="com.haust.domain.po.PostReply">
+    <insert id="addPost" parameterType="com.haust.domain.po.PostReply" useGeneratedKeys="true" keyProperty="id">
         insert into post_reply
         (post_id, answer_id, user_id, content, target_user_id, target_reply_id, anonymity)
         VALUES

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/user/replies")
-@Api(tags = "用户相关接口")
+@Api(tags = "评论区相关接口")
 @Slf4j
 @RequiredArgsConstructor
 public class RepliesController {
