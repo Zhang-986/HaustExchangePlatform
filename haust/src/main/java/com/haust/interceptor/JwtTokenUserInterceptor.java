@@ -25,7 +25,7 @@ import java.io.IOException;
 @Slf4j
 public class JwtTokenUserInterceptor implements HandlerInterceptor {
     public final StringRedisTemplate template;
-    public final JwtConfig jwtConfig;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 1. 获取JWT令牌

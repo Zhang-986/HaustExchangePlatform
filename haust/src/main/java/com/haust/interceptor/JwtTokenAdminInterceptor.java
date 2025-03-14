@@ -20,7 +20,7 @@ import java.util.Enumeration;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtTokenAdminInterceptor implements HandlerInterceptor {
-    private final JwtConfig jwtConfig;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 1. 获取JWT令牌

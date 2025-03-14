@@ -14,16 +14,21 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
+import javax.annotation.PostConstruct;
 import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
 public class JwtUtil {
-    public final JwtConfig config;
-    // 密钥
-    private static final String SECRET_KEY = "21413253453535342434324";
-    // 过期时间（单位：毫秒）
-    private static final long EXPIRATION_TIME = 3600*8*1000*10;  // 80 小时
+    private final JwtConfig config;
+    // 静态变量，用于存储配置
+    private static String SECRET_KEY;
+    private static long EXPIRATION_TIME;
+    @PostConstruct
+    public void init() {
+        SECRET_KEY = config.getSecretKey();
+        EXPIRATION_TIME = config.getExpirationTime();
+    }
 
 
     /**
@@ -78,25 +83,6 @@ public class JwtUtil {
         return decodedJWT.getSubject();
     }
 
-    public static void main(String[] args) {
-        String s = JwtUtil.generateToken("17");
-        String s1 = JwtUtil.generateToken("17");
-        String s2 = JwtUtil.generateToken("17");
-        String s3 = JwtUtil.generateToken("17");
-        String s4 = JwtUtil.generateToken("17");
-        System.out.println(s);
-        System.out.println(s1);
-        System.out.println(s2);
-        System.out.println(s3);
-        System.out.println(s4);
-        System.out.println(JwtUtil.validateToken(s));
-        System.out.println(JwtUtil.validateToken(s1));
-        System.out.println(JwtUtil.validateToken(s2));
-        System.out.println(JwtUtil.validateToken(s3));
-        System.out.println(JwtUtil.validateToken(s4));
-        PageVO<Object> objectPageVO = new PageVO<>();
-        RoleVo bean = BeanUtil.toBean(objectPageVO, RoleVo.class);
 
-    }
 
 }

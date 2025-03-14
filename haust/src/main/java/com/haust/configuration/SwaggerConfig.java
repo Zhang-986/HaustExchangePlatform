@@ -57,6 +57,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .build();
         return apiInfo;
     }
+
     private Contact contact(){
         return new Contact("Hauster","haust.edu.cn","web@haust.edu.cn");
     }
