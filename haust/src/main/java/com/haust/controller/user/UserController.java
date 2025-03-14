@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/user")
-@Api(tags = "用户相关接口")
+@Api(tags = "用户内推相关接口")
 @Slf4j
 @RequiredArgsConstructor
 public class UserController {
