@@ -10,7 +10,6 @@ import com.haust.configuration.JwtConfig;
 import com.haust.domain.vo.PageVO;
 import com.haust.domain.vo.RoleVo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
