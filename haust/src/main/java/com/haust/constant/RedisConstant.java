@@ -5,5 +5,8 @@ package com.haust.constant;
  */
 public class RedisConstant  {
     public final static String PREFIX_USER = "user:";
+    public final static String REPLY_LIKE ="reply:like:";
+    public final static String REPLY_CONTENT = "reply:content:";
+
 
 }

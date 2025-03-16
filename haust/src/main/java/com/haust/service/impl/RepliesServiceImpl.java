@@ -3,11 +3,13 @@ package com.haust.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.haust.constant.RedisConstant;
 import com.haust.context.BaseContext;
 import com.haust.domain.dto.CreateReplyDTO;
 import com.haust.domain.dto.ReplyDTO;
 import com.haust.domain.po.Post;
 import com.haust.domain.po.PostReply;
+import com.haust.domain.vo.HotReplyVo;
 import com.haust.domain.vo.PageVO;
 import com.haust.domain.vo.ReplyVO;
 import com.haust.exception.BusinessException;
@@ -15,19 +17,22 @@ import com.haust.mapper.PostMapper;
 import com.haust.mapper.PostReplyMapper;
 import com.haust.service.RepliesService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.aop.framework.AopContext;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.function.Predicate;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class RepliesServiceImpl implements RepliesService {
+    private final StringRedisTemplate stringRedisTemplate;
     private final PostMapper postMapper;
     private final PostReplyMapper postReplyMapper;
+
 
     /*
         事务失效的原因
@@ -88,6 +93,84 @@ public class RepliesServiceImpl implements RepliesService {
         postReplyMapper.deleteById(id);
     }
 
+    @Override
+    public Integer likeOrNot(Long id, Integer flag,Long post_id) {
+        // 0. 获取当前线程用户ID
+        Long userId = BaseContext.getId();
+
+        // 1. 检验参数是否有效
+        if (id == null || flag == null) {
+            throw new BusinessException("THE PARAMETER IS NULL", "TRY AGAIN");
+        }
+
+        // 2. 构造 Key
+        String key = RedisConstant.REPLY_LIKE + id; // SET 的 Key
+
+        // 3. 构造 Value
+        String userValue = RedisConstant.PREFIX_USER + userId; // SET 中的 Value
+
+        // 4. 根据 flag 执行点赞或取消点赞操作
+        return flag == 1 ? like(key, userValue,post_id) : notlike(key, userValue,post_id);
+    }
+
+    @Override
+    public HotReplyVo getHotReply(Long id) {
+        // 1.检验id是否有效
+        if(id == null){
+            throw new BusinessException("EXCEPTION","User is not found");
+        }
+        // 2.从当前帖子的redis数据库中找到点赞里最多的评论
+        Set<ZSetOperations.TypedTuple<String>> tuples = stringRedisTemplate.opsForZSet().reverseRangeWithScores(RedisConstant.REPLY_CONTENT+id, 0, 0);
+        if(BeanUtil.isEmpty(tuples)){
+            return null;
+        }
+        // 3.拿到信息
+        ZSetOperations.TypedTuple<String> next = tuples.iterator().next();
+        String key = next.getValue();
+        String[] split = key.split(":");
+        Long replyId = Long.valueOf(split[2]);
+        // 4.检索数据库拿到最新值
+        PostReply postReply = postReplyMapper.selectById(replyId);
+        if(BeanUtil.isEmpty(postReply)){
+            throw new BusinessException("TRY AGAIN","THE ITEM IS NULL");
+        }
+        // 5.包装值
+        HotReplyVo hotReplyVo = BeanUtil.toBean(postReply, HotReplyVo.class);
+        return hotReplyVo;
+    }
+
+    private Integer like(String key, String userValue, Long post_id) {
+        // 1. 检查用户是否已点赞
+        if (Boolean.TRUE.equals(stringRedisTemplate.opsForSet().isMember(key, userValue))) {
+            throw new BusinessException("EXCEPTION","User has already liked this reply");
+        }
+
+        // 2. 添加用户到 SET 中
+        stringRedisTemplate.opsForSet().add(key, userValue);
+
+        // 3. 返回点赞总数
+        return getLikeCount(key,post_id);
+    }
+
+    private Integer notlike(String key, String userValue, Long post_id) {
+        // 1. 检查用户是否已点赞
+        if (Boolean.FALSE.equals(stringRedisTemplate.opsForSet().isMember(key, userValue))) {
+            throw new BusinessException("EXCEPTION","User has not liked this reply");
+        }
+        // 2. 从 SET 中移除用户
+        stringRedisTemplate.opsForSet().remove(key, userValue);
+
+        // 3. 返回点赞总数
+        return getLikeCount(key, post_id);
+    }
+    private Integer getLikeCount(String key, Long post_id) {
+        // 4. 获取 SET 的大小，即点赞数量
+        Long count = stringRedisTemplate.opsForSet().size(key);
+        // 5. 热评榜单
+        stringRedisTemplate.opsForZSet().add(RedisConstant.REPLY_CONTENT+ post_id,key,count);
+
+        return count != null ? count.intValue() : 0;
+    }
     /*
     处理评论的评论
      */

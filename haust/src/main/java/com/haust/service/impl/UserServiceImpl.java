@@ -17,6 +17,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
@@ -106,6 +107,7 @@ public class UserServiceImpl implements UserService {
         HashMap<String, String> map = new HashMap<>();
         map.put("account", user.getAccount());
         map.put("role", String.valueOf(user.getRole()));
+        map.put("time", String.valueOf(LocalDateTime.now()));
         redisTemplate.opsForHash().putAll(userId,map);
     }
 

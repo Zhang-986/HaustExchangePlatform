@@ -2,6 +2,7 @@ package com.haust.controller.user;
 
 import com.haust.domain.dto.CreateReplyDTO;
 import com.haust.domain.dto.ReplyDTO;
+import com.haust.domain.vo.HotReplyVo;
 import com.haust.domain.vo.PageVO;
 import com.haust.domain.vo.ReplyVO;
 import com.haust.service.RepliesService;
@@ -29,5 +30,14 @@ public class RepliesController {
     public PageVO<ReplyVO>page(ReplyDTO replyDTO){
         return repliesService.pageQuery(replyDTO);
     }
-
+    @ApiOperation("点赞/取消评论")
+    @PostMapping("{id}/like")
+    public Integer likeOrNot(@PathVariable Long id,Integer flag,Long postId){
+        return repliesService.likeOrNot(id,flag,postId);
+    }
+    @ApiOperation("查看当前帖子热评")
+    @GetMapping("/hot/{id}")
+    public HotReplyVo getHotReply(@PathVariable Long id){
+        return repliesService.getHotReply(id);
+    }
 }
