@@ -10,9 +10,20 @@
     <update id="updateReplyTimes" parameterType="com.haust.domain.po.PostReply">
         update post_reply set reply_times = #{replyTimes}  where id = #{id}
     </update>
+    <delete id="deleteById">
+        delete from post_reply where id = #{id}
+    </delete>
 
 
     <select id="selectById" resultType="com.haust.domain.po.PostReply" parameterType="java.lang.Long">
         select * from post_reply where id = #{id};
+    </select>
+    <select id="page" resultType="com.haust.domain.vo.ReplyVO" parameterType="java.lang.Long">
+        select
+        id,post_id,user_id,content,target_user_id,target_reply_id,anonymity,reply_times,liked_times,create_time
+        from post_reply
+        where post_id = #{id}
+        order by
+        create_time DESC
     </select>
 </mapper>

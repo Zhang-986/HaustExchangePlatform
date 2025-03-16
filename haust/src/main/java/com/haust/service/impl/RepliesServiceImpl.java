@@ -1,10 +1,15 @@
 package com.haust.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.haust.context.BaseContext;
 import com.haust.domain.dto.CreateReplyDTO;
+import com.haust.domain.dto.ReplyDTO;
 import com.haust.domain.po.Post;
 import com.haust.domain.po.PostReply;
+import com.haust.domain.vo.PageVO;
+import com.haust.domain.vo.ReplyVO;
 import com.haust.exception.BusinessException;
 import com.haust.mapper.PostMapper;
 import com.haust.mapper.PostReplyMapper;
@@ -14,11 +19,16 @@ import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class RepliesServiceImpl implements RepliesService {
     private final PostMapper postMapper;
     private final PostReplyMapper postReplyMapper;
+
     /*
         事务失效的原因
         1. 最低级的原因：没有被Spring管理
@@ -30,18 +40,81 @@ public class RepliesServiceImpl implements RepliesService {
     @Override
     public void addReply(CreateReplyDTO createReplyDTO) {
         // 1. 检查DTO是否为空
-        if(BeanUtil.isEmpty(createReplyDTO)){
-            throw new BusinessException("DTO IS NULL","TRY AGAIN");
+        if (BeanUtil.isEmpty(createReplyDTO)) {
+            throw new BusinessException("DTO IS NULL", "TRY AGAIN");
         }
         // 2. 判断是帖子还是评论
         Long targetReplyId = createReplyDTO.getTargetReplyId();
-        if(targetReplyId==null){
+        if (targetReplyId == null) {
             // 3 是给帖子评论的
-            ((RepliesServiceImpl) AopContext.currentProxy()).post(createReplyDTO);
+            // TODO 事务失效
+            post(createReplyDTO);
             return;
         }
         // 3 是给评论评论的
-        ((RepliesServiceImpl) AopContext.currentProxy()).reply(createReplyDTO);
+        // TODO 事务失效
+        reply(createReplyDTO);
+    }
+
+    @Override
+    public PageVO<ReplyVO> pageQuery(ReplyDTO replyDTO) {
+        // 1. 进行当前对象的判断
+        if (BeanUtil.isEmpty(replyDTO)) {
+            throw new BusinessException("THE ITEM IS NULL ,", "TRY AGAIN");
+        }
+        // 2.进行分页参数处理
+        PageHelper.startPage(replyDTO.getPage(), replyDTO.getPageSize());
+        // 3. 查询数据
+        if(!replyDTO.getFlag().equals("post")&& !replyDTO.equals("comment")){
+            throw  new BusinessException("WRONG VOCABULARY","TRY AGAIN");
+        }
+        List<ReplyVO> list =  postReplyMapper.page(replyDTO.getId());
+        // 业务层进行处理两种不同的数据
+        // 4. 处理查询帖子评论
+        return replyDTO.getFlag().equals("post") ? postInfo(list):commentInfo(list);
+    }
+
+    @Override
+    public void deleteComment(Long id) {
+        // 1. 判断当前是否为管理员
+        if(BaseContext.getId().equals("1")){
+            throw new BusinessException("WRONG ROLE","越权操作");
+        }
+        // 2. 检验参数
+        if(id==null){
+            throw new BusinessException("WRONG ITEM ","数据库无对应数据");
+        }
+        // 3. 进行处理
+        postReplyMapper.deleteById(id);
+    }
+
+    /*
+    处理评论的评论
+     */
+    private PageVO<ReplyVO> commentInfo(List<ReplyVO> list) {
+        //   如果answer_id == null and target_reply_id == null 说明查的是这个贴子的ID
+        List<ReplyVO> list1 = list.stream().filter(replyVO -> replyVO.getTargetReplyId() != null).collect(Collectors.toList());
+        PageInfo<ReplyVO> replyVOPageInfo = new PageInfo<>(list1);
+        return getAll(replyVOPageInfo);
+    }
+
+    private PageVO<ReplyVO> getAll(PageInfo<ReplyVO> replyVOPageInfo) {
+        //  进行分页的处理包装
+        PageVO<ReplyVO> pageVO = new PageVO<>();
+        pageVO.setData(replyVOPageInfo.getList());
+        pageVO.setPage(replyVOPageInfo.getPages());
+        pageVO.setPageSize(replyVOPageInfo.getPageSize());
+        pageVO.setTotal((int) replyVOPageInfo.getTotal()); // 设置总条数
+        return pageVO;
+    }
+
+    /*
+    处理帖子的评论
+     */
+    private PageVO<ReplyVO> postInfo(List<ReplyVO> list) {
+        List<ReplyVO> list1 = list.stream().filter(replyVO -> replyVO.getTargetReplyId() == null).collect(Collectors.toList());
+        PageInfo<ReplyVO> replyVOPageInfo = new PageInfo<>(list1);
+        return getAll(replyVOPageInfo);
     }
 
     @Transactional
@@ -52,8 +125,8 @@ public class RepliesServiceImpl implements RepliesService {
         Long id = createReplyDTO.getTargetReplyId();
         // 3. 数据库查找对应评论ID
         PostReply postReply = postReplyMapper.selectById(id);
-        if(BeanUtil.isEmpty(postReply)){
-            throw new BusinessException("THE CURRENT OBJ IS NULL","TRY AGAGIN");
+        if (BeanUtil.isEmpty(postReply)) {
+            throw new BusinessException("THE CURRENT OBJ IS NULL", "TRY AGAGIN");
         }
         // 4. 复制给PO类
         PostReply po = BeanUtil.toBean(createReplyDTO, PostReply.class);
@@ -62,7 +135,7 @@ public class RepliesServiceImpl implements RepliesService {
         // 5.插入表中
         postReplyMapper.addPost(po);
         // 6. 对已有字段进行更新
-        postReply.setReplyTimes(postReply.getReplyTimes()+1);
+        postReply.setReplyTimes(postReply.getReplyTimes() + 1);
         // 7. 对已有评论进行更新
         postReplyMapper.updateReplyTimes(postReply);
     }
@@ -79,8 +152,8 @@ public class RepliesServiceImpl implements RepliesService {
         // 2  获取目标帖子信息
         Long postId = createReplyDTO.getPostId();
         Post post = postMapper.selectById(postId);
-        if(BeanUtil.isEmpty(post)){
-            throw new BusinessException("THE CURRENT OBJ IS NULL","TRY AGAGIN");
+        if (BeanUtil.isEmpty(post)) {
+            throw new BusinessException("THE CURRENT OBJ IS NULL", "TRY AGAGIN");
         }
         // 3. 更新最新回答ID,增加问题下的回答数量
         postMapper.updateIdAndReplyTimes(po);
