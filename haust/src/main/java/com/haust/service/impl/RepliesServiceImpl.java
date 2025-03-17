@@ -34,13 +34,13 @@ public class RepliesServiceImpl implements RepliesService {
     private final PostReplyMapper postReplyMapper;
 
 
-    /*
-        事务失效的原因
-        1. 最低级的原因：没有被Spring管理
-        2. 异常类型不对：要被RuntimeException
-        3. 非事务方法调用事务注解方法: 没有经过一个Beans在AOP中被强化
-        4. 非public方法修饰,
-        5. 事务传播方法不对
+    /**
+     * 事务失效的原因
+     * 1. 最低级的原因：没有被Spring管理
+     * 2. 异常类型不对：要被RuntimeException
+     * 3. 非事务方法调用事务注解方法: 没有经过一个Beans在AOP中被强化
+     * 4. 非public方法修饰,
+     * 5. 事务传播方法不对
      */
     @Override
     public void addReply(CreateReplyDTO createReplyDTO) {
@@ -61,6 +61,12 @@ public class RepliesServiceImpl implements RepliesService {
         reply(createReplyDTO);
     }
 
+    /**
+     * zzk
+     *
+     * @param replyDTO
+     * @return
+     */
     @Override
     public PageVO<ReplyVO> pageQuery(ReplyDTO replyDTO) {
         // 1. 进行当前对象的判断
@@ -70,31 +76,31 @@ public class RepliesServiceImpl implements RepliesService {
         // 2.进行分页参数处理
         PageHelper.startPage(replyDTO.getPage(), replyDTO.getPageSize());
         // 3. 查询数据
-        if(!replyDTO.getFlag().equals("post")&& !replyDTO.equals("comment")){
-            throw  new BusinessException("WRONG VOCABULARY","TRY AGAIN");
+        if (!replyDTO.getFlag().equals("post") && !replyDTO.equals("comment")) {
+            throw new BusinessException("WRONG VOCABULARY", "TRY AGAIN");
         }
-        List<ReplyVO> list =  postReplyMapper.page(replyDTO.getId());
+        List<ReplyVO> list = postReplyMapper.page(replyDTO.getId());
         // 业务层进行处理两种不同的数据
         // 4. 处理查询帖子评论
-        return replyDTO.getFlag().equals("post") ? postInfo(list):commentInfo(list);
+        return replyDTO.getFlag().equals("post") ? postInfo(list) : commentInfo(list);
     }
 
     @Override
     public void deleteComment(Long id) {
         // 1. 判断当前是否为管理员
-        if(BaseContext.getId().equals("1")){
-            throw new BusinessException("WRONG ROLE","越权操作");
+        if (BaseContext.getId().equals("1")) {
+            throw new BusinessException("WRONG ROLE", "越权操作");
         }
         // 2. 检验参数
-        if(id==null){
-            throw new BusinessException("WRONG ITEM ","数据库无对应数据");
+        if (id == null) {
+            throw new BusinessException("WRONG ITEM ", "数据库无对应数据");
         }
         // 3. 进行处理
         postReplyMapper.deleteById(id);
     }
 
     @Override
-    public Integer likeOrNot(Long id, Integer flag,Long post_id) {
+    public Integer likeOrNot(Long id, Integer flag, Long post_id) {
         // 0. 获取当前线程用户ID
         Long userId = BaseContext.getId();
 
@@ -110,18 +116,18 @@ public class RepliesServiceImpl implements RepliesService {
         String userValue = RedisConstant.PREFIX_USER + userId; // SET 中的 Value
 
         // 4. 根据 flag 执行点赞或取消点赞操作
-        return flag == 1 ? like(key, userValue,post_id) : notlike(key, userValue,post_id);
+        return flag == 1 ? like(key, userValue, post_id) : notlike(key, userValue, post_id);
     }
 
     @Override
     public HotReplyVo getHotReply(Long id) {
         // 1.检验id是否有效
-        if(id == null){
-            throw new BusinessException("EXCEPTION","User is not found");
+        if (id == null) {
+            throw new BusinessException("EXCEPTION", "User is not found");
         }
         // 2.从当前帖子的redis数据库中找到点赞里最多的评论
-        Set<ZSetOperations.TypedTuple<String>> tuples = stringRedisTemplate.opsForZSet().reverseRangeWithScores(RedisConstant.REPLY_CONTENT+id, 0, 0);
-        if(BeanUtil.isEmpty(tuples)){
+        Set<ZSetOperations.TypedTuple<String>> tuples = stringRedisTemplate.opsForZSet().reverseRangeWithScores(RedisConstant.REPLY_CONTENT + id, 0, 0);
+        if (BeanUtil.isEmpty(tuples)) {
             return null;
         }
         // 3.拿到信息
@@ -129,10 +135,11 @@ public class RepliesServiceImpl implements RepliesService {
         String key = next.getValue();
         String[] split = key.split(":");
         Long replyId = Long.valueOf(split[2]);
+        System.out.println(replyId);
         // 4.检索数据库拿到最新值
         PostReply postReply = postReplyMapper.selectById(replyId);
-        if(BeanUtil.isEmpty(postReply)){
-            throw new BusinessException("TRY AGAIN","THE ITEM IS NULL");
+        if (BeanUtil.isEmpty(postReply)) {
+            throw new BusinessException("TRY AGAIN", "THE ITEM IS NULL");
         }
         // 5.包装值
         HotReplyVo hotReplyVo = BeanUtil.toBean(postReply, HotReplyVo.class);
@@ -142,20 +149,20 @@ public class RepliesServiceImpl implements RepliesService {
     private Integer like(String key, String userValue, Long post_id) {
         // 1. 检查用户是否已点赞
         if (Boolean.TRUE.equals(stringRedisTemplate.opsForSet().isMember(key, userValue))) {
-            throw new BusinessException("EXCEPTION","User has already liked this reply");
+            throw new BusinessException("EXCEPTION", "User has already liked this reply");
         }
 
         // 2. 添加用户到 SET 中
         stringRedisTemplate.opsForSet().add(key, userValue);
 
         // 3. 返回点赞总数
-        return getLikeCount(key,post_id);
+        return getLikeCount(key, post_id);
     }
 
     private Integer notlike(String key, String userValue, Long post_id) {
         // 1. 检查用户是否已点赞
         if (Boolean.FALSE.equals(stringRedisTemplate.opsForSet().isMember(key, userValue))) {
-            throw new BusinessException("EXCEPTION","User has not liked this reply");
+            throw new BusinessException("EXCEPTION", "User has not liked this reply");
         }
         // 2. 从 SET 中移除用户
         stringRedisTemplate.opsForSet().remove(key, userValue);
@@ -163,14 +170,16 @@ public class RepliesServiceImpl implements RepliesService {
         // 3. 返回点赞总数
         return getLikeCount(key, post_id);
     }
+
     private Integer getLikeCount(String key, Long post_id) {
         // 4. 获取 SET 的大小，即点赞数量
         Long count = stringRedisTemplate.opsForSet().size(key);
         // 5. 热评榜单
-        stringRedisTemplate.opsForZSet().add(RedisConstant.REPLY_CONTENT+ post_id,key,count);
+        stringRedisTemplate.opsForZSet().add(RedisConstant.REPLY_CONTENT + post_id, key, count);
 
         return count != null ? count.intValue() : 0;
     }
+
     /*
     处理评论的评论
      */
