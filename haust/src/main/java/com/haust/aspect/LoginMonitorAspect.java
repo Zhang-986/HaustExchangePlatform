@@ -31,6 +31,12 @@ public class LoginMonitorAspect {
     @Pointcut("@annotation(com.haust.annotation.LoginMonitor)")
     public void loginMonitorPointcut() {}
 
+    /**
+     * 对当前登入用户进行一个日志监控记录
+     * @param joinPoint
+     * @return
+     * @throws Throwable
+     */
     // 在切点方法执行前后添加逻辑
     @Around("loginMonitorPointcut()")
     public Object aroundLoginMonitor(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -82,4 +88,7 @@ public class LoginMonitorAspect {
 
         return ipAddress;
     }
+
+
+
 }

@@ -54,12 +54,12 @@ public class RepliesServiceImpl implements RepliesService {
         if (targetReplyId == null) {
             // 3 是给帖子评论的
             // TODO 事务失效
-            ((RepliesServiceImpl) AopContext.currentProxy()).post(createReplyDTO);
+           post(createReplyDTO);
             return;
         }
         // 3 是给评论评论的
         // TODO 事务失效
-        ((RepliesServiceImpl) AopContext.currentProxy()).reply(createReplyDTO);
+        reply(createReplyDTO);
     }
 
     /**
