@@ -24,4 +24,18 @@ public class PostServiceImpl implements PostService {
         post.setUserId(BaseContext.getId());
         postMapper.insert(post);
     }
+
+    /**
+     * 修改帖子
+     * @param id
+     * @param createPostDTO
+     */
+    @Override
+    public void updatePost(CreatePostDTO createPostDTO,Long id) {
+        Post post = new Post();
+        BeanUtils.copyProperties(createPostDTO,post);
+        post.setId(id);
+        post.setUserId(BaseContext.getId());
+        postMapper.update(post);
+    }
 }

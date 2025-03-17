@@ -8,4 +8,12 @@ public interface PostService {
      * @param createPostDTO
      */
     void createPost(CreatePostDTO createPostDTO);
+
+
+    /**
+     * 修改帖子
+     * @param createPostDTO
+     * @param id
+     */
+    void updatePost(CreatePostDTO createPostDTO,Long id);
 }

@@ -19,4 +19,10 @@ public interface PostMapper {
 
 
     void updateIdAndReplyTimes(PostReply po);
+
+    /**
+     * 修改帖子
+     * @param post
+     */
+    void update(Post post);
 }
