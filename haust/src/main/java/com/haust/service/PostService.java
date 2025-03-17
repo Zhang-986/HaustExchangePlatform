@@ -1,6 +1,9 @@
 package com.haust.service;
 
 import com.haust.domain.dto.CreatePostDTO;
+import com.haust.domain.dto.PageDTO;
+import com.haust.domain.po.Post;
+import com.haust.domain.vo.PageVO;
 
 public interface PostService {
     /**
@@ -16,4 +19,11 @@ public interface PostService {
      * @param id
      */
     void updatePost(CreatePostDTO createPostDTO,Long id);
+
+    /**
+     * 分页查询
+     * @param pageDTO
+     * @return
+     */
+    PageVO<Post> page(PageDTO pageDTO);
 }

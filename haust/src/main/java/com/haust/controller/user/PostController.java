@@ -1,11 +1,15 @@
 package com.haust.controller.user;
 
 import com.haust.domain.dto.CreatePostDTO;
+import com.haust.domain.dto.PageDTO;
+import com.haust.domain.po.Post;
+import com.haust.domain.vo.PageVO;
 import com.haust.service.PostService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,5 +37,18 @@ public class PostController {
     public void UpdatePost(@PathVariable Long id,@RequestBody CreatePostDTO createPostDTO){
         log.info("修改帖子：{},{}",createPostDTO,id);
         postService.updatePost(createPostDTO,id);
+    }
+
+    /**
+     * 分页查询帖子
+     * @param pageDTO
+     * @return
+     */
+    @GetMapping
+    @ApiOperation("分页查询帖子")
+    public PageVO<Post> pageQuery(PageDTO pageDTO){
+        log.info("分页查询帖子{}",pageDTO);
+        PageVO<Post> pageVO =postService.page(pageDTO);
+        return pageVO;
     }
 }
