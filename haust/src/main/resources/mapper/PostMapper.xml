@@ -11,4 +11,32 @@
         from post
         where id = #{postId};
     </select>
+
+
+    <update id="update">
+        update post
+        <set>
+            <if test="title != null"> title =#{title}</if>
+            <if test="description != null"> , description =#{description}</if>
+            <if test="anonymity != null"> , anonymity =#{anonymity}</if>
+        </set>
+        where id = #{id} and user_id=#{userId}
+    </update>
+
+    <select id="getAll" resultType="com.haust.domain.po.Post">
+
+        select * from post
+        order by
+        <if test="oderBy == 0">
+            liked_times desc
+        </if>
+        <if test="oderBy == 1">
+            click_count desc
+        </if>
+        <if test="oderBy == 2">
+            create_time desc
+        </if>
+
+    </select>
+
 </mapper>
