@@ -52,7 +52,7 @@ public class LoginMonitorAspect {
         rabbitTemplate.convertAndSend(
                 MqExchangeConstant.USER_MONITOR_EXCHANGE,
                 MqKeyConstant.USER_MONITOR_KEY,
-                UserMsg.of(accountDTO.getAccount(),ip, LocalDateTime.now(),0L)
+                UserMsg.of(accountDTO.getAccount(),ip, 1L,LocalDateTime.now())
         );
         // 4.记录日志
         System.out.println("Method: " + methodName);

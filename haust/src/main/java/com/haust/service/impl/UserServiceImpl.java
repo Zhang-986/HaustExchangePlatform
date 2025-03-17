@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -110,13 +111,18 @@ public class UserServiceImpl implements UserService {
         return roleVo;
 
     }
-
+    @Transactional
     @Override
     public void addMonitor(UserMsg userMsg) {
-        // 0.redis,账户尝试登入次数
-        Long times = redisTemplate.opsForValue().increment(RedisConstant.USER_MONITOR + userMsg.getAccount());
-        // 1.这边进行数据库的数据加入
-        userMsg.setLoginTimes(times);
+        // 1.多一次数据库查询
+        UserMsg user = userMapper.selectByName(userMsg);
+        // 2.判断是否更新
+        if(!BeanUtil.isEmpty(user)){
+            // 3.++ 处理
+            userMapper.updateTimes(user);
+            return;
+        }
+        // 4 没有记录就插入
         userMapper.solveTimes(userMsg);
     }
 

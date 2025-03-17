@@ -5,8 +5,12 @@
         insert into user (account,password) values (#{account},#{password})
     </insert>
     <insert id="solveTimes" parameterType="com.haust.mq.msg.UserMsg">
-        insert into user_monitor (account, login_times, ip, create_time) VALUES (#{account},#{loginTimes},#{ip},#{createTime})
+        insert into user_monitor (account, login_times,ip, create_time) VALUES (#{account},#{loginTimes},#{ip},#{createTime})
     </insert>
+    <update id="updateTimes">
+        update user_monitor set login_times = login_times+1 where account = #{account}
+    </update>
+
 
     <select id="selectById" resultType="com.haust.domain.po.User"
             parameterType="com.haust.domain.dto.AccountDTO">
@@ -20,5 +24,8 @@
                 create_time DESC
             </otherwise>
         </choose>
+    </select>
+    <select id="selectByName" resultType="com.haust.mq.msg.UserMsg">
+        select account, ip, login_times, create_time from user_monitor where account =#{account}
     </select>
 </mapper>

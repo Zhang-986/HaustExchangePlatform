@@ -17,4 +17,9 @@ public interface UserMapper {
     void solveTimes(UserMsg userMsg);
 
     List<UserMsg> pageByMonitor(Integer orderBy);
+
+    UserMsg selectByName(UserMsg userMsg);
+
+
+    void updateTimes(UserMsg user);
 }
