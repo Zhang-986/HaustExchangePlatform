@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
+import java.net.InetAddress;
 import java.util.Date;
 
-@Component
 @RequiredArgsConstructor
 public class JwtUtil {
     private final JwtConfig config;

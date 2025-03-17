@@ -11,3 +11,9 @@ haust:
     host: 117.72.112.62
     password: 200522
     timeout: 200ms
+  rabbitmq:
+    port: 5672
+    host: 117.72.112.62
+    username: admin
+    password: 200522
+    virtual-host: /
