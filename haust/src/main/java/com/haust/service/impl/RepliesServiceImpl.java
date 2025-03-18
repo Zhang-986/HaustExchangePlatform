@@ -3,10 +3,12 @@ package com.haust.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.haust.annotation.SensitiveMonitor;
 import com.haust.constant.RedisConstant;
 import com.haust.context.BaseContext;
 import com.haust.domain.dto.CreateReplyDTO;
 import com.haust.domain.dto.ReplyDTO;
+import com.haust.domain.enumeration.ContentType;
 import com.haust.domain.po.Post;
 import com.haust.domain.po.PostReply;
 import com.haust.domain.vo.HotReplyVo;
@@ -35,6 +37,7 @@ public class RepliesServiceImpl implements RepliesService {
     private final PostReplyMapper postReplyMapper;
 
 
+
     /**
      * 事务失效的原因
      * 1. 最低级的原因：没有被Spring管理
@@ -43,6 +46,7 @@ public class RepliesServiceImpl implements RepliesService {
      * 4. 非public方法修饰,
      * 5. 事务传播方法不对
      */
+    @SensitiveMonitor(value = ContentType.reply)
     @Override
     public void addReply(CreateReplyDTO createReplyDTO) {
         // 1. 检查DTO是否为空

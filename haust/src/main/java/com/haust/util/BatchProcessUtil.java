@@ -1,8 +1,7 @@
 package com.haust.util;
 
-import com.haust.configuration.ThreadConfig;
+import cn.hutool.core.bean.BeanUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.config.ScheduledTask;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -42,6 +41,9 @@ public class BatchProcessUtil {
                 // 从共享队列当中拿取数据
                 blockingQueue.drainTo(list);
                 // 进行批量写请求
+                if(BeanUtil.isEmpty(list)){
+                    return;
+                }
                 // TODO 后期对应mapper层进行处理
             }
         });

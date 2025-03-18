@@ -3,9 +3,11 @@ package com.haust.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.haust.annotation.SensitiveMonitor;
 import com.haust.context.BaseContext;
 import com.haust.domain.dto.CodingSharingDTO;
 import com.haust.domain.dto.PageDTO;
+import com.haust.domain.enumeration.ContentType;
 import com.haust.domain.po.CodingSharing;
 import com.haust.domain.vo.CodingSharingVo;
 import com.haust.domain.vo.PageVO;
@@ -26,6 +28,7 @@ public class CodingSharingServiceImpl implements CodingSharingService {
      * 用户提交内推信息
      * @param codingSharingDTO
      */
+    @SensitiveMonitor(ContentType.sharing)
     @Override
     public void addInfo(CodingSharingDTO codingSharingDTO) {
         com.haust.domain.po.CodingSharing codingSharing = new com.haust.domain.po.CodingSharing();
@@ -145,6 +148,7 @@ public class CodingSharingServiceImpl implements CodingSharingService {
      * 修改内推信息
      * @param codingSharingDTO
      */
+    @SensitiveMonitor(ContentType.sharing)
     @Override
     public void modify(CodingSharingDTO codingSharingDTO) {
         com.haust.domain.po.CodingSharing codingSharing = new com.haust.domain.po.CodingSharing();

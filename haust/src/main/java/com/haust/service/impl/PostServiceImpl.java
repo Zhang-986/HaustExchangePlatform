@@ -3,9 +3,11 @@ package com.haust.service.impl;
 import cn.hutool.core.codec.BCD;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.haust.annotation.SensitiveMonitor;
 import com.haust.context.BaseContext;
 import com.haust.domain.dto.CreatePostDTO;
 import com.haust.domain.dto.PageDTO;
+import com.haust.domain.enumeration.ContentType;
 import com.haust.domain.po.Post;
 import com.haust.domain.vo.PageVO;
 import com.haust.mapper.PostMapper;
@@ -26,6 +28,7 @@ public class PostServiceImpl implements PostService {
      * 发布帖子
      * @param createPostDTO
      */
+    @SensitiveMonitor(ContentType.post)
     @Override
     public void createPost(CreatePostDTO createPostDTO) {
         Post post = new Post();
@@ -39,6 +42,7 @@ public class PostServiceImpl implements PostService {
      * @param id
      * @param createPostDTO
      */
+    @SensitiveMonitor(ContentType.post)
     @Override
     public void updatePost(CreatePostDTO createPostDTO,Long id) {
         Post post = new Post();

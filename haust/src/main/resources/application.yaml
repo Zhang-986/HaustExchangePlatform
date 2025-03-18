@@ -38,6 +38,3 @@ pagehelper:
   support-methods-arguments: true
   return-page-info: check
   params: count=countSql
-jwt:
-  expiration-time:  288000000 #1000ms
-  secret-key: 21413253453535342434324
