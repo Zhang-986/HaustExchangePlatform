@@ -1,5 +1,6 @@
 package com.haust.service.impl;
 
+import cn.hutool.core.codec.BCD;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.haust.context.BaseContext;
@@ -74,5 +75,15 @@ public class PostServiceImpl implements PostService {
                 .data(collect)
                 .build();
         return result;
+    }
+
+    /**
+     * 删除帖子
+     * @param id
+     */
+    @Override
+    public void delete(Long id) {
+        Long userId = BaseContext.getId();
+        postMapper.delete(id,userId);
     }
 }

@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,5 +51,16 @@ public class PostController {
         log.info("分页查询帖子{}",pageDTO);
         PageVO<Post> pageVO =postService.page(pageDTO);
         return pageVO;
+    }
+
+    /**
+     * 删除帖子
+     * @param id
+     */
+    @ApiOperation("删除帖子")
+    @DeleteMapping("/{id}")
+    public void removePost(@PathVariable Long id){
+        log.info("删除帖子：{}",id);
+        postService.delete(id);
     }
 }

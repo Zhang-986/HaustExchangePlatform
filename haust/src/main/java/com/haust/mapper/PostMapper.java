@@ -3,12 +3,10 @@ package com.haust.mapper;
 import com.github.pagehelper.Page;
 import com.haust.domain.po.Post;
 import com.haust.domain.po.PostReply;
-import javafx.geometry.Pos;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-
-import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface PostMapper {
@@ -37,4 +35,13 @@ public interface PostMapper {
      */
 
     Page<Post> getAll(Integer orderBy);
+
+    /**
+     * 删除帖子
+     *
+     * @param id
+     * @param userId
+     */
+    @Delete("delete from post where id =#{id} and user_id=#{userId}")
+    void delete(@Param("id") Long id,@Param("userId") Long userId);
 }
