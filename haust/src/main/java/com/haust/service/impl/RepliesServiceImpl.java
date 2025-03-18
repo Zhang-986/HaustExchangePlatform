@@ -17,6 +17,7 @@ import com.haust.mapper.PostMapper;
 import com.haust.mapper.PostReplyMapper;
 import com.haust.service.RepliesService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
@@ -53,7 +54,7 @@ public class RepliesServiceImpl implements RepliesService {
         if (targetReplyId == null) {
             // 3 是给帖子评论的
             // TODO 事务失效
-            post(createReplyDTO);
+           post(createReplyDTO);
             return;
         }
         // 3 是给评论评论的
@@ -130,7 +131,7 @@ public class RepliesServiceImpl implements RepliesService {
         if (BeanUtil.isEmpty(tuples)) {
             return null;
         }
-        // 3.拿到信息
+        // 3.拿到信息,解析得到对应评论具体信息
         ZSetOperations.TypedTuple<String> next = tuples.iterator().next();
         String key = next.getValue();
         String[] split = key.split(":");

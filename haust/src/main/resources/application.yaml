@@ -1,6 +1,14 @@
 server:
   port: 8080
 spring:
+  rabbitmq:
+    port: ${haust.rabbitmq.port}
+    host: ${haust.rabbitmq.host}
+    password: ${haust.rabbitmq.password}
+    virtual-host: ${haust.rabbitmq.virtual-host}
+    username: ${haust.rabbitmq.username}
+  aop:
+    proxy-target-class: true
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
