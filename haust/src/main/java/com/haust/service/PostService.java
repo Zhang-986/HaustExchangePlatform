@@ -32,4 +32,12 @@ public interface PostService {
      * @param id
      */
     void delete(Long id);
+
+    /**
+     * 点赞与取消
+     * @param id
+     * @param flag
+     * @return
+     */
+    Integer like(Integer id, Integer flag);
 }

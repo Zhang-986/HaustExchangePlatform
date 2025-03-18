@@ -7,6 +7,7 @@ import com.haust.domain.vo.PageVO;
 import com.haust.service.PostService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Delete;
@@ -63,4 +64,18 @@ public class PostController {
         log.info("删除帖子：{}",id);
         postService.delete(id);
     }
+
+    /**
+     * 点赞取消点赞
+     * @param flag
+     * @return
+     */
+    @ApiOperation("点赞取消点赞帖子")
+    @PostMapping("/{id}/like")
+    public Integer like(@PathVariable Integer id  ,  Integer flag){
+        log.info("点赞取消点赞帖子");
+        Integer likedTimes= postService.like(id,flag);
+        return likedTimes;
+    }
+
 }
