@@ -1,33 +1,24 @@
 package com.haust.util;
 
-import cn.hutool.core.bean.BeanUtil;
+
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
+
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.haust.configuration.JwtConfig;
-import com.haust.domain.vo.PageVO;
-import com.haust.domain.vo.RoleVo;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Value;
 
-import javax.annotation.PostConstruct;
-import java.net.InetAddress;
+import lombok.RequiredArgsConstructor;
+
 import java.util.Date;
 
+/**
+ * JWT令牌生成与解析
+ */
 @RequiredArgsConstructor
 public class JwtUtil {
-    private final JwtConfig config;
     // 静态变量，用于存储配置
-    private static String SECRET_KEY;
-    private static long EXPIRATION_TIME;
-    @PostConstruct
-    public void init() {
-        SECRET_KEY = config.getSecretKey();
-        EXPIRATION_TIME = config.getExpirationTime();
-    }
+    private static String SECRET_KEY = "123123123891734324";
+    private static long EXPIRATION_TIME = 288000000;
 
 
     /**
@@ -51,8 +42,8 @@ public class JwtUtil {
      * @return 解析后的 DecodedJWT 对象
      */
     public static DecodedJWT parseToken(String token) {
-            return JWT.require(Algorithm.HMAC256(SECRET_KEY))
-                    .build()
+        return JWT.require(Algorithm.HMAC256(SECRET_KEY))
+                .build()
                 .verify(token);
     }
 
@@ -81,7 +72,6 @@ public class JwtUtil {
         DecodedJWT decodedJWT = parseToken(token);
         return decodedJWT.getSubject();
     }
-
 
 
 }

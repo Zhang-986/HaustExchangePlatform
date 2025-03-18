@@ -31,4 +31,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/user/register");
 
     }
+
 }

@@ -1,7 +1,9 @@
 package com.haust.controller.user;
 
+import com.haust.annotation.SensitiveMonitor;
 import com.haust.domain.dto.CreatePostDTO;
 import com.haust.domain.dto.PageDTO;
+import com.haust.domain.enumeration.ContentType;
 import com.haust.domain.po.Post;
 import com.haust.domain.vo.PageVO;
 import com.haust.service.PostService;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
 
     private final PostService postService;
+
     @PostMapping
     @ApiOperation("发布帖子")
     public void createPost(@RequestBody CreatePostDTO createPostDTO){
@@ -32,6 +35,7 @@ public class PostController {
      * @param id
      * @param createPostDTO
      */
+
     @PutMapping("/{id}")
     @ApiOperation("更新帖子")
     public void UpdatePost(@PathVariable Long id,@RequestBody CreatePostDTO createPostDTO){
