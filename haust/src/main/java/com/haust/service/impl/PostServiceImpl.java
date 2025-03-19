@@ -1,5 +1,6 @@
 package com.haust.service.impl;
 
+import cn.hutool.core.codec.BCD;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.haust.annotation.SensitiveMonitor;
@@ -14,6 +15,7 @@ import com.haust.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -78,5 +80,31 @@ public class PostServiceImpl implements PostService {
                 .data(collect)
                 .build();
         return result;
+    }
+
+    /**
+     * 删除帖子
+     * @param id
+     */
+    @Override
+    public void delete(Long id) {
+        Long userId = BaseContext.getId();
+        postMapper.delete(id,userId);
+    }
+
+    /**
+     * 点赞与取消
+     * @param id
+     * @param flag
+     * @return
+     */
+    @Override
+    @Transactional
+    public Integer like(Integer id, Integer flag) {
+
+        //点赞量增加数量
+        if (flag!=1) flag=-1;
+        postMapper.updateLikesById(id,flag);
+        return postMapper.getLikeTimesById(id);
     }
 }

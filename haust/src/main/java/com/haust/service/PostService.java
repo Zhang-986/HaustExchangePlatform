@@ -26,4 +26,18 @@ public interface PostService {
      * @return
      */
     PageVO<Post> page(PageDTO pageDTO);
+
+    /**
+     * 删除帖子
+     * @param id
+     */
+    void delete(Long id);
+
+    /**
+     * 点赞与取消
+     * @param id
+     * @param flag
+     * @return
+     */
+    Integer like(Integer id, Integer flag);
 }
