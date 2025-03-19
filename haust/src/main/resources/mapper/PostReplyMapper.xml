@@ -7,6 +7,13 @@
         VALUES
             (#{postId},#{answerId},#{userId},#{content},#{targetUserId},#{targetReplyId},#{anonymity})
     </insert>
+    <update id="addLike">
+        <foreach collection="list" item="item" index="index" separator=";">
+            UPDATE post_reply
+            SET liked_times = #{item.likedTimes}
+            WHERE id = #{item.id}
+        </foreach>
+    </update>
     <update id="updateReplyTimes" parameterType="com.haust.domain.po.PostReply">
         update post_reply set reply_times = #{replyTimes}  where id = #{id}
     </update>

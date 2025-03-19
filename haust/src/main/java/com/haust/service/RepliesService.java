@@ -5,6 +5,7 @@ import com.haust.domain.dto.ReplyDTO;
 import com.haust.domain.vo.HotReplyVo;
 import com.haust.domain.vo.PageVO;
 import com.haust.domain.vo.ReplyVO;
+import com.haust.mq.msg.LikeMsg;
 
 public interface RepliesService {
     void addReply(CreateReplyDTO createReplyDTO);
@@ -16,4 +17,6 @@ public interface RepliesService {
     Integer likeOrNot(Long id, Integer flag,Long postId);
 
     HotReplyVo getHotReply(Long id);
+
+    void addLike(LikeMsg likeMsg);
 }

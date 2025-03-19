@@ -1,6 +1,5 @@
 package com.haust.interceptor;
 
-import com.haust.configuration.JwtConfig;
 import com.haust.constant.RedisConstant;
 import com.haust.constant.UserConstant;
 import com.haust.context.BaseContext;

@@ -28,6 +28,7 @@ public class CodingSharingServiceImpl implements CodingSharingService {
      * 用户提交内推信息
      * @param codingSharingDTO
      */
+
     @SensitiveMonitor(ContentType.sharing)
     @Override
     public void addInfo(CodingSharingDTO codingSharingDTO) {
@@ -38,7 +39,7 @@ public class CodingSharingServiceImpl implements CodingSharingService {
         codingSharingMapper.insert(codingSharing);
     }
     @Override
-    public com.haust.domain.po.CodingSharing getDetail(Long id) {
+    public CodingSharing getDetail(Long id) {
         // 1. 判断是否为空
         if(BeanUtil.isEmpty(id)){
             throw new BusinessException("Id IS NULL ","TRY AGAGIN");

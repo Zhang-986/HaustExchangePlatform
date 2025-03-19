@@ -42,7 +42,7 @@ public class LoginMonitorAspect {
     public Object aroundLoginMonitor(ProceedingJoinPoint joinPoint) throws Throwable {
         log.info("开始记录对应信息{}",joinPoint.getArgs());
         // 1.获取方法名
-        String methodName = joinPoint.getSignature().getName();
+//        String methodName = joinPoint.getSignature().getName();
 
         // 2.获取方法参数
         Object[] args =  joinPoint.getArgs();
@@ -60,27 +60,20 @@ public class LoginMonitorAspect {
                 MqKeyConstant.USER_MONITOR_KEY,
                 UserMsg.of(accountDTO.getAccount(),ip, 1L,LocalDateTime.now())
         );
-        // 4.记录日志
-        System.out.println("Method: " + methodName);
-        System.out.println("ip: " + ip);
-
         // 5.继续执行原方法
         return joinPoint.proceed();
     }
     public String getClientIp(HttpServletRequest request) {
         // 从 X-Forwarded-For 头中获取 IP 地址链
         String ipAddress = request.getHeader("X-Forwarded-For");
-
         // 如果 X-Forwarded-For 为空，则从 X-Real-IP 头中获取
         if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getHeader("X-Real-IP");
         }
-
         // 如果仍然为空，则从 request.getRemoteAddr() 获取
         if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getRemoteAddr();
         }
-
         // 如果 X-Forwarded-For 包含多个 IP 地址（如经过多个代理），取第一个 IP
         if (ipAddress != null && ipAddress.contains(",")) {
             ipAddress = ipAddress.split(",")[0].trim();

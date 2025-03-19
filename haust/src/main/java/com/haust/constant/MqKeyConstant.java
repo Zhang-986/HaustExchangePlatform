@@ -5,4 +5,5 @@ package com.haust.constant;
  */
 public class MqKeyConstant {
     public final static String USER_MONITOR_KEY = "user.monitor";
+    public final static String BEHAVIOR_MONITOR_KEY = "behavior.monitor";
 }

@@ -4,6 +4,8 @@ import cn.hutool.core.bean.BeanUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.haust.annotation.SensitiveMonitor;
+import com.haust.constant.MqExchangeConstant;
+import com.haust.constant.MqKeyConstant;
 import com.haust.constant.RedisConstant;
 import com.haust.context.BaseContext;
 import com.haust.domain.dto.CreateReplyDTO;
@@ -17,8 +19,11 @@ import com.haust.domain.vo.ReplyVO;
 import com.haust.exception.BusinessException;
 import com.haust.mapper.PostMapper;
 import com.haust.mapper.PostReplyMapper;
+import com.haust.mq.msg.LikeMsg;
 import com.haust.service.RepliesService;
+import com.haust.util.BatchProcessUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
@@ -35,8 +40,8 @@ public class RepliesServiceImpl implements RepliesService {
     private final StringRedisTemplate stringRedisTemplate;
     private final PostMapper postMapper;
     private final PostReplyMapper postReplyMapper;
-
-
+    private final RabbitTemplate rabbitTemplate;
+    private final BatchProcessUtil batchProcessUtil;
 
     /**
      * 事务失效的原因
@@ -151,6 +156,12 @@ public class RepliesServiceImpl implements RepliesService {
         return hotReplyVo;
     }
 
+    @Override
+    public void addLike(LikeMsg likeMsg) {
+        // 1.合并写请求
+        batchProcessUtil.process(likeMsg);
+    }
+
     private Integer like(String key, String userValue, Long post_id) {
         // 1. 检查用户是否已点赞
         if (Boolean.TRUE.equals(stringRedisTemplate.opsForSet().isMember(key, userValue))) {
@@ -163,6 +174,7 @@ public class RepliesServiceImpl implements RepliesService {
         // 3. 返回点赞总数
         return getLikeCount(key, post_id);
     }
+
 
     private Integer notlike(String key, String userValue, Long post_id) {
         // 1. 检查用户是否已点赞
@@ -181,6 +193,15 @@ public class RepliesServiceImpl implements RepliesService {
         Long count = stringRedisTemplate.opsForSet().size(key);
         // 5. 热评榜单
         stringRedisTemplate.opsForZSet().add(RedisConstant.REPLY_CONTENT + post_id, key, count);
+
+        // 6. mq异步处理
+        String[] split = key.split(":");
+        Long id = Long.valueOf(split[2]) ;
+        rabbitTemplate.convertAndSend(
+                MqExchangeConstant.BEHAVIOR_MONITOR_EXCHANGE,
+                MqKeyConstant.BEHAVIOR_MONITOR_KEY,
+                LikeMsg.of(id,count)
+        );
 
         return count != null ? count.intValue() : 0;
     }

@@ -1,7 +1,6 @@
 package com.haust.interceptor;
 
 import cn.hutool.jwt.JWT;
-import com.haust.configuration.JwtConfig;
 import com.haust.constant.UserConstant;
 import com.haust.context.BaseContext;
 import com.haust.exception.UserException;
