@@ -23,7 +23,6 @@ import java.util.List;
 @Slf4j
 @Aspect
 @Component
-
 @RequiredArgsConstructor
 public class SensitiveMonitorAspect {
     private final BloomFilterUtil bloomFilterUtil;

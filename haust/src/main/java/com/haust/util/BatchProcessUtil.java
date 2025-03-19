@@ -1,7 +1,6 @@
 package com.haust.util;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.haust.mq.msg.BehaviorMsg;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +15,7 @@ import java.util.concurrent.*;
 @RequiredArgsConstructor
 public class BatchProcessUtil {
     // 创建共享有界队列
-    private BlockingQueue<BehaviorMsg> blockingQueue = new LinkedBlockingQueue<>();
+    private BlockingQueue<Object> blockingQueue = new LinkedBlockingQueue<>();
     // 调度器
     private ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(1);
     // 线程池处理
@@ -29,7 +28,7 @@ public class BatchProcessUtil {
         scheduledExecutorService.scheduleAtFixedRate(this::consume,0,10, TimeUnit.SECONDS);
     }
     // 生产者，暴露给外界服务用的
-    public void process(BehaviorMsg msg){
+    public void process(Object msg){
         blockingQueue.offer(msg);
     }
     // 消费者，进行消费共享队列中的数据
@@ -37,7 +36,7 @@ public class BatchProcessUtil {
         executor.submit(new Runnable() {
             @Override
             public void run() {
-                ArrayList<BehaviorMsg> list = new ArrayList<>();
+                ArrayList<Object> list = new ArrayList<>();
                 // 从共享队列当中拿取数据
                 blockingQueue.drainTo(list);
                 // 进行批量写请求

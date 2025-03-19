@@ -3,7 +3,6 @@ package com.haust.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.haust.annotation.BehaviorMonitor;
 import com.haust.annotation.SensitiveMonitor;
 import com.haust.context.BaseContext;
 import com.haust.domain.dto.CodingSharingDTO;
@@ -39,7 +38,6 @@ public class CodingSharingServiceImpl implements CodingSharingService {
         codingSharing.setUserId(BaseContext.getId());
         codingSharingMapper.insert(codingSharing);
     }
-    @BehaviorMonitor
     @Override
     public CodingSharing getDetail(Long id) {
         // 1. 判断是否为空

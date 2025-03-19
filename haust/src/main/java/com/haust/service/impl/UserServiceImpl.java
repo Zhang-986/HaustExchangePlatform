@@ -3,7 +3,7 @@ package com.haust.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.haust.annotation.BehaviorMonitor;
+
 import com.haust.annotation.LoginMonitor;
 import com.haust.constant.RedisConstant;
 import com.haust.context.BaseContext;
@@ -14,6 +14,7 @@ import com.haust.domain.vo.PageVO;
 import com.haust.domain.vo.RoleVo;
 import com.haust.exception.BusinessException;
 import com.haust.mapper.UserMapper;
+
 import com.haust.mq.msg.UserMsg;
 import com.haust.service.UserService;
 ;import com.haust.util.JwtUtil;
@@ -148,6 +149,7 @@ public class UserServiceImpl implements UserService {
         vo.setTotal((int) userMsgPageInfo.getTotal());
         return vo;
     }
+
 
     private void makeToRedis(User user, String userId) {
         HashMap<String, String> map = new HashMap<>();
