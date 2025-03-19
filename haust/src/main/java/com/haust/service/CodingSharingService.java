@@ -19,7 +19,7 @@ public interface CodingSharingService {
      */
     void modify(CodingSharingDTO codingSharingDTO);
 
-    com.haust.domain.po.CodingSharing getDetail(Long id);
+    CodingSharing getDetail(Long id);
 
     PageVO<CodingSharingVo> page(PageDTO pageDTO);
 

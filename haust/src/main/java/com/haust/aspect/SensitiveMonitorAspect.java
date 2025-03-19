@@ -23,6 +23,7 @@ import java.util.List;
 @Slf4j
 @Aspect
 @Component
+
 @RequiredArgsConstructor
 public class SensitiveMonitorAspect {
     private final BloomFilterUtil bloomFilterUtil;
@@ -79,7 +80,6 @@ public class SensitiveMonitorAspect {
         for (String word : words) {
             if (bloomFilterUtil.existsItem(word)) {
                 // 3. 如果检测到敏感词，进行处理（例如记录日志或替换）
-                content = content.replace(word, "***");
                 throw new BusinessException("THE ITEM IS WRONG","敏感词存在");
             }
         }

@@ -42,7 +42,7 @@ public class LoginMonitorAspect {
     public Object aroundLoginMonitor(ProceedingJoinPoint joinPoint) throws Throwable {
         log.info("开始记录对应信息{}",joinPoint.getArgs());
         // 1.获取方法名
-        String methodName = joinPoint.getSignature().getName();
+//        String methodName = joinPoint.getSignature().getName();
 
         // 2.获取方法参数
         Object[] args =  joinPoint.getArgs();
@@ -60,10 +60,6 @@ public class LoginMonitorAspect {
                 MqKeyConstant.USER_MONITOR_KEY,
                 UserMsg.of(accountDTO.getAccount(),ip, 1L,LocalDateTime.now())
         );
-        // 4.记录日志
-        System.out.println("Method: " + methodName);
-        System.out.println("ip: " + ip);
-
         // 5.继续执行原方法
         return joinPoint.proceed();
     }

@@ -5,5 +5,6 @@ package com.haust.constant;
  */
 public class MqExchangeConstant {
     public final static String USER_MONITOR_EXCHANGE = "user.topic";
+    public final static String BEHAVIOR_MONITOR_EXCHANGE = "behavior.topic";
 
 }

@@ -3,6 +3,7 @@ package com.haust.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.haust.annotation.BehaviorMonitor;
 import com.haust.annotation.LoginMonitor;
 import com.haust.constant.RedisConstant;
 import com.haust.context.BaseContext;
@@ -61,6 +62,7 @@ public class UserServiceImpl implements UserService {
         roleVo.setToken(jwt);
         return roleVo;
     }
+
 
     @Override
     public void register(AccountDTO accountDTO) {

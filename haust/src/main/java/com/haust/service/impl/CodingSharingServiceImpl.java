@@ -3,6 +3,7 @@ package com.haust.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.haust.annotation.BehaviorMonitor;
 import com.haust.annotation.SensitiveMonitor;
 import com.haust.context.BaseContext;
 import com.haust.domain.dto.CodingSharingDTO;
@@ -28,6 +29,7 @@ public class CodingSharingServiceImpl implements CodingSharingService {
      * 用户提交内推信息
      * @param codingSharingDTO
      */
+
     @SensitiveMonitor(ContentType.sharing)
     @Override
     public void addInfo(CodingSharingDTO codingSharingDTO) {
@@ -37,8 +39,9 @@ public class CodingSharingServiceImpl implements CodingSharingService {
         codingSharing.setUserId(BaseContext.getId());
         codingSharingMapper.insert(codingSharing);
     }
+    @BehaviorMonitor
     @Override
-    public com.haust.domain.po.CodingSharing getDetail(Long id) {
+    public CodingSharing getDetail(Long id) {
         // 1. 判断是否为空
         if(BeanUtil.isEmpty(id)){
             throw new BusinessException("Id IS NULL ","TRY AGAGIN");
