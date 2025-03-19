@@ -3,6 +3,7 @@ package com.haust.mapper;
 import com.github.pagehelper.Page;
 import com.haust.domain.po.Post;
 import com.haust.domain.po.PostReply;
+import com.haust.domain.vo.PostVO;
 import org.apache.ibatis.annotations.*;
 
 @Mapper
@@ -57,4 +58,12 @@ public interface PostMapper {
      */
     @Select("select liked_times from post where id = #{id}")
     Integer getLikeTimesById(@Param("id") Integer id);
+
+    /**
+     * 获取帖子详情
+     * @param id
+     * @return
+     */
+    @Select("select * from post where id = #{id}")
+    Post getById(Long id);
 }

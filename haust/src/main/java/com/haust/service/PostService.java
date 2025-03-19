@@ -4,6 +4,7 @@ import com.haust.domain.dto.CreatePostDTO;
 import com.haust.domain.dto.PageDTO;
 import com.haust.domain.po.Post;
 import com.haust.domain.vo.PageVO;
+import com.haust.domain.vo.PostVO;
 
 public interface PostService {
     /**
@@ -40,4 +41,11 @@ public interface PostService {
      * @return
      */
     Integer like(Integer id, Integer flag);
+
+    /**
+     * 获取帖子详情
+     * @param id
+     * @return
+     */
+    PostVO getById(Long id);
 }

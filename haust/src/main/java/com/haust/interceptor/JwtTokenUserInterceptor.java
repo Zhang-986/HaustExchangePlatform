@@ -31,6 +31,7 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor {
         String token = request.getHeader("token");
         // 2. 校验令牌
         boolean temp = JwtUtil.validateToken(token);
+
         if(!temp){
             // 当前令牌不合法
             writeResponse(response, 401, UserConstant.JWT_FORMAT_FAIL);

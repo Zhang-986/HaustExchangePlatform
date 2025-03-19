@@ -6,6 +6,7 @@ import com.haust.domain.dto.PageDTO;
 import com.haust.domain.enumeration.ContentType;
 import com.haust.domain.po.Post;
 import com.haust.domain.vo.PageVO;
+import com.haust.domain.vo.PostVO;
 import com.haust.service.PostService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -80,6 +81,19 @@ public class PostController {
         log.info("点赞取消点赞帖子");
         Integer likedTimes= postService.like(id,flag);
         return likedTimes;
+    }
+
+    /**
+     * 获取帖子详情
+     * @param id
+     * @return
+     */
+    @ApiOperation("获取帖子详情")
+    @GetMapping("/{id}")
+    public PostVO getDetails(@PathVariable Long id){
+        log.info("获取帖子详情:{}",id);
+        PostVO postVO=postService.getById(id);
+        return postVO;
     }
 
 }

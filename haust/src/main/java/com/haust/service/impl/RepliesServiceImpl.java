@@ -62,12 +62,10 @@ public class RepliesServiceImpl implements RepliesService {
         Long targetReplyId = createReplyDTO.getTargetReplyId();
         if (targetReplyId == null) {
             // 3 是给帖子评论的
-            // TODO 事务失效
            post(createReplyDTO);
             return;
         }
         // 3 是给评论评论的
-        // TODO 事务失效
         reply(createReplyDTO);
     }
 

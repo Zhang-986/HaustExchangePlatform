@@ -10,6 +10,7 @@ import com.haust.domain.dto.PageDTO;
 import com.haust.domain.enumeration.ContentType;
 import com.haust.domain.po.Post;
 import com.haust.domain.vo.PageVO;
+import com.haust.domain.vo.PostVO;
 import com.haust.mapper.PostMapper;
 import com.haust.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -106,5 +107,22 @@ public class PostServiceImpl implements PostService {
         if (flag!=1) flag=-1;
         postMapper.updateLikesById(id,flag);
         return postMapper.getLikeTimesById(id);
+    }
+
+    /**
+     * 获取帖子详情
+     * @param id
+     * @return
+     */
+    @Override
+    public PostVO getById(Long id) {
+        //查询到帖子并根据匿名删除userId
+        Post post = postMapper.getById(id);
+        if (post.getAnonymity()) post.setUserId(null);
+
+        PostVO postVO = new PostVO();
+        BeanUtils.copyProperties(post,postVO);
+
+        return postVO;
     }
 }
