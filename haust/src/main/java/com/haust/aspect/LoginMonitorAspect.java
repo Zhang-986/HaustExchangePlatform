@@ -66,17 +66,14 @@ public class LoginMonitorAspect {
     public String getClientIp(HttpServletRequest request) {
         // 从 X-Forwarded-For 头中获取 IP 地址链
         String ipAddress = request.getHeader("X-Forwarded-For");
-
         // 如果 X-Forwarded-For 为空，则从 X-Real-IP 头中获取
         if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getHeader("X-Real-IP");
         }
-
         // 如果仍然为空，则从 request.getRemoteAddr() 获取
         if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getRemoteAddr();
         }
-
         // 如果 X-Forwarded-For 包含多个 IP 地址（如经过多个代理），取第一个 IP
         if (ipAddress != null && ipAddress.contains(",")) {
             ipAddress = ipAddress.split(",")[0].trim();

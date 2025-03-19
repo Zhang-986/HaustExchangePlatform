@@ -16,7 +16,7 @@ spring:
     active: dev
   datasource:
     driver-class-name: ${haust.datasource.driver-class-name}
-    url: jdbc:mysql://${haust.datasource.host}:${haust.datasource.port}/${haust.datasource.database}
+    url: jdbc:mysql://${haust.datasource.host}:${haust.datasource.port}/${haust.datasource.database}?allowMultiQueries=true
     username: ${haust.datasource.username}
     password: ${haust.datasource.password}
   redis:
