@@ -7,7 +7,7 @@
         insert into coding_sharing (user_id, company_name, detail, remark,
                                     recommander_email, recommand_index, code_id)
         values (
-                   #{userId},#{companyName},#{detail},#{remark},#{recommanderEmail},#{recommanIndex},#{codeId}
+                   #{userId},#{companyName},#{detail},#{remark},#{recommanderEmail},#{recommandIndex},#{codeId}
                )
     </insert>
     <update id="update">

@@ -2,6 +2,7 @@ package com.haust.domain.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -22,6 +23,10 @@ public class PostVO implements Serializable {
 
     @ApiModelProperty(value = "用户ID", example = "1")
     private Long userId;
+    @ApiModelProperty(value = "最新的一个回答的id",example = "1")
+    private Integer latestAnswerId;
+    @ApiModelProperty(value = "问题下的回答数量", example = "124")
+    private Integer answerTimes;
 
     @ApiModelProperty(value = "是否匿名", example = "true")
     private Boolean anonymity;
