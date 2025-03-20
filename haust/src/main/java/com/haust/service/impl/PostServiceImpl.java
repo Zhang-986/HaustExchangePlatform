@@ -62,23 +62,22 @@ public class PostServiceImpl implements PostService {
     public PageVO<Post> page(PageDTO pageDTO) {
         PageHelper.startPage(pageDTO.getPage(),pageDTO.getPageSize());
         //根据排序方式查询
-        Page<Post> page= postMapper.getAll(pageDTO.getOrderBy());
-/*        System.out.println(page);
-        return  null;*/
-        //匿名帖子不返回userId
-        List<Post> date=page.getResult();
-        List collect = date.stream().map((x) -> {
+        Page<Post> page= postMapper.getAll(pageDTO.getOrderBy(),null);
+
+        //匿名帖子也返回userId
+        List date=page.getResult();
+/*        List collect = date.stream().map((x) -> {
             if (x.getAnonymity()) {
                 x.setUserId(null);
             }
             return x;
-        }).collect(Collectors.toList());
+        }).collect(Collectors.toList());*/
 
         PageVO result = PageVO.builder()
                 .page(pageDTO.getPage())
                 .pageSize(page.getPageSize())
                 .total((int) page.getTotal())
-                .data(collect)
+                .data(date)
                 .build();
         return result;
     }
@@ -124,5 +123,31 @@ public class PostServiceImpl implements PostService {
         BeanUtils.copyProperties(post,postVO);
 
         return postVO;
+    }
+
+    /**
+     * 我的帖子
+     * @param pageDTO
+     * @return
+     */
+    @Override
+    public PageVO<Post> myPost(PageDTO pageDTO) {
+        PageHelper.startPage(pageDTO.getPage(),pageDTO.getPageSize());
+        //得到userId
+        Long userId = BaseContext.getId();
+        //根据排序方式查询
+        Page<Post> page= postMapper.getAll(pageDTO.getOrderBy(),userId);
+
+        //匿名帖子也返回userId
+        List date=page.getResult();
+
+
+        PageVO result = PageVO.builder()
+                .page(pageDTO.getPage())
+                .pageSize(page.getPageSize())
+                .total((int) page.getTotal())
+                .data(date)
+                .build();
+        return result;
     }
 }

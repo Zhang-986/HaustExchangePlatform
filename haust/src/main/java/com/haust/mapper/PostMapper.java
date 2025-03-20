@@ -32,7 +32,7 @@ public interface PostMapper {
      * @return
      */
 
-    Page<Post> getAll(Integer orderBy);
+    Page<Post> getAll(@Param("orderBy") Integer orderBy,@Param("userId") Long userId);
 
     /**
      * 删除帖子
