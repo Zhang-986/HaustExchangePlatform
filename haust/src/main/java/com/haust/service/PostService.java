@@ -48,4 +48,11 @@ public interface PostService {
      * @return
      */
     PostVO getById(Long id);
+
+    /**
+     * 我的帖子
+     * @param pageDTO
+     * @return
+     */
+    PageVO<Post> myPost(PageDTO pageDTO);
 }

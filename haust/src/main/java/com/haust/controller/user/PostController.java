@@ -96,4 +96,17 @@ public class PostController {
         return postVO;
     }
 
+    /**
+     * 我的帖子
+     * @param pageDTO
+     * @return
+     */
+    @GetMapping("/myPost")
+    @ApiOperation("我的帖子")
+    public PageVO<Post> myPost(PageDTO pageDTO){
+        log.info("我的帖子{}",pageDTO);
+        PageVO<Post> pageVO =postService.myPost(pageDTO);
+        return pageVO;
+    }
+
 }

@@ -26,14 +26,20 @@
     <select id="getAll" resultType="com.haust.domain.po.Post">
 
         select * from post
+        <where>
+            <if test="userId != null">
+                user_id=#{userId}
+            </if>
+        </where>
+
         order by
-        <if test="oderBy == 0">
+        <if test="orderBy == 0">
             liked_times desc
         </if>
-        <if test="oderBy == 1">
+        <if test="orderBy == 1">
             click_count desc
         </if>
-        <if test="oderBy == 2">
+        <if test="orderBy == 2">
             create_time desc
         </if>
 
