@@ -35,8 +35,7 @@ public class BloomFilterUtil {
         // 初始化布隆过滤器：预计元素数量为 10000，误判率为 1%
         bloomFilter.tryInit(10000L, 0.01);
         // 加载敏感词并添加到布隆过滤器中
-        //TODO 上线之前加上
-//        loadSensitiveWords(bloomFilter);
+        // loadSensitiveWords(bloomFilter);
     }
     /**
      * 从文件加载敏感词并添加到布隆过滤器中

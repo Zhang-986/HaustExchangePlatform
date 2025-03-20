@@ -72,9 +72,6 @@ public class SensitiveMonitorAspect {
     private void solve(String content) {
         // 1. 使用 IKAnalyzerUtil 对 content 进行分词
         List<String> words = IKAnalyzerUtil.tokenize(content);
-        for (String word : words) {
-            System.out.println("word = " + word);
-        }
         // 2. 遍历分词结果，使用 BloomFilterUtil 检测敏感词
         for (String word : words) {
             if (bloomFilterUtil.existsItem(word)) {

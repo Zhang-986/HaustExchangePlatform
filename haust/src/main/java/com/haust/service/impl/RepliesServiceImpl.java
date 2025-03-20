@@ -145,7 +145,6 @@ public class RepliesServiceImpl implements RepliesService {
         String key = next.getValue();
         String[] split = key.split(":");
         Long replyId = Long.valueOf(split[2]);
-        System.out.println(replyId);
         // 4.检索数据库拿到最新值
         PostReply postReply = postReplyMapper.selectById(replyId);
         if (BeanUtil.isEmpty(postReply)) {
