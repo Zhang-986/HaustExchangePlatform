@@ -34,4 +34,12 @@
         order by
         create_time DESC
     </select>
+    <select id="pageByComment" resultType="com.haust.domain.vo.ReplyVO">
+        select
+        id,post_id,user_id,content,target_user_id,target_reply_id,anonymity,reply_times,liked_times,create_time
+        from post_reply
+        where target_reply_id = #{id}
+        order by
+        create_time DESC
+    </select>
 </mapper>

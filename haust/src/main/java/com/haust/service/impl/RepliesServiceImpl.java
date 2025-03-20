@@ -87,10 +87,17 @@ public class RepliesServiceImpl implements RepliesService {
         if (!replyDTO.getFlag().equals("post") && !replyDTO.equals("comment")) {
             throw new BusinessException("WRONG VOCABULARY", "TRY AGAIN");
         }
-        List<ReplyVO> list = postReplyMapper.page(replyDTO.getId());
+        List<ReplyVO> post = null;
+        List<ReplyVO> comment = null;
+        if(replyDTO.getFlag().equals("post")){
+              post = postReplyMapper.page(replyDTO.getId());
+        }
+        if(replyDTO.getFlag().equals("comment")){
+            post = postReplyMapper.pageByComment(replyDTO.getId());
+        }
         // 业务层进行处理两种不同的数据
         // 4. 处理查询帖子评论
-        return replyDTO.getFlag().equals("post") ? postInfo(list) : commentInfo(list);
+        return replyDTO.getFlag().equals("post") ? postInfo(post) : commentInfo(comment);
     }
 
     @Override

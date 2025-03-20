@@ -22,4 +22,6 @@ public interface PostReplyMapper {
     void deleteById(Long id);
 
     void addLike(ArrayList<LikeMsg> list);
+
+    List<ReplyVO> pageByComment(Long id);
 }
