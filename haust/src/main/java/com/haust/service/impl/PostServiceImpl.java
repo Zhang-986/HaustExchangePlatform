@@ -35,6 +35,7 @@ public class PostServiceImpl implements PostService {
         Post post = new Post();
         BeanUtils.copyProperties(createPostDTO,post);
         post.setUserId(BaseContext.getId());
+        StringBuilder stringBuilder = new StringBuilder();
         postMapper.insert(post);
     }
 

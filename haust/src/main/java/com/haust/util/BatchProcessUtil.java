@@ -1,18 +1,14 @@
 package com.haust.util;
-
 import cn.hutool.core.bean.BeanUtil;
-import com.haust.domain.po.PostReply;
 import com.haust.mapper.PostReplyMapper;
 import com.haust.mq.msg.LikeMsg;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.ArrayList;
 import java.util.concurrent.*;
-
 /**
  * 对于热数据进行合并写数据库
  */
@@ -32,7 +28,7 @@ public class BatchProcessUtil {
     @PostConstruct
     private void start(){
         //开启调度器
-        scheduledExecutorService.scheduleWithFixedDelay(this::consume,0,10, TimeUnit.SECONDS);
+        scheduledExecutorService.scheduleWithFixedDelay(this::consume,10    ,60, TimeUnit.SECONDS);
     }
     // 生产者，暴露给外界服务用的
     public void process(LikeMsg msg){

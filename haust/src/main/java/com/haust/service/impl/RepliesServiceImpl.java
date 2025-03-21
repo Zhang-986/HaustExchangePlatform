@@ -30,6 +30,7 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -84,7 +85,7 @@ public class RepliesServiceImpl implements RepliesService {
         // 2.进行分页参数处理
         PageHelper.startPage(replyDTO.getPage(), replyDTO.getPageSize());
         // 3. 查询数据
-        if (!replyDTO.getFlag().equals("post") && !replyDTO.equals("comment")) {
+        if (!replyDTO.getFlag().equals("post") && !replyDTO.getFlag().equals("comment")) {
             throw new BusinessException("WRONG VOCABULARY", "TRY AGAIN");
         }
         List<ReplyVO> post = null;
@@ -93,7 +94,7 @@ public class RepliesServiceImpl implements RepliesService {
               post = postReplyMapper.page(replyDTO.getId());
         }
         if(replyDTO.getFlag().equals("comment")){
-            post = postReplyMapper.pageByComment(replyDTO.getId());
+            comment = postReplyMapper.pageByComment(replyDTO.getId());
         }
         // 业务层进行处理两种不同的数据
         // 4. 处理查询帖子评论
@@ -200,7 +201,7 @@ public class RepliesServiceImpl implements RepliesService {
 
         // 6. mq异步处理
         String[] split = key.split(":");
-        Long id = Long.valueOf(split[2]) ;
+        Long id = Long. valueOf(split[2]) ;
         rabbitTemplate.convertAndSend(
                 MqExchangeConstant.BEHAVIOR_MONITOR_EXCHANGE,
                 MqKeyConstant.BEHAVIOR_MONITOR_KEY,
@@ -214,7 +215,7 @@ public class RepliesServiceImpl implements RepliesService {
     处理评论的评论
      */
     private PageVO<ReplyVO> commentInfo(List<ReplyVO> list) {
-        //   如果answer_id == null and target_reply_id == null 说明查的是这个贴子的ID
+        //   如果answer_id == null and target_reply_id != null 说明查的是这个贴子的ID
         List<ReplyVO> list1 = list.stream().filter(replyVO -> replyVO.getTargetReplyId() != null).collect(Collectors.toList());
         PageInfo<ReplyVO> replyVOPageInfo = new PageInfo<>(list1);
         return getAll(replyVOPageInfo);

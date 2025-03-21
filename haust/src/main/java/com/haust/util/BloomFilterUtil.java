@@ -17,10 +17,7 @@ import java.io.IOException;
  */
 @Service
 public class BloomFilterUtil {
-
     private final RedissonClient redissonClient;
-
-
     private String sensitiveWordsFilePath ="haust/src/main/resources/SensitiveWords.txt";
     private final String filterName = "sensitive_words_filter";
 
