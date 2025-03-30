@@ -1,20 +1,15 @@
 package com.haust.controller.user;
 
-import com.haust.annotation.SensitiveMonitor;
 import com.haust.domain.dto.CreatePostDTO;
 import com.haust.domain.dto.PageDTO;
-import com.haust.domain.enumeration.ContentType;
 import com.haust.domain.po.Post;
 import com.haust.domain.vo.PageVO;
 import com.haust.domain.vo.PostVO;
 import com.haust.service.PostService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Delete;
-import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -36,7 +31,6 @@ public class PostController {
     /**
      * 修改帖子
      * @param id
-     * @param createPostDTO
      */
 
     @PutMapping("/{id}")

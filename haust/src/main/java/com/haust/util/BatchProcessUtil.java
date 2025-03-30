@@ -28,7 +28,7 @@ public class BatchProcessUtil {
     @PostConstruct
     private void start(){
         //开启调度器
-        scheduledExecutorService.scheduleWithFixedDelay(this::consume,10    ,60, TimeUnit.SECONDS);
+        scheduledExecutorService.scheduleWithFixedDelay(this::consume,0    ,5, TimeUnit.SECONDS);
     }
     // 生产者，暴露给外界服务用的
     public void process(LikeMsg msg){

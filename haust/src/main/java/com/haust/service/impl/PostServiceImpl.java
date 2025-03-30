@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +38,7 @@ public class PostServiceImpl implements PostService {
         post.setUserId(BaseContext.getId());
         StringBuilder stringBuilder = new StringBuilder();
         postMapper.insert(post);
+
     }
 
     /**
