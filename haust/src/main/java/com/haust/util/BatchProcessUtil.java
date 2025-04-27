@@ -36,7 +36,6 @@ public class BatchProcessUtil {
     }
     // 消费者，进行消费共享队列中的数据
     private void consume(){
-        log.info("开始消费队列，当前队列大小: {}", blockingQueue.size());
         executor.submit(new Runnable() {
             @Override
             public void run() {

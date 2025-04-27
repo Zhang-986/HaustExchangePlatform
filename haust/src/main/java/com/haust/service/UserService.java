@@ -18,4 +18,5 @@ public interface UserService {
 
     PageVO<UserMsg> getMonitorLog(PageDTO pageDTO);
 
+    String info(String text);
 }

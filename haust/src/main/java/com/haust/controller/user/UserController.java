@@ -49,7 +49,11 @@ public class UserController {
         log.info("用户端登入-> {}",accountDTO);
         return userService.loginByUser(accountDTO);
     }
-
+    @ApiOperation("用户提问")
+    @GetMapping("/info")
+    public String info(@Validated String text){
+        return userService.info(text);
+    }
     /**
      * 修改内推信息
      * @param codingSharingDTO

@@ -38,3 +38,6 @@ pagehelper:
   support-methods-arguments: true
   return-page-info: check
   params: count=countSql
+dify:
+  api:
+    api-key: app-vSl0OsbHnfQh9P217r7AMDtK
