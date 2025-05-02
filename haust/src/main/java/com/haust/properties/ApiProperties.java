@@ -3,7 +3,7 @@ package com.haust.properties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component; // 建议添加 @Component
 
-@Component // 让Spring扫描并创建这个Bean
+ // 让Spring扫描并创建这个Bean
 @ConfigurationProperties(prefix = "dify.api") // 定义属性前缀
 public class ApiProperties {
 

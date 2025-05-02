@@ -1,19 +1,19 @@
 haust:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    host: 117.72.112.62
+    host: your_mysql_host
     port: 3306
-    database: dev_job_exchange
-    username: root
-    password: 200522
+    database: your_database_name
+    username: your_username
+    password: your_password
   redis:
     port: 6379
-    host: 117.72.112.62
-    password: 200522
+    host: your_redis_host
+    password: your_redis_password
     timeout: 200ms
   rabbitmq:
     port: 5672
-    host: 117.72.112.62
-    username: admin
-    password: 200522
+    host: your_rabbitmq_host
+    username: guest
+    password: guest
     virtual-host: /

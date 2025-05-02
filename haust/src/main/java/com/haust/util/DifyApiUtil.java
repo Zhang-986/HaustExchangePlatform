@@ -32,17 +32,27 @@ public class DifyApiUtil {
 
     @Autowired
     public DifyApiUtil(ApiProperties apiProperties, ObjectMapper objectMapper) {
+        // 讲解一下配置
+        // 1. 设置连接超时时间
         HttpClient httpClient = HttpClient.create()
+                // 设置连接池大小
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000000)
+                // 设置响应超时时间
                 .responseTimeout(Duration.ofSeconds(1000))
-                .doOnConnected(conn -> conn
+                // 设置读取超时时间
+                .doOnConnected(
+                        conn -> conn
+                                // 设置读取超时时间
                         .addHandlerLast(new ReadTimeoutHandler(1000, TimeUnit.SECONDS))
+                                // 设置写入超时时间
                         .addHandlerLast(new WriteTimeoutHandler(1000    , TimeUnit.SECONDS)));
 
         this.apiProperties = apiProperties;
         this.objectMapper = objectMapper;
         this.webClient = WebClient.builder()
+                // 设置连接池大小
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
+                // 设置请求头
                 .baseUrl(apiProperties.getUrl())
                 .defaultHeader("Authorization", "Bearer " + apiProperties.getApiKey())
                 .build();
