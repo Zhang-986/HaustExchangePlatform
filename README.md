@@ -13,7 +13,6 @@
 
 HAUST内部推荐码共享平台是一个创新的人才推荐系统，旨在优化企业内部推荐流程，提高人才匹配效率。通过平台，企业员工可以分享和管理内推码，大幅降低招聘成本，提升人才质量。平台整合了大模型AI交互能力，实现智能化人才评估和匹配。
 
-![系统概览](https://via.placeholder.com/800x400?text=HAUST+Platform+Overview)
 
 ## 📋 核心功能
 
@@ -77,7 +76,7 @@ public void addInfo(CodingSharingDTO codingSharingDTO) {
 
 ## 🏗️ 系统架构
 
-![系统架构图](https://via.placeholder.com/800x500?text=Architecture+Diagram)
+
 
 **三层架构设计**
 - **表现层**: Spring MVC, Knife4j API文档
@@ -125,7 +124,6 @@ http://localhost:8080/doc.html
 4. 审核通过后，信息对外展示
 
 ### 用户互动流程
-![互动流程](https://via.placeholder.com/700x300?text=Interaction+Flow)
 
 ## 🔥 项目亮点
 
