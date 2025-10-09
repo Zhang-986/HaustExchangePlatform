@@ -1,143 +1,218 @@
-# HAUST 内部推荐码共享平台 (一个Java后端学习项目) 🚀
+# HAUST Exchange Platform 🚀
 
-嘿！这是我做的一个河南科技大学内部用的推荐码分享平台。主要是想用学到的Java后端技术搞点有用的东西，方便咱们科大学生找内推、分享面经。
+[![Java](https://img.shields.io/badge/Java-8-orange.svg)](https://www.oracle.com/java/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2.7.6-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![RabbitMQ](https://img.shields.io/badge/RabbitMQ-Enabled-orange.svg)](https://www.rabbitmq.com/)
+[![Redis](https://img.shields.io/badge/Redis-6.0+-red.svg)](https://redis.io/)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0+-blue.svg)](https://www.mysql.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## 这平台能干啥？ 🤔
+> Hi there! 👋 I'm a Java backend developer currently working as a monitoring/listener intern in Hangzhou. This is my hands-on learning project where I explore fascinating monitoring technologies and build something practical for the HAUST (Henan University of Science and Technology) community.
 
-*   **内推信息:**
-    *   发布和查找各个公司的内推码和招聘信息。
-    *   自己发布的内推都能在个人中心看到。
-    *   (管理员功能): 审核大家发的内推，保证信息靠谱。
-*   **交流讨论:**
-    *   有个小论坛，可以发帖聊找工作、问问题、分享经验。
-    *   可以评论、点赞，互相帮助嘛。
-    *   想匿名发言也行。
-*   **AI 智能助手 (实验性功能 ✨):**
-    *   接了个 Dify 大模型 API，可以试试问它一些招聘相关的问题，看看它怎么回答。
-    *   用了 WebFlux 处理，回复是流式输出的，感觉挺酷！
+**About Me:** I'm deeply passionate about modern monitoring and listening technologies in Java ecosystems. This project represents my journey into event-driven architectures, asynchronous processing, and real-time monitoring systems - technologies that truly excite me! 🔥
 
-## 主要用了哪些技术？ 🛠️
+## What Does This Platform Do? 🤔
 
-这个项目主要是我学习和实践 Java 后端技术栈的一个尝试：
+This is an internal referral code sharing platform for HAUST students, designed to help with job hunting and experience sharing:
 
-*   **后端:**
-    *   **Spring Boot (2.7.6):** 核心框架，开发 Web 应用确实方便！
-    *   **MyBatis:** 操作数据库，写 SQL 还是挺直接的。
-    *   **MySQL:** 存数据的地方。
-    *   **Redis:** 用来做缓存，提高点赞、用户信息这些常用数据的访问速度。
-    *   **RabbitMQ:** 尝试用消息队列处理一些异步任务（比如敏感词检测通知）。
-    *   **Spring Security / JWT:** 处理用户登录和权限控制。
-    *   **Knife4j:** 生成 API 文档，方便前后端对接。
-*   **前端 (另一个仓库 `haust_front`):**
-    *   Vue 3 + TypeScript + Vite + Element Plus (这个 README 主要讲后端哈)
-*   **其他:**
+*   **Referral Information Hub:**
+    *   Post and discover internal referral codes and job opportunities from various companies.
+    *   Track your published referrals in the personal center.
+    *   (Admin feature): Review and moderate submitted referrals to ensure quality.
+*   **Community Discussion Forum:**
+    *   A forum for posting about job hunting, asking questions, and sharing experiences.
+    *   Support for comments, likes, and community engagement.
+    *   Anonymous posting available.
+*   **AI Intelligent Assistant (Experimental ✨):**
+    *   Integrated with Dify large language model API for recruitment-related Q&A.
+    *   Implemented using WebFlux for streaming responses - pretty cool!
+
+## Technology Stack 🛠️
+
+As a monitoring/listener enthusiast, I've focused on implementing robust event-driven and monitoring patterns:
+
+*   **Backend Core:**
+    *   **Spring Boot (2.7.6):** The foundation for building this web application.
+    *   **MyBatis:** For database operations with straightforward SQL control.
+    *   **MySQL:** Primary data storage.
+    *   **Redis:** Caching layer for likes, user info, and frequently accessed data.
+    *   **RabbitMQ:** 🎯 **Message queue for asynchronous task processing** - This is where the magic happens! Used for sensitive content monitoring notifications and user behavior tracking.
+    *   **Spring Security / JWT:** Authentication and authorization.
+    *   **Knife4j:** API documentation generator.
+*   **Frontend (separate repository `haust_front`):**
+    *   Vue 3 + TypeScript + Vite + Element Plus (This README focuses on backend)
+*   **Development Environment:**
     *   JDK 8
     *   Maven
 
-## 一些我觉得有意思的技术点💡
+## Technical Highlights (What I Find Fascinating!) 💡
 
-*   **AI 聊天机器人:**
-    *   第一次尝试对接大模型 API (Dify)，用 `WebFlux` 实现流式响应，感觉打开了新世界大门！
-    ```java
-    // 用 Project Reactor 处理流式数据，让 AI 回复一点点显示出来
-    difyApiUtil.streamChat(text, userId, null)
-        .doOnNext(chunk -> log.info("收到一块回复: [{}]", chunk))
-        // ... 省略部分代码 ...
-        .block(); // 在某些场景下获取完整结果
-    ```
-*   **点赞批量处理:**
-    *   为了防止大家疯狂点赞把数据库搞挂了（虽然现在用户不多哈哈），写了个简单的批处理队列，攒一波再更新数据库。
-    ```java
-    // 用了 BlockingQueue 和 ScheduledExecutorService 定时处理
-    @Component
-    public class BatchProcessUtil {
-        // 定时任务，比如每 5 秒处理一次队列里的点赞消息
-        @PostConstruct
-        private void start(){
-            scheduledExecutorService.scheduleWithFixedDelay(this::consume, 0, 5, TimeUnit.SECONDS);
-        }
-        // 把点赞消息放进队列
-        public void process(LikeMsg msg){
-            blockingQueue.offer(msg);
-        }
+### 🎯 RabbitMQ Message Listeners
+As someone passionate about monitoring technologies, implementing message listeners has been incredibly rewarding! The system uses RabbitMQ to handle asynchronous events:
+
+```java
+// User behavior monitoring listener
+@RabbitListener(
+    bindings = @QueueBinding(
+        value = @Queue(value = MqQueueConstant.USER_MONITOR_QUEUE, durable = "true"),
+        exchange = @Exchange(value = MqExchangeConstant.USER_MONITOR_EXCHANGE, type = ExchangeTypes.TOPIC),
+        key = MqKeyConstant.USER_MONITOR_KEY
+    )
+)
+public void userInfoListener(UserMsg userMsg) {
+    if(BeanUtil.isEmpty(userMsg)) return;
+    userService.addMonitor(userMsg);
+}
+```
+
+**Why this excites me:** RabbitMQ listeners enable decoupled, scalable architectures. The ability to monitor user activities asynchronously without blocking the main application flow is fascinating!
+
+### 🔍 AOP-Based Sensitive Content Monitoring
+Using Aspect-Oriented Programming for content monitoring keeps the code clean and maintainable:
+
+```java
+// Annotation-driven sensitive content monitoring
+@SensitiveMonitor(ContentType.sharing)
+@Override
+public void addInfo(CodingSharingDTO codingSharingDTO) {
+    // ... business logic executes safely after monitoring check ...
+}
+```
+
+**The monitoring aspect intercepts method calls:**
+```java
+@Around("sensitiveMonitorPointcut()")
+public Object aroundSensitiveMonitor(ProceedingJoinPoint joinPoint) throws Throwable {
+    log.info("Sensitive content monitoring engaged");
+    // Extract content based on type
+    // Use IK Analyzer for word segmentation
+    // Check against Bloom Filter for sensitive words
+    // Throw exception if sensitive content detected
+    return joinPoint.proceed();
+}
+```
+
+**Why this is interesting:** AOP provides a non-invasive way to add monitoring and validation logic. It's a powerful pattern for cross-cutting concerns!
+
+### 🤖 AI Chatbot with Reactive Streams
+First time integrating a large language model API (Dify) with WebFlux for streaming responses:
+
+```java
+// Using Project Reactor to handle streaming data
+difyApiUtil.streamChat(text, userId, null)
+    .doOnNext(chunk -> log.info("Received chunk: [{}]", chunk))
+    // ... additional stream processing ...
+    .block(); // Get complete result when needed
+```
+
+**Why I love this:** Reactive programming with streaming responses opens up a whole new world of possibilities. Watching AI responses flow in real-time is genuinely cool!
+
+### ⚡ Batch Processing for Likes
+To prevent database overload from rapid-fire likes (future-proofing for scale!), I implemented a simple batch processing queue:
+
+```java
+@Component
+public class BatchProcessUtil {
+    // Scheduled task processes queue every 5 seconds
+    @PostConstruct
+    private void start() {
+        scheduledExecutorService.scheduleWithFixedDelay(
+            this::consume, 0, 5, TimeUnit.SECONDS
+        );
     }
-    ```
-*   **用 AOP 做敏感词过滤:**
-    *   学了 AOP，就想着用它来给发布内推、发帖这些操作加个敏感词检查，代码看起来整洁多了。
-    ```java
-    // 一个注解搞定敏感内容监控
-    @SensitiveMonitor(ContentType.sharing)
-    @Override
-    public void addInfo(CodingSharingDTO codingSharingDTO) {
-        // ... 正常的业务逻辑 ...
+    
+    // Queue like messages for batch processing
+    public void process(LikeMsg msg) {
+        blockingQueue.offer(msg);
     }
-    ```
+}
+```
 
-## 项目结构 🏗️
+**Why this matters:** This pattern demonstrates how to handle high-frequency events efficiently - a crucial skill for monitoring systems!
 
-就是经典的三层架构：
+## Project Architecture 🏗️
 
-*   **Controller (表现层):** 处理前端请求，调用 Service。
-*   **Service (业务层):** 写主要的业务逻辑。
-*   **Mapper/DAO (持久层):** 用 MyBatis 跟数据库打交道。
-*   还加了些配置 (`config`)、工具类 (`utils`)、实体类 (`entity`) 等等。
+Classic three-tier architecture with monitoring enhancements:
 
-## 怎么跑起来？ 💻
+*   **Controller (Presentation Layer):** Handles HTTP requests and calls Service layer.
+*   **Service (Business Layer):** Core business logic implementation.
+*   **Mapper/DAO (Persistence Layer):** MyBatis interfaces for database operations.
+*   **Cross-Cutting Concerns:**
+    *   `aspect/` - AOP aspects for monitoring and validation
+    *   `mq/` - Message queue listeners for asynchronous processing
+    *   `config/` - Configuration classes
+    *   `utils/` - Utility classes
+    *   `entity/` - Domain entities
 
-**环境准备:**
+## Getting Started 💻
 
-*   JDK 8 或更高版本
+**Prerequisites:**
+
+*   JDK 8 or higher
 *   Maven
 *   MySQL 8.0+
 *   Redis 6.0+
-*   RabbitMQ (如果需要体验消息队列相关功能)
+*   RabbitMQ (for message queue functionality)
 
-**步骤:**
+**Setup Instructions:**
 
-1.  **克隆代码:**
+1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/HAUST_Internal_referral_code_sharing_platform.git
-    cd HAUST_Internal_referral_code_sharing_platform/haust
+    git clone https://github.com/Zhang-986/HaustExchangePlatform.git
+    cd HaustExchangePlatform/haust
     ```
-2.  **配置:**
-    *   修改 `src/main/resources/application-dev.yaml` 文件，把里面的 MySQL、Redis、RabbitMQ 连接信息改成你自己的。
-3.  **运行:**
-    *   可以直接在 IDE (比如 IDEA) 里运行 `HaustApplication.java`。
-    *   或者用 Maven 打包运行:
+
+2.  **Configure:**
+    *   Edit `src/main/resources/application-dev.yaml`
+    *   Update MySQL, Redis, and RabbitMQ connection settings with your local configuration.
+
+3.  **Run:**
+    *   **Option A:** Run directly in your IDE (e.g., IntelliJ IDEA) by executing `HaustApplication.java`
+    *   **Option B:** Build and run with Maven:
         ```bash
         mvn package
         java -jar target/haust-0.0.1-SNAPSHOT.jar
         ```
-4.  **API 文档:**
-    *   启动后，在浏览器访问 `http://localhost:8080/doc.html` 可以看到所有后端接口。
 
-## 一起搞？🤝
+4.  **API Documentation:**
+    *   After starting, access the interactive API documentation at: `http://localhost:8080/doc.html`
 
-这个项目还有很多可以完善的地方，比如：
+## Future Enhancements 🚀
 
-*   前端页面优化 (交给前端大佬们！)
-*   更精细的权限控制
-*   更完善的测试
-*   ... (或者你有啥好点子？)
+There's always room for improvement and more interesting things to explore:
 
-如果你也对这个项目感兴趣，欢迎：
+*   **Enhanced Monitoring:**
+    *   Add more comprehensive metrics collection
+    *   Implement distributed tracing
+    *   Real-time performance dashboards
+*   **Frontend Optimization** (in the separate frontend repo)
+*   **Fine-grained Permission Control**
+*   **Comprehensive Test Coverage**
+*   **More Event-Driven Patterns** - Always interested in new monitoring and messaging patterns!
 
-1.  Fork 这个仓库
-2.  创建你的分支 (`git checkout -b feature/cool-new-feature`)
-3.  提交你的代码 (`git commit -m '加了个很酷的功能'`)
-4.  Push 到你的分支 (`git push origin feature/cool-new-feature`)
-5.  提个 Pull Request 给我
+## Contributing 🤝
 
-## 许可证 📄
+I'm always excited to learn from others and explore new ideas! If you're interested in this project:
 
-本项目使用 MIT 许可证。
+1.  Fork the repository
+2.  Create your feature branch (`git checkout -b feature/awesome-feature`)
+3.  Commit your changes (`git commit -m 'Add some awesome feature'`)
+4.  Push to the branch (`git push origin feature/awesome-feature`)
+5.  Open a Pull Request
 
-## 联系我 📫
+## License 📄
 
-有啥问题或者建议，可以 QQ 联系我：3225483474
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact 📫
+
+Feel free to reach out with questions or suggestions:
+*   QQ: 3225483474
 
 ---
 
 <div align="center">
-  <strong>希望能用代码给科大的同学们带来一点点方便！💪</strong>
+  <strong>Building practical solutions while exploring fascinating monitoring technologies! 💪</strong>
+  <br>
+  <em>Learning, experimenting, and growing as a Java backend developer in Hangzhou</em>
 </div>
