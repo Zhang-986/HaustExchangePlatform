@@ -1,20 +1,21 @@
 server:
   port: 8084
-
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   application:
     name: haust-im-service
   redis:
     port: ${haust.redis.port:6379}
     host: ${haust.redis.host:localhost}
-    password: ${haust.redis.password:}
     connect-timeout: ${haust.redis.timeout:200ms}
   rabbitmq:
     port: ${haust.rabbitmq.port:5672}
-    host: ${haust.rabbitmq.host:localhost}
-    password: ${haust.rabbitmq.password:guest}
+    host: ${haust.rabbitmq.host:117.72.112.62}
+    password: ${haust.rabbitmq.password:200522}
     virtual-host: ${haust.rabbitmq.virtual-host:/}
-    username: ${haust.rabbitmq.username:guest}
+    username: ${haust.rabbitmq.username:root}
 
 # Eureka Configuration
 eureka:
@@ -23,7 +24,6 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     prefer-ip-address: true
-
-# Knife4j
-knife4j:
-  enable: true
+springfox:
+  documentation:
+    enabled: false

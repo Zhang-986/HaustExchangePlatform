@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user")
 @Api(tags = "内推相关接口")
-@Slf4j
 @RequiredArgsConstructor
 public class ReferralController {
     private final CodingSharingService codingSharingService;
@@ -28,7 +27,6 @@ public class ReferralController {
     @ApiOperation("用户提交内推信息")
     @PostMapping("/addInfo")
     public void addInfo(@Validated @RequestBody CodingSharingDTO codingSharingDTO) {
-        log.info("用户提交内推信息：{}", codingSharingDTO);
         codingSharingService.addInfo(codingSharingDTO);
     }
 
@@ -39,7 +37,6 @@ public class ReferralController {
     @ApiOperation("修改内推信息")
     @PutMapping("/modify")
     public void modify(@Validated @RequestBody CodingSharingDTO codingSharingDTO) {
-        log.info("修改内推信息:{}", codingSharingDTO);
         codingSharingService.modify(codingSharingDTO);
     }
 

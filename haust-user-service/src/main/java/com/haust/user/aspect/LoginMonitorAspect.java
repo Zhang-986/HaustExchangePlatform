@@ -28,7 +28,7 @@ public class LoginMonitorAspect {
 
     private final RabbitTemplate rabbitTemplate;
     // 定义切点，拦截带有 @LoginMonitor 注解的方法
-    @Pointcut("@annotation(com.haust.annotation.LoginMonitor)")
+    @Pointcut("@annotation(com.haust.user.annotation.LoginMonitor)")
     public void loginMonitorPointcut() {}
 
     /**

@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-@Slf4j
 @Api(tags = "管理员-内推审核接口")
 @RestController
 @RequiredArgsConstructor
@@ -21,7 +20,6 @@ public class ReferralAdminController {
     @ApiOperation("分页查询信息")
     @GetMapping("/page")
     public PageVO<CodingSharingVo> pageVO(PageDTO pageDTO){
-        log.info("管理员-分页接收{}",pageDTO);
         return codingSharingService.pageByAdmin(pageDTO);
     }
 

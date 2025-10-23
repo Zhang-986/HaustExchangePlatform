@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.haust.mapper.PostReplyMapper">
-    <insert id="addPost" parameterType="com.haust.domain.po.PostReply" useGeneratedKeys="true" keyProperty="id">
+<mapper namespace="com.haust.forum.mapper.PostReplyMapper">
+    <insert id="addPost" parameterType="com.haust.common.domain.po.PostReply" useGeneratedKeys="true" keyProperty="id">
         insert into post_reply
         (post_id, answer_id, user_id, content, target_user_id, target_reply_id, anonymity)
         VALUES
@@ -14,7 +14,7 @@
             WHERE id = #{item.id}
         </foreach>
     </update>
-    <update id="updateReplyTimes" parameterType="com.haust.domain.po.PostReply">
+    <update id="updateReplyTimes" parameterType="com.haust.common.domain.po.PostReply">
         update post_reply set reply_times = #{replyTimes}  where id = #{id}
     </update>
     <delete id="deleteById">
@@ -22,11 +22,11 @@
     </delete>
 
 
-    <select id="selectById" resultType="com.haust.domain.po.PostReply" parameterType="java.lang.Long">
+    <select id="selectById" resultType="com.haust.common.domain.po.PostReply" parameterType="java.lang.Long">
         select * from post_reply where id = #{id};
     </select>
 
-    <select id="page" resultType="com.haust.domain.vo.ReplyVO" parameterType="java.lang.Long">
+    <select id="page" resultType="com.haust.common.domain.vo.ReplyVO" parameterType="java.lang.Long">
         select
         id,post_id,user_id,content,target_user_id,target_reply_id,anonymity,reply_times,liked_times,create_time
         from post_reply
@@ -34,7 +34,7 @@
         order by
         create_time DESC
     </select>
-    <select id="pageByComment" resultType="com.haust.domain.vo.ReplyVO">
+    <select id="pageByComment" resultType="com.haust.common.domain.vo.ReplyVO">
         select
         id,post_id,user_id,content,target_user_id,target_reply_id,anonymity,reply_times,liked_times,create_time
         from post_reply

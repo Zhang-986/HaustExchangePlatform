@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Slf4j
+
 @Aspect
 @Component
 @RequiredArgsConstructor
@@ -30,7 +30,7 @@ public class SensitiveMonitorAspect {
     /**
      * 做一个切面接口
      */
-    @Pointcut("@annotation(com.haust.annotation.SensitiveMonitor)")
+    @Pointcut("@annotation(com.haust.referral.annotation.SensitiveMonitor)")
     public void sensitiveMonitorPointcut(){}
 
     /**
@@ -42,7 +42,6 @@ public class SensitiveMonitorAspect {
      */
     @Around("sensitiveMonitorPointcut()")
     public Object aroundSensitiveMonitor(ProceedingJoinPoint joinPoint)throws Throwable{
-        log.info("敏感词切面处理");
         // 1.获得当前增强方法注解
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         SensitiveMonitor annotation = signature.getMethod().getAnnotation(SensitiveMonitor.class);

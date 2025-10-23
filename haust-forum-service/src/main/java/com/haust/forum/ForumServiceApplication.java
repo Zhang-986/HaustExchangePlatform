@@ -1,4 +1,4 @@
-package com.haust.forum.forum;
+package com.haust.forum;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

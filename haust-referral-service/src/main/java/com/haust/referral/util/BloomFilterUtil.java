@@ -10,15 +10,12 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
-@Slf4j
 /**
  * 布隆过滤器相关工具
  */
 @Service
 public class BloomFilterUtil {
     private final RedissonClient redissonClient;
-    private String sensitiveWordsFilePath ="haust/src/main/resources/SensitiveWords.txt";
     private final String filterName = "sensitive_words_filter";
 
     public BloomFilterUtil(RedissonClient redissonClient) {
@@ -40,14 +37,15 @@ public class BloomFilterUtil {
      * @param bloomFilter 布隆过滤器实例
      */
     private void loadSensitiveWords(RBloomFilter<String> bloomFilter) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(sensitiveWordsFilePath))) {
+        String relativePath = "src/main/resources/SensitiveWords.txt";
+        try (BufferedReader reader = new BufferedReader(new FileReader(relativePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 bloomFilter.add(line.trim()); // 添加敏感词到布隆过滤器
             }
             System.out.println("布隆过滤器初始化完成，已加载敏感词。");
         } catch (IOException e) {
-            throw new RuntimeException("加载敏感词文件失败: " + sensitiveWordsFilePath, e);
+            throw new RuntimeException("加载敏感词文件失败: " + relativePath, e);
         }
     }
 

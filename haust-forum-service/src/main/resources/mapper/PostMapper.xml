@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.haust.mapper.PostMapper">
+<mapper namespace="com.haust.forum.mapper.PostMapper">
     <update id="updateIdAndReplyTimes">
         update post set answer_times = answer_times+1 ,latest_answer_id = #{id} where id = #{postId}
     </update>
 
 
-    <select id="selectById" resultType="com.haust.domain.po.Post">
+    <select id="selectById" resultType="com.haust.common.domain.po.Post">
         select *
         from post
         where id = #{postId};
@@ -23,7 +23,7 @@
         where id = #{id} and user_id=#{userId}
     </update>
 
-    <select id="getAll" resultType="com.haust.domain.po.Post">
+    <select id="getAll" resultType="com.haust.common.domain.po.Post">
 
         select * from post
         <where>

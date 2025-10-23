@@ -1,4 +1,4 @@
-package com.haust.forum.controller.user;
+package com.haust.forum.controller;
 
 import com.haust.common.domain.dto.CreateReplyDTO;
 import com.haust.common.domain.dto.ReplyDTO;

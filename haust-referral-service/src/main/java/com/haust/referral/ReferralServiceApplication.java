@@ -1,4 +1,4 @@
-package com.haust.referral.referral;
+package com.haust.referral;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

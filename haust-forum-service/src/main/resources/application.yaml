@@ -32,7 +32,6 @@ spring:
   redis:
     port: ${haust.redis.port}
     host: ${haust.redis.host}
-    password: ${haust.redis.password}
     connect-timeout: ${haust.redis.timeout}
 knife4j:
   enable: true

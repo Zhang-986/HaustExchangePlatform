@@ -1,4 +1,4 @@
-package com.haust.user.user;
+package com.haust.user;
 
 import com.haust.user.properties.ApiProperties;
 import org.springframework.boot.SpringApplication;
