@@ -5,7 +5,7 @@ import com.haust.common.domain.dto.PageDTO;
 import com.haust.common.domain.po.Post;
 import com.haust.common.domain.vo.PageVO;
 import com.haust.common.domain.vo.PostVO;
-import com.haust.service.PostService;
+import com.haust.forum.service.PostService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

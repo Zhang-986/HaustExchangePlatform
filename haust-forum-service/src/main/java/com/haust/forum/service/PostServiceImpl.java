@@ -1,9 +1,8 @@
-package com.haust.forum.service.impl;
+package com.haust.forum.service;
 
 import cn.hutool.core.codec.BCD;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.haust.annotation.SensitiveMonitor;
 import com.haust.common.context.BaseContext;
 import com.haust.common.domain.dto.CreatePostDTO;
 import com.haust.common.domain.dto.PageDTO;
@@ -11,8 +10,8 @@ import com.haust.common.domain.enumeration.ContentType;
 import com.haust.common.domain.po.Post;
 import com.haust.common.domain.vo.PageVO;
 import com.haust.common.domain.vo.PostVO;
-import com.haust.mapper.PostMapper;
-import com.haust.service.PostService;
+import com.haust.forum.mapper.PostMapper;
+import com.haust.forum.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,6 @@ public class PostServiceImpl implements PostService {
      * 发布帖子
      * @param createPostDTO
      */
-    @SensitiveMonitor(ContentType.post)
     @Override
     public void createPost(CreatePostDTO createPostDTO) {
         Post post = new Post();
@@ -46,7 +44,6 @@ public class PostServiceImpl implements PostService {
      * @param id
      * @param createPostDTO
      */
-    @SensitiveMonitor(ContentType.post)
     @Override
     public void updatePost(CreatePostDTO createPostDTO,Long id) {
         Post post = new Post();

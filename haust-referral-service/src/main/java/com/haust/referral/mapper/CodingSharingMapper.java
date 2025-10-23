@@ -14,15 +14,15 @@ public interface CodingSharingMapper {
      * 修改内推数据
      * @param codingSharing
      */
-    void update(com.haust.domain.po.CodingSharing codingSharing);
+    void update(com.haust.common.domain.po.CodingSharing codingSharing);
 
     /**
      * 插入内推数据
      * @param codingSharing
      */
-    void insert(com.haust.domain.po.CodingSharing codingSharing);
+    void insert(com.haust.common.domain.po.CodingSharing codingSharing);
     // 获取详细信息
-    com.haust.domain.po.CodingSharing getDetailById(Long id);
+    com.haust.common.domain.po.CodingSharing getDetailById(Long id);
 
 
     List<CodingSharingVo> page(PageDTO pageDTO);

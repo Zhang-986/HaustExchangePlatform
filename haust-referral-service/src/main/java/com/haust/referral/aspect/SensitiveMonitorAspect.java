@@ -6,8 +6,8 @@ import com.haust.common.domain.dto.CreatePostDTO;
 import com.haust.common.domain.dto.CreateReplyDTO;
 import com.haust.common.domain.enumeration.ContentType;
 import com.haust.common.exception.BusinessException;
-import com.haust.common.util.BloomFilterUtil;
-import com.haust.common.util.IKAnalyzerUtil;
+import com.haust.referral.util.BloomFilterUtil;
+import com.haust.referral.util.IKAnalyzerUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

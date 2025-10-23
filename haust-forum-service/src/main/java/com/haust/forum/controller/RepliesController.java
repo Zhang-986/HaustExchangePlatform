@@ -5,7 +5,7 @@ import com.haust.common.domain.dto.ReplyDTO;
 import com.haust.common.domain.vo.HotReplyVo;
 import com.haust.common.domain.vo.PageVO;
 import com.haust.common.domain.vo.ReplyVO;
-import com.haust.service.RepliesService;
+import com.haust.forum.service.RepliesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

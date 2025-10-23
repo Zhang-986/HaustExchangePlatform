@@ -2,7 +2,7 @@ package com.haust.forum.mapper;
 
 import com.haust.common.domain.po.PostReply;
 import com.haust.common.domain.vo.ReplyVO;
-import com.haust.mq.msg.LikeMsg;
+import com.haust.forum.mq.msg.LikeMsg;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;

@@ -32,7 +32,7 @@ public class CodingSharingServiceImpl implements CodingSharingService {
     @SensitiveMonitor(ContentType.sharing)
     @Override
     public void addInfo(CodingSharingDTO codingSharingDTO) {
-        com.haust.domain.po.CodingSharing codingSharing = new com.haust.domain.po.CodingSharing();
+        com.haust.common.domain.po.CodingSharing codingSharing = new com.haust.common.domain.po.CodingSharing();
         BeanUtils.copyProperties(codingSharingDTO,codingSharing);
 
         codingSharing.setUserId(BaseContext.getId());
@@ -45,13 +45,13 @@ public class CodingSharingServiceImpl implements CodingSharingService {
             throw new BusinessException("Id IS NULL ","TRY AGAGIN");
         }
         // 2. 查询对应ID的数据信息
-        com.haust.domain.po.CodingSharing codingSharing = codingSharingMapper.getDetailById(id);
+        com.haust.common.domain.po.CodingSharing codingSharing = codingSharingMapper.getDetailById(id);
         if(BeanUtil.isEmpty(codingSharing)){
             throw new BusinessException("THERE IS NULL","TRY AGAGIN");
         }
 
         // 3. 浏览量+1
-        com.haust.domain.po.CodingSharing codingSharing1 = new com.haust.domain.po.CodingSharing();
+        com.haust.common.domain.po.CodingSharing codingSharing1 = new com.haust.common.domain.po.CodingSharing();
         codingSharing1.setClickNumber(codingSharing.getClickNumber()+1);
         codingSharing1.setId(id);
         codingSharingMapper.update(codingSharing1);
@@ -152,7 +152,7 @@ public class CodingSharingServiceImpl implements CodingSharingService {
     @SensitiveMonitor(ContentType.sharing)
     @Override
     public void modify(CodingSharingDTO codingSharingDTO) {
-        com.haust.domain.po.CodingSharing codingSharing = new com.haust.domain.po.CodingSharing();
+        com.haust.common.domain.po.CodingSharing codingSharing = new com.haust.common.domain.po.CodingSharing();
         Long userId = BaseContext.getId();
         codingSharing.setUserId(userId);
         BeanUtils.copyProperties(codingSharingDTO,codingSharing);

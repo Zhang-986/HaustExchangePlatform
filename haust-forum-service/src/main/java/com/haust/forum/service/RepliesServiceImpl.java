@@ -1,9 +1,8 @@
-package com.haust.forum.service.impl;
+package com.haust.forum.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.haust.annotation.SensitiveMonitor;
 import com.haust.common.constant.MqExchangeConstant;
 import com.haust.common.constant.MqKeyConstant;
 import com.haust.common.constant.RedisConstant;
@@ -17,11 +16,11 @@ import com.haust.common.domain.vo.HotReplyVo;
 import com.haust.common.domain.vo.PageVO;
 import com.haust.common.domain.vo.ReplyVO;
 import com.haust.common.exception.BusinessException;
-import com.haust.mapper.PostMapper;
-import com.haust.mapper.PostReplyMapper;
-import com.haust.mq.msg.LikeMsg;
-import com.haust.service.RepliesService;
-import com.haust.common.util.BatchProcessUtil;
+import com.haust.forum.mapper.PostMapper;
+import com.haust.forum.mapper.PostReplyMapper;
+import com.haust.forum.mq.msg.LikeMsg;
+import com.haust.forum.service.RepliesService;
+import com.haust.forum.util.BatchProcessUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.aop.framework.AopContext;
@@ -52,7 +51,6 @@ public class RepliesServiceImpl implements RepliesService {
      * 4. 非public方法修饰,
      * 5. 事务传播方法不对
      */
-    @SensitiveMonitor(value = ContentType.reply)
     @Override
     public void addReply(CreateReplyDTO createReplyDTO) {
         // 1. 检查DTO是否为空
