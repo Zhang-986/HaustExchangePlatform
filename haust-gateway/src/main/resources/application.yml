@@ -1,0 +1,51 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: haust-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        # User Service Routes
+        - id: user-service
+          uri: lb://haust-user-service
+          predicates:
+            - Path=/user/**,/admin/login
+          filters:
+            - StripPrefix=0
+        
+        # Referral Service Routes  
+        - id: referral-service
+          uri: lb://haust-referral-service
+          predicates:
+            - Path=/user/addInfo,/user/modify,/user/page,/user/delete/**,/user/myInfo,/admin/page,/admin/permit
+          filters:
+            - StripPrefix=0
+        
+        # Forum Service Routes
+        - id: forum-service
+          uri: lb://haust-forum-service
+          predicates:
+            - Path=/user/posts/**,/user/replies/**,/admin/replies/**
+          filters:
+            - StripPrefix=0
+        
+        # IM Service Routes
+        - id: im-service
+          uri: lb://haust-im-service
+          predicates:
+            - Path=/im/**
+          filters:
+            - StripPrefix=0
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
