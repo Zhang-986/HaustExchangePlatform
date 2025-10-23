@@ -13,12 +13,11 @@ export const authApi = {
   },
 
   // User login
-  login: (data: AccountDTO): Promise<RoleVo> => {
-    return request({
-      url: '/user/login',
-      method: 'post',
-      data
-    })
+  login: async (data: AccountDTO): Promise<RoleVo> => {
+    // 使用相对路径，开发时走 Vite proxy（VITE_API_BASE_URL=/api）
+    const res = await request.post('/user/login', data)
+    // 假设后端返回结构为 { token, role, ... }
+    return res.data as RoleVo
   },
 
   // Admin login

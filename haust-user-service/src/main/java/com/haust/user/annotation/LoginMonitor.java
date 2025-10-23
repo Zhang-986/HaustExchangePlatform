@@ -7,5 +7,5 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD) // 注解可以用于方法
 @Retention(RetentionPolicy.RUNTIME) // 注解在运行时生效
-public @interface LoginMonitor {
+public @interface  LoginMonitor {
 }

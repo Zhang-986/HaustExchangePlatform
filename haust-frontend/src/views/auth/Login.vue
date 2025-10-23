@@ -62,6 +62,7 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/store'
 import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -100,7 +101,21 @@ const handleLogin = async () => {
           router.push('/forum')
         }
       } catch (error) {
+        // 记录详细错误以便排查
         console.error('Login error:', error)
+        // 尝试提取后端/axios 返回的业务信息并展示给用户
+        let msg = 'Login failed'
+        if (error && typeof error === 'object') {
+          // 优先使用 error.message
+          if ((error as any).message) {
+            msg = (error as any).message
+          } else if ((error as any).response?.data?.message) {
+            msg = (error as any).response.data.message
+          } else if ((error as any).response?.status) {
+            msg = `HTTP ${(error as any).response.status}`
+          }
+        }
+        ElMessage.error(msg)
       } finally {
         loading.value = false
       }
