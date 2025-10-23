@@ -1,0 +1,52 @@
+server:
+  port: 8083
+
+# Eureka Configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+spring:
+  application:
+    name: haust-forum-service
+  rabbitmq:
+    port: ${haust.rabbitmq.port}
+    host: ${haust.rabbitmq.host}
+    password: ${haust.rabbitmq.password}
+    virtual-host: ${haust.rabbitmq.virtual-host}
+    username: ${haust.rabbitmq.username}
+  aop:
+    proxy-target-class: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: ${haust.datasource.driver-class-name}
+    url: jdbc:mysql://${haust.datasource.host}:${haust.datasource.port}/${haust.datasource.database}?allowMultiQueries=true
+    username: ${haust.datasource.username}
+    password: ${haust.datasource.password}
+  redis:
+    port: ${haust.redis.port}
+    host: ${haust.redis.host}
+    password: ${haust.redis.password}
+    connect-timeout: ${haust.redis.timeout}
+knife4j:
+  enable: true
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.haust.domain.po
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  return-page-info: check
+  params: count=countSql
+dify:
+  api:
+    api-key: app-vSl0OsbHnfQh9P217r7AMDtK

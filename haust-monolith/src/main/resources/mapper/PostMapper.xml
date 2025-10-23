@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.haust.mapper.PostMapper">
+    <update id="updateIdAndReplyTimes">
+        update post set answer_times = answer_times+1 ,latest_answer_id = #{id} where id = #{postId}
+    </update>
+
+
+    <select id="selectById" resultType="com.haust.domain.po.Post">
+        select *
+        from post
+        where id = #{postId};
+    </select>
+
+
+    <update id="update">
+        update post
+        <set>
+            <if test="title != null"> title =#{title}</if>
+            <if test="description != null"> , description =#{description}</if>
+            <if test="anonymity != null"> , anonymity =#{anonymity}</if>
+        </set>
+        where id = #{id} and user_id=#{userId}
+    </update>
+
+    <select id="getAll" resultType="com.haust.domain.po.Post">
+
+        select * from post
+        <where>
+            <if test="userId != null">
+                user_id=#{userId}
+            </if>
+        </where>
+
+        order by
+        <if test="orderBy == 0">
+            liked_times desc
+        </if>
+        <if test="orderBy == 1">
+            click_count desc
+        </if>
+        <if test="orderBy == 2">
+            create_time desc
+        </if>
+
+    </select>
+
+</mapper>
