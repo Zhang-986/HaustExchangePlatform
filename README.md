@@ -39,11 +39,19 @@ As a monitoring/listener enthusiast, I've focused on implementing robust event-d
     *   **RabbitMQ:** 🎯 **Message queue for asynchronous task processing** - This is where the magic happens! Used for sensitive content monitoring notifications and user behavior tracking.
     *   **Spring Security / JWT:** Authentication and authorization.
     *   **Knife4j:** API documentation generator.
-*   **Frontend (separate repository `haust_front`):**
-    *   Vue 3 + TypeScript + Vite + Element Plus (This README focuses on backend)
+*   **Frontend (`haust-frontend/` directory):**
+    *   **Vue 3:** Progressive JavaScript framework with Composition API
+    *   **TypeScript:** Type-safe development
+    *   **Vite:** Next-generation frontend build tool
+    *   **Vue Router 4:** Official routing library
+    *   **Pinia:** State management for Vue 3
+    *   **Axios:** Promise-based HTTP client
+    *   **Element Plus:** Vue 3 UI component library
+    *   **SockJS + STOMP:** WebSocket communication for real-time chat
 *   **Development Environment:**
     *   JDK 8
     *   Maven
+    *   Node.js 16+
 
 ## Technical Highlights (What I Find Fascinating!) 💡
 
@@ -153,13 +161,14 @@ Classic three-tier architecture with monitoring enhancements:
 *   MySQL 8.0+
 *   Redis 6.0+
 *   RabbitMQ (for message queue functionality)
+*   Node.js 16+ and npm (for frontend)
 
-**Setup Instructions:**
+**Backend Setup:**
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/Zhang-986/HaustExchangePlatform.git
-    cd HaustExchangePlatform/haust
+    git clone https://github.com/qmhwx666/HaustExchangePlatform.git
+    cd HaustExchangePlatform
     ```
 
 2.  **Configure:**
@@ -177,6 +186,72 @@ Classic three-tier architecture with monitoring enhancements:
 4.  **API Documentation:**
     *   After starting, access the interactive API documentation at: `http://localhost:8080/doc.html`
 
+**Frontend Setup:**
+
+1.  **Navigate to frontend directory:**
+    ```bash
+    cd haust-frontend
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Configure environment:**
+    *   Edit `.env.development` to set your backend API URL:
+    ```
+    VITE_API_BASE_URL=http://localhost:8080
+    ```
+
+4.  **Start development server:**
+    ```bash
+    npm run dev
+    ```
+    *   The frontend will be available at: `http://localhost:5173`
+
+5.  **Build for production:**
+    ```bash
+    npm run build
+    ```
+
+For detailed frontend development guide, see [haust-frontend/DEVELOPMENT.md](haust-frontend/DEVELOPMENT.md)
+
+## Frontend Features 🎨
+
+The Vue 3 + TypeScript frontend provides a modern, responsive user interface:
+
+*   **Authentication:**
+    *   User registration and login
+    *   Admin login
+    *   JWT token-based authentication
+    *   Protected routes
+
+*   **Forum Module:**
+    *   Browse and search posts with pagination
+    *   Create posts with optional anonymity
+    *   View post details with nested replies
+    *   Like/unlike posts and comments
+    *   Manage personal posts
+
+*   **Referral Module:**
+    *   Browse job referrals
+    *   Submit new referrals with company details
+    *   Rate referrals (1-5 stars)
+    *   Manage personal referrals
+    *   Admin approval workflow
+
+*   **Real-time Chat:**
+    *   WebSocket-based instant messaging
+    *   Public chat room
+    *   Online users display
+    *   Real-time message updates
+
+*   **Admin Dashboard:**
+    *   Review pending referrals
+    *   Approve/reject submissions
+    *   Platform statistics
+
 ## Future Enhancements 🚀
 
 There's always room for improvement and more interesting things to explore:
@@ -185,7 +260,11 @@ There's always room for improvement and more interesting things to explore:
     *   Add more comprehensive metrics collection
     *   Implement distributed tracing
     *   Real-time performance dashboards
-*   **Frontend Optimization** (in the separate frontend repo)
+*   **Frontend Enhancements:**
+    *   Rich text editor for posts
+    *   File upload support
+    *   Private messaging between users
+    *   Notification system
 *   **Fine-grained Permission Control**
 *   **Comprehensive Test Coverage**
 *   **More Event-Driven Patterns** - Always interested in new monitoring and messaging patterns!
