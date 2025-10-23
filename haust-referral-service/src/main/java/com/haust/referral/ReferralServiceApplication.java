@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication(scanBasePackages = {"com.haust.referral", "com.haust.common"})
 @EnableDiscoveryClient
 @EnableFeignClients
-public class ReferralServiceApplication {
+public class  ReferralServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(ReferralServiceApplication.class, args);
     }
