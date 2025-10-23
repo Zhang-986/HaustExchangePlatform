@@ -1,6 +1,6 @@
 package com.haust.referral.aspect;
 
-import com.haust.annotation.SensitiveMonitor;
+import com.haust.referral.annotation.SensitiveMonitor;
 import com.haust.common.domain.dto.CodingSharingDTO;
 import com.haust.common.domain.dto.CreatePostDTO;
 import com.haust.common.domain.dto.CreateReplyDTO;

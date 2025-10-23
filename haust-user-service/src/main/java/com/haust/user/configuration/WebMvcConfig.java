@@ -1,7 +1,7 @@
 package com.haust.user.configuration;
 
-import com.haust.interceptor.JwtTokenAdminInterceptor;
-import com.haust.interceptor.JwtTokenUserInterceptor;
+import com.haust.user.interceptor.JwtTokenAdminInterceptor;
+import com.haust.user.interceptor.JwtTokenUserInterceptor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;

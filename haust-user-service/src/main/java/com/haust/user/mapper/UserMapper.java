@@ -2,7 +2,7 @@ package com.haust.user.mapper;
 
 import com.haust.common.domain.dto.AccountDTO;
 import com.haust.common.domain.po.User;
-import com.haust.mq.msg.UserMsg;
+import com.haust.user.mq.msg.UserMsg;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

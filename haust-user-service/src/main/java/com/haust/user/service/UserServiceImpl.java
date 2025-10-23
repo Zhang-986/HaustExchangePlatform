@@ -1,10 +1,10 @@
-package com.haust.user.service.impl;
+package com.haust.user.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
-import com.haust.annotation.LoginMonitor;
+import com.haust.user.annotation.LoginMonitor;
 import com.haust.common.constant.RedisConstant;
 import com.haust.common.context.BaseContext;
 import com.haust.common.domain.dto.AccountDTO;
@@ -13,10 +13,10 @@ import com.haust.common.domain.po.User;
 import com.haust.common.domain.vo.PageVO;
 import com.haust.common.domain.vo.RoleVo;
 import com.haust.common.exception.BusinessException;
-import com.haust.mapper.UserMapper;
+import com.haust.user.mapper.UserMapper;
 
-import com.haust.mq.msg.UserMsg;
-import com.haust.service.UserService;
+import com.haust.user.mq.msg.UserMsg;
+import com.haust.user.service.UserService;
 ;import com.haust.common.util.DifyApiUtil;
 import com.haust.common.util.JwtUtil;
 import com.haust.common.util.PasswordUtil;

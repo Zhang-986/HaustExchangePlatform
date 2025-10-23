@@ -4,7 +4,7 @@ import com.haust.common.constant.MqExchangeConstant;
 import com.haust.common.constant.MqKeyConstant;
 import com.haust.common.constant.MqQueueConstant;
 import com.haust.common.domain.dto.AccountDTO;
-import com.haust.mq.msg.UserMsg;
+import com.haust.user.mq.msg.UserMsg;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.After;

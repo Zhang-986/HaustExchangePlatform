@@ -5,7 +5,7 @@ import com.haust.common.domain.dto.PageDTO;
 import com.haust.common.domain.vo.PageVO;
 import com.haust.common.domain.vo.RoleVo;
 
-import com.haust.mq.msg.UserMsg;
+import com.haust.user.mq.msg.UserMsg;
 
 public interface UserService {
     RoleVo loginByAdmin(AccountDTO accountDTO);
