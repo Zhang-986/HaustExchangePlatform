@@ -86,9 +86,9 @@ spring:
 
 **注意**: haust-eureka 模块已从父 pom.xml 的 `<modules>` 列表中移除，不再参与构建。
 
-### 4. 已移除的模块引用
+### 4. 已移除的模块
 
-- ❌ haust-eureka 模块已从父 pom.xml 的 modules 列表中移除（目录仍保留但不再构建）
+- ❌ haust-eureka 模块已完全删除（包括目录和所有相关文件）
 
 ## 如何使用
 
@@ -251,4 +251,4 @@ docker run -d \
 
 本文档记录了从 Eureka 到 Nacos 的迁移过程和使用说明。
 
-**注意**: haust-eureka 模块目录仍然存在于代码库中，但已从构建配置中移除，不再参与编译和部署。如需彻底删除该模块，可以手动删除 haust-eureka 目录。
+**注意**: haust-eureka 模块已完全从代码库中删除，包括所有相关文件和配置。项目现在完全基于 Nacos 服务注册中心运行。
