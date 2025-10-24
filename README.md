@@ -46,14 +46,18 @@
 ## 技术架构
 
 ### 后端技术栈
-这个项目采用微服务架构，后端主要使用 Spring Cloud 技术栈：
+这个项目采用微服务架构，后端主要使用 Spring Cloud Alibaba 技术栈：
 
 **核心框架**
 - **Spring Boot 2.7.6**：项目基础框架
 - **Spring Cloud 2021.0.5**：微服务全家桶
-- **Spring Cloud Alibaba 2021.0.5.0**：阿里巴巴微服务组件
-- **Nacos**：服务注册与发现中心
-- **Gateway**：API 网关，统一请求入口
+- **Spring Cloud Alibaba 2021.0.5.0**：阿里巴巴微服务组件套件
+- **Nacos**：服务注册与发现中心、配置中心（替代 Eureka 和 Spring Cloud Config）
+- **Gateway**：API 网关，统一请求入口，实现路由转发、负载均衡和跨域处理
+
+**Spring Cloud Alibaba 核心组件**
+- **Nacos Discovery**：服务注册与发现，实现微服务间的自动注册和调用
+- **LoadBalancer**：客户端负载均衡，替代 Ribbon，提供更好的性能和可维护性
 
 **微服务模块**
 - **haust-user-service**：用户服务，负责用户注册、登录、认证，以及 AI 问答功能
@@ -100,6 +104,23 @@
 - **Nacos 2.0+**
 
 ## 技术亮点
+
+### Spring Cloud Alibaba 微服务架构
+采用 Spring Cloud Alibaba 微服务架构，相比传统的 Netflix OSS 方案具有更多优势：
+
+**Nacos 服务注册中心**
+- **双模式支持**：同时支持 AP（可用性优先）和 CP（一致性优先）模式，可根据场景灵活切换
+- **服务发现**：自动注册和发现微服务，实现服务间的透明调用
+- **健康检查**：支持 TCP、HTTP、MySQL 等多种健康检查方式，及时发现和剔除故障实例
+- **负载均衡**：配合 Spring Cloud LoadBalancer 实现客户端负载均衡
+- **管理界面**：提供功能强大的可视化管理控制台，方便运维管理
+
+**为什么选择 Spring Cloud Alibaba？**
+1. **更好的性能**：Nacos 的内存占用和响应速度优于 Eureka
+2. **功能更丰富**：Nacos 不仅支持服务发现，还内置配置中心功能，一个组件解决两个问题
+3. **国内生态**：阿里巴巴开源，在国内有完善的中文文档和活跃的社区支持
+4. **持续维护**：Netflix 已停止维护大部分组件，而 Spring Cloud Alibaba 持续更新迭代
+5. **生产验证**：经过阿里巴巴双十一等大规模场景的验证，稳定性和可靠性有保障
 
 ### 微服务架构
 采用 Spring Cloud 微服务架构，服务之间通过 Nacos 进行注册发现，Gateway 作为统一入口进行路由转发。各个服务职责清晰，便于扩展和维护。
@@ -474,3 +495,223 @@ A: 确保 Redis 服务已启动，检查端口号和密码配置。
   <br><br>
   <sub>在求职路上，我们一起加油！💪</sub>
 </div>
+
+---
+
+# English Introduction / 英文简介
+
+## HAUST Exchange Platform - Spring Cloud Alibaba Microservices Architecture
+
+A campus recruitment referral and job-seeking exchange platform built with **Spring Cloud Alibaba** microservices architecture for Henan University of Science and Technology (HAUST) students.
+
+### 🏗️ Architecture Overview
+
+This project demonstrates a production-ready microservices architecture using **Spring Cloud Alibaba** ecosystem, which is the leading microservices solution in China and an excellent alternative to Netflix OSS stack.
+
+### 🎯 Key Technologies
+
+#### Spring Cloud Alibaba Components
+
+**Nacos - Service Discovery & Configuration Center**
+- **Dual Mode Support**: Supports both AP (Availability Priority) and CP (Consistency Priority) modes
+- **Service Registration & Discovery**: Automatic service registration and discovery for seamless inter-service communication
+- **Health Checking**: Multiple health check protocols including TCP, HTTP, and MySQL
+- **Load Balancing**: Integrates with Spring Cloud LoadBalancer for client-side load balancing
+- **Management Console**: Rich web-based UI for service management and monitoring
+
+**Spring Cloud Gateway**
+- API Gateway serving as the single entry point for all microservices
+- Dynamic routing and request forwarding
+- Built-in CORS support and authentication integration
+- Filter chain for cross-cutting concerns
+
+#### Microservices Modules
+
+1. **haust-user-service** - User management service (authentication, authorization, AI chatbot)
+2. **haust-referral-service** - Referral information service (job referrals, approval workflow)
+3. **haust-forum-service** - Forum service (posts, comments, likes)
+4. **haust-im-service** - Instant messaging service (WebSocket-based real-time chat)
+5. **haust-gateway** - API Gateway (routing, load balancing, CORS)
+6. **haust-common** - Common utilities and shared entities
+
+#### Technology Stack
+
+**Backend**
+- **Spring Boot 2.7.6** - Application framework
+- **Spring Cloud 2021.0.5** - Microservices framework
+- **Spring Cloud Alibaba 2021.0.5.0** - Alibaba microservices components
+- **Nacos 2.0+** - Service registry and configuration center
+- **MySQL 8.0+** - Relational database
+- **Redis 6.0+** - Caching layer
+- **RabbitMQ 3.8+** - Message queue for async processing
+- **MyBatis** - ORM framework
+- **JWT** - Token-based authentication
+- **WebSocket** - Real-time bidirectional communication
+
+**Frontend**
+- **Vue 3** - Progressive JavaScript framework with Composition API
+- **TypeScript** - Type-safe development
+- **Vite** - Next-generation frontend build tool
+- **Element Plus** - Vue 3 UI component library
+- **Pinia** - State management
+- **Axios** - HTTP client
+
+### ⭐ Why Spring Cloud Alibaba?
+
+**Superior to Netflix OSS:**
+
+1. **Better Performance**: Nacos has lower memory footprint and faster response times compared to Eureka
+2. **Richer Features**: Nacos combines service discovery and configuration management in one component
+3. **Active Maintenance**: Unlike Netflix OSS (most components are in maintenance mode), Spring Cloud Alibaba is actively developed
+4. **Battle-Tested**: Proven at scale during Alibaba's Double 11 shopping festival
+5. **Better Documentation**: Comprehensive Chinese and English documentation with active community support
+
+**Nacos vs Eureka Comparison:**
+
+| Feature | Eureka | Nacos |
+|---------|--------|-------|
+| **CAP Model** | AP only | AP & CP modes |
+| **Health Check** | Client heartbeat | TCP/HTTP/MySQL/gRPC |
+| **Load Balancing** | Ribbon (maintenance mode) | Spring Cloud LoadBalancer |
+| **Management UI** | Basic | Feature-rich with metrics |
+| **Configuration Management** | Requires Config Server | Built-in |
+| **Active Development** | ❌ No | ✅ Yes |
+
+### 🚀 Quick Start
+
+#### Prerequisites
+
+- **JDK 8+**
+- **Maven 3.6+**
+- **MySQL 8.0+**
+- **Redis 6.0+**
+- **RabbitMQ 3.8+**
+- **Nacos 2.0+**
+- **Node.js 16+** (for frontend)
+
+#### Start Nacos Server
+
+**Download and run Nacos:**
+
+```bash
+# Download Nacos from https://nacos.io
+wget https://github.com/alibaba/nacos/releases/download/2.2.3/nacos-server-2.2.3.tar.gz
+tar -zxvf nacos-server-2.2.3.tar.gz
+cd nacos/bin
+
+# Start in standalone mode
+sh startup.sh -m standalone  # Linux/Mac
+startup.cmd -m standalone    # Windows
+```
+
+**Access Nacos Console:**
+- URL: http://localhost:8848/nacos
+- Username: `nacos`
+- Password: `nacos`
+
+#### Start Microservices
+
+```bash
+# Start Gateway
+cd haust-gateway && mvn spring-boot:run
+
+# Start business services (in different terminals)
+cd haust-user-service && mvn spring-boot:run
+cd haust-referral-service && mvn spring-boot:run
+cd haust-forum-service && mvn spring-boot:run
+cd haust-im-service && mvn spring-boot:run
+```
+
+#### Verify Service Registration
+
+Check the Nacos Console → Service Management → Service List to see all registered services with healthy status (green indicator).
+
+### 📚 Architecture Highlights
+
+**Service Discovery with Nacos:**
+- All microservices automatically register with Nacos on startup
+- Services discover each other using service names instead of hardcoded URLs
+- Health checks ensure only healthy instances receive traffic
+- LoadBalancer automatically distributes requests across instances
+
+**API Gateway Pattern:**
+- Single entry point for all client requests
+- Centralized authentication and authorization
+- Request routing based on service names
+- CORS handling and rate limiting
+
+**Async Processing with RabbitMQ:**
+- Sensitive word detection for posts and referrals
+- User behavior tracking and analytics
+- Decouples long-running operations from request-response cycle
+
+**Real-time Communication:**
+- WebSocket-based chat room for instant messaging
+- Real-time notifications and updates
+- Online user presence tracking
+
+### 📖 Documentation
+
+- **[MIGRATION_TO_NACOS.md](MIGRATION_TO_NACOS.md)** - Detailed guide on Nacos migration from Eureka
+- **[MIGRATION_SUMMARY.md](MIGRATION_SUMMARY.md)** - Summary of the migration process
+
+### 🔧 Configuration Example
+
+**Service Registration with Nacos:**
+
+```yaml
+spring:
+  application:
+    name: haust-user-service  # Service name for discovery
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848  # Nacos server address
+```
+
+**Gateway Routing Configuration:**
+
+```yaml
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://haust-user-service  # Load balanced routing
+          predicates:
+            - Path=/user/**
+```
+
+### 📊 Microservices Communication Flow
+
+```
+Client Request
+    ↓
+Gateway (Port 8080)
+    ↓
+Nacos Service Discovery
+    ↓
+LoadBalancer (Round Robin)
+    ↓
+Target Microservice
+    ↓
+MySQL / Redis / RabbitMQ
+```
+
+### 🌐 Learn More
+
+- **[Spring Cloud Alibaba Official Docs](https://spring-cloud-alibaba-group.github.io/github-pages/2021/en-us/index.html)**
+- **[Nacos Official Website](https://nacos.io/en-us/)**
+- **[Spring Cloud Gateway Docs](https://spring.io/projects/spring-cloud-gateway)**
+
+### 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+### 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+---
+
+**Built with ❤️ using Spring Cloud Alibaba**
