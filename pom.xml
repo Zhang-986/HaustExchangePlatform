@@ -13,7 +13,6 @@
 
     <modules>
         <module>haust-common</module>
-        <module>haust-eureka</module>
         <module>haust-gateway</module>
         <module>haust-user-service</module>
         <module>haust-referral-service</module>
@@ -31,6 +30,7 @@
         <!-- Spring Boot & Cloud Versions -->
         <spring-boot.version>2.7.6</spring-boot.version>
         <spring-cloud.version>2021.0.5</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
         
         <!-- Dependencies Versions -->
         <fastjson.version>2.0.31</fastjson.version>
@@ -66,6 +66,15 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Spring Cloud Alibaba Dependencies -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

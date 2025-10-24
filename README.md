@@ -51,7 +51,8 @@
 **核心框架**
 - **Spring Boot 2.7.6**：项目基础框架
 - **Spring Cloud 2021.0.5**：微服务全家桶
-- **Eureka**：服务注册与发现中心
+- **Spring Cloud Alibaba 2021.0.5.0**：阿里巴巴微服务组件
+- **Nacos**：服务注册与发现中心
 - **Gateway**：API 网关，统一请求入口
 
 **微服务模块**
@@ -96,11 +97,12 @@
 - **MySQL 8.0+**
 - **Redis 6.0+**
 - **RabbitMQ 3.8+**
+- **Nacos 2.0+**
 
 ## 技术亮点
 
 ### 微服务架构
-采用 Spring Cloud 微服务架构，服务之间通过 Eureka 进行注册发现，Gateway 作为统一入口进行路由转发。各个服务职责清晰，便于扩展和维护。
+采用 Spring Cloud 微服务架构，服务之间通过 Nacos 进行注册发现，Gateway 作为统一入口进行路由转发。各个服务职责清晰，便于扩展和维护。
 
 ### 敏感词过滤
 为了营造良好的社区氛围，系统使用 AOP + IK 分词器实现了敏感词过滤功能。在发布内推信息和帖子时，会自动检测内容是否包含敏感词，如果包含则拒绝发布。
@@ -155,7 +157,6 @@ difyApiUtil.streamChat(text, userId, null)
 
 ```
 HaustExchangePlatform/
-├── haust-eureka/              # Eureka 服务注册中心
 ├── haust-gateway/             # API 网关
 ├── haust-common/              # 公共模块（工具类、常量、实体等）
 ├── haust-user-service/        # 用户服务
@@ -195,6 +196,7 @@ HaustExchangePlatform/
 - **MySQL 8.0+**：数据库
 - **Redis 6.0+**：缓存数据库
 - **RabbitMQ 3.8+**：消息队列
+- **Nacos 2.0+**：服务注册中心（需单独下载安装）
 - **Node.js 16+**：前端开发环境
 
 ### 后端启动
@@ -206,11 +208,21 @@ git clone https://github.com/Zhang-986/HaustExchangePlatform.git
 cd HaustExchangePlatform
 ```
 
-#### 2. 配置数据库
+#### 2. 启动 Nacos
+
+下载并启动 Nacos 服务注册中心：
+
+1. 访问 [Nacos 官网](https://nacos.io/zh-cn/) 下载 Nacos Server
+2. 解压后进入 bin 目录
+3. Linux/Mac 执行：`sh startup.sh -m standalone`
+4. Windows 执行：`startup.cmd -m standalone`
+5. 访问 `http://localhost:8848/nacos`，默认用户名密码都是 `nacos`
+
+#### 3. 配置数据库
 
 在 MySQL 中创建数据库，然后执行 SQL 脚本（如果有的话）初始化表结构。
 
-#### 3. 修改配置文件
+#### 4. 修改配置文件
 
 各个微服务的配置文件位于 `src/main/resources/` 目录下，需要修改的配置包括：
 
@@ -218,12 +230,18 @@ cd HaustExchangePlatform
   - MySQL 连接信息（地址、端口、用户名、密码）
   - Redis 连接信息
   - RabbitMQ 连接信息
-  - Eureka 注册中心地址
+  - Nacos 服务地址（默认 localhost:8848）
 
 **配置示例：**
 
 ```yaml
 spring:
+  application:
+    name: haust-user-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848  # Nacos 服务地址
   datasource:
     url: jdbc:mysql://localhost:3306/haust_platform?useUnicode=true&characterEncoding=utf8
     username: root
@@ -241,11 +259,11 @@ spring:
     password: guest
 ```
 
-#### 4. 启动服务
+#### 5. 启动服务
 
 微服务的启动顺序建议如下：
 
-1. **启动 Eureka 注册中心**（haust-eureka）
+1. **确保 Nacos 已启动**（访问 http://localhost:8848/nacos 确认）
 2. **启动 Gateway 网关**（haust-gateway）
 3. **启动各个业务服务**（user-service、referral-service、forum-service、im-service）
 
@@ -263,7 +281,7 @@ mvn clean package
 java -jar target/服务名.jar
 ```
 
-#### 5. 查看 API 文档
+#### 6. 查看 API 文档
 
 启动完成后，可以访问 Knife4j 提供的 API 文档进行接口测试：
 
@@ -272,6 +290,8 @@ java -jar target/服务名.jar
 - 论坛服务：`http://localhost:端口/doc.html`
 
 具体端口号请查看各服务的配置文件。
+
+同时可以访问 Nacos 控制台查看服务注册情况：`http://localhost:8848/nacos`
 
 ### 前端启动
 
@@ -321,6 +341,9 @@ npm run build
 
 **Q: 启动服务报错连接不上 MySQL？**  
 A: 检查 MySQL 是否启动，配置文件中的用户名密码是否正确。
+
+**Q: 服务启动失败，提示无法连接到 Nacos？**  
+A: 确保 Nacos 已经启动，并且配置文件中的 Nacos 地址正确（默认 localhost:8848）。
 
 **Q: 前端访问接口报跨域错误？**  
 A: 后端 Gateway 已经配置了跨域，如果还有问题检查配置文件中的跨域设置。
