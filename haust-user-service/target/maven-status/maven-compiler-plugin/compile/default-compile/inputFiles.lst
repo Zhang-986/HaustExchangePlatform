@@ -6,6 +6,7 @@
 /home/runner/work/HaustExchangePlatform/HaustExchangePlatform/haust-user-service/src/main/java/com/haust/user/properties/ApiProperties.java
 /home/runner/work/HaustExchangePlatform/HaustExchangePlatform/haust-user-service/src/main/java/com/haust/user/mq/msg/LikeMsg.java
 /home/runner/work/HaustExchangePlatform/HaustExchangePlatform/haust-user-service/src/main/java/com/haust/user/service/UserServiceImpl.java
+/home/runner/work/HaustExchangePlatform/HaustExchangePlatform/haust-user-service/src/main/java/com/haust/user/configuration/CorsConfig.java
 /home/runner/work/HaustExchangePlatform/HaustExchangePlatform/haust-user-service/src/main/java/com/haust/user/configuration/ThreadConfig.java
 /home/runner/work/HaustExchangePlatform/HaustExchangePlatform/haust-user-service/src/main/java/com/haust/user/configuration/WebMvcConfig.java
 /home/runner/work/HaustExchangePlatform/HaustExchangePlatform/haust-user-service/src/main/java/com/haust/user/service/UserService.java

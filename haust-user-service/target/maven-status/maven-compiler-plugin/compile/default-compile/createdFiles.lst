@@ -1,6 +1,7 @@
 com/haust/user/configuration/ThreadConfig.class
-com/haust/user/user/UserServiceApplication.class
+com/haust/user/configuration/CorsConfig.class
 com/haust/user/interceptor/JwtTokenUserInterceptor.class
+com/haust/user/UserServiceApplication.class
 com/haust/user/configuration/WebMvcConfig.class
 com/haust/user/controller/AdminController.class
 com/haust/user/handler/GlobalExceptionHandler.class

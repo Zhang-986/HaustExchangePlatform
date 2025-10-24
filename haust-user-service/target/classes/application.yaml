@@ -32,7 +32,6 @@ spring:
   redis:
     port: ${haust.redis.port}
     host: ${haust.redis.host}
-    password: ${haust.redis.password}
     connect-timeout: ${haust.redis.timeout}
 knife4j:
   enable: true
@@ -40,7 +39,7 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.haust.domain.po
+  type-aliases-package: com.haust.user.domain.po
 pagehelper:
   helper-dialect: mysql
   reasonable: true
