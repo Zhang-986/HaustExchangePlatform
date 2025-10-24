@@ -1,4 +1,4 @@
-# 河科大校招内推分享平台 🎓
+# HasutExchangeSharingPlatform 🎓
 
 <div align="center">
 
