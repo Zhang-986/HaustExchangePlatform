@@ -84,9 +84,11 @@ spring:
 - ✅ haust-forum-service (论坛服务)
 - ✅ haust-im-service (即时通讯服务)
 
-### 4. 已删除的模块
+**注意**: haust-eureka 模块已从父 pom.xml 的 `<modules>` 列表中移除，不再参与构建。
 
-- ❌ haust-eureka (Eureka 注册中心模块已从项目中移除)
+### 4. 已移除的模块引用
+
+- ❌ haust-eureka 模块已从父 pom.xml 的 modules 列表中移除（目录仍保留但不再构建）
 
 ## 如何使用
 
@@ -245,6 +247,8 @@ docker run -d \
 - [Spring Cloud Alibaba 文档](https://spring-cloud-alibaba-group.github.io/github-pages/2021/zh-cn/index.html)
 - [服务注册与发现最佳实践](https://nacos.io/zh-cn/docs/best-practice.html)
 
-## 更新日期
+## 更新说明
 
-2025-10-24
+本文档记录了从 Eureka 到 Nacos 的迁移过程和使用说明。
+
+**注意**: haust-eureka 模块目录仍然存在于代码库中，但已从构建配置中移除，不再参与编译和部署。如需彻底删除该模块，可以手动删除 haust-eureka 目录。
