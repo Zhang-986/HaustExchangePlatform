@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.haust.mapper.UserMapper">
-    <insert id="insert" parameterType="com.haust.domain.po.User" keyProperty="id">
+<mapper namespace="com.haust.user.mapper.UserMapper">
+    <insert id="insert" parameterType="com.haust.common.domain.po.User" keyProperty="id">
         insert into user (account,password) values (#{account},#{password})
     </insert>
-    <insert id="solveTimes" parameterType="com.haust.mq.msg.UserMsg">
+    <insert id="solveTimes" parameterType="com.haust.user.mq.msg.UserMsg">
         insert into user_monitor (account, login_times,ip, create_time) VALUES (#{account},#{loginTimes},#{ip},#{createTime})
     </insert>
     <update id="updateTimes">
@@ -12,11 +12,11 @@
     </update>
 
 
-    <select id="selectById" resultType="com.haust.domain.po.User"
-            parameterType="com.haust.domain.dto.AccountDTO">
+    <select id="selectById" resultType="com.haust.common.domain.po.User"
+            parameterType="com.haust.common.domain.dto.AccountDTO">
         select id,account,password,role from user where account = #{account}
     </select>
-    <select id="pageByMonitor" resultType="com.haust.mq.msg.UserMsg" parameterType="java.lang.Integer">
+    <select id="pageByMonitor" resultType="com.haust.user.mq.msg.UserMsg" parameterType="java.lang.Integer">
         select * from user_monitor order by
         <choose>
             <when test="orderBy == 0 ">login_times DESC</when>
@@ -25,7 +25,7 @@
             </otherwise>
         </choose>
     </select>
-    <select id="selectByName" resultType="com.haust.mq.msg.UserMsg">
+    <select id="selectByName" resultType="com.haust.user.mq.msg.UserMsg">
         select account, ip, login_times, create_time from user_monitor where account =#{account}
     </select>
 </mapper>

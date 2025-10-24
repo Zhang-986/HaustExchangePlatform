@@ -7,6 +7,9 @@ spring:
   application:
     name: haust-gateway
   cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
     gateway:
       discovery:
         locator:
@@ -44,10 +47,3 @@ spring:
             - Path=/im/**
           filters:
             - StripPrefix=0
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    prefer-ip-address: true

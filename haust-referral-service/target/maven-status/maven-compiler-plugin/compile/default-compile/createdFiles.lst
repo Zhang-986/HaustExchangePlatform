@@ -1,7 +1,7 @@
 com/haust/referral/util/BloomFilterUtil.class
 com/haust/referral/referral/controller/ReferralAdminController.class
 com/haust/referral/util/IKAnalyzerUtil.class
-com/haust/referral/referral/ReferralServiceApplication.class
+com/haust/referral/ReferralServiceApplication.class
 com/haust/referral/service/CodingSharingServiceImpl.class
 com/haust/referral/configuration/SwaggerConfig$1.class
 com/haust/referral/configuration/SwaggerConfig.class

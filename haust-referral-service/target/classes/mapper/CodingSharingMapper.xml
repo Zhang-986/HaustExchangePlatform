@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.haust.mapper.CodingSharingMapper">
+<mapper namespace="com.haust.referral.mapper.CodingSharingMapper">
 
 
     <insert id="insert">
@@ -61,14 +61,14 @@
         </where>
     </delete>
 
-    <select id="getDetailById" resultType="com.haust.domain.po.CodingSharing" parameterType="java.lang.Long" >
+    <select id="getDetailById" resultType="com.haust.common.domain.po.CodingSharing" parameterType="java.lang.Long" >
         select id,user_id, company_name, detail, remark, recommander_email, click_number, recommand_index, status, code_id, create_time, update_time  from coding_sharing where id = #{id}
     </select>
 
 
 
-    <select id="page" resultType="com.haust.domain.vo.CodingSharingVo"
-            parameterType="com.haust.domain.dto.PageDTO">
+    <select id="page" resultType="com.haust.common.domain.vo.CodingSharingVo"
+            parameterType="com.haust.common.domain.dto.PageDTO">
         select
         id,
         company_name as companyName,
@@ -90,7 +90,7 @@
                 </otherwise>
             </choose>
     </select>
-    <select id="pageMyInfo" resultType="com.haust.domain.po.CodingSharing" parameterType="com.haust.domain.dto.PageDTO">
+    <select id="pageMyInfo" resultType="com.haust.common.domain.po.CodingSharing" parameterType="com.haust.common.domain.dto.PageDTO">
         select
         id,
         user_id as userId,
