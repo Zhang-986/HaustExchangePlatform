@@ -6,6 +6,10 @@ spring:
       matching-strategy: ant_path_matcher
   application:
     name: haust-im-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
   redis:
     port: ${haust.redis.port:6379}
     host: ${haust.redis.host:localhost}
@@ -17,13 +21,6 @@ spring:
     virtual-host: ${haust.rabbitmq.virtual-host:/}
     username: ${haust.rabbitmq.username:root}
 
-# Eureka Configuration
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    prefer-ip-address: true
 springfox:
   documentation:
     enabled: false
