@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/haust-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/haust-common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/haust-forum-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/haust-forum-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/haust-gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/haust-gateway/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/haust-im-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/haust-im-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/haust-referral-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/haust-referral-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/haust-user-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/haust-user-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/haust/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/haust/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>
 </project>

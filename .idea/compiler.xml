@@ -7,7 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="haust-im-service" />
+        <module name="haust-referral-service" />
+        <module name="haust-forum-service" />
         <module name="haust" />
+        <module name="haust-common" />
+        <module name="haust-gateway" />
+        <module name="haust-user-service" />
       </profile>
     </annotationProcessing>
   </component>
