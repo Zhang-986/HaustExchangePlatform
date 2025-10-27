@@ -1,6 +1,6 @@
-# HasutExchangeSharingPlatform 🎓
+# HAUST Exchange Platform
 
-<div align="center">
+[中文](README_CN.md) | English
 
 [![Java](https://img.shields.io/badge/Java-8-orange.svg)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2.7.6-brightgreen.svg)](https://spring.io/projects/spring-boot)
@@ -8,176 +8,123 @@
 [![Vue](https://img.shields.io/badge/Vue-3.5-green.svg)](https://vuejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## HAUST Exchange Platform - Spring Cloud Alibaba Microservices Architecture
+## Overview
 
-A campus recruitment referral and job-seeking exchange platform built with **Spring Cloud Alibaba** microservices architecture for Henan University of Science and Technology (HAUST) students.
+This is a campus job referral and exchange platform for students at Henan University of Science and Technology (HAUST). The platform helps students share job opportunities, internship referrals, and connect with each other through forums and instant messaging.
 
-### 🏗️ Architecture Overview
+The project uses a microservices architecture based on Spring Cloud Alibaba, with separate backend services and a Vue 3 frontend.
 
-This project demonstrates a production-ready microservices architecture using **Spring Cloud Alibaba** ecosystem, which is the leading microservices solution in China and an excellent alternative to Netflix OSS stack.
+## What It Does
 
-### 🎯 Key Technologies
+- **User Management**: Student registration, login, and profile management with AI chatbot support
+- **Job Referrals**: Post and browse job referrals with approval workflow
+- **Forum**: Discussion boards for students to share experiences and ask questions
+- **Instant Messaging**: Real-time chat between students using WebSocket
+- **Gateway**: Single entry point that routes requests to appropriate services
 
-#### Spring Cloud Alibaba Components
+## Architecture
 
-**Nacos - Service Discovery & Configuration Center**
-- **Dual Mode Support**: Supports both AP (Availability Priority) and CP (Consistency Priority) modes
-- **Service Registration & Discovery**: Automatic service registration and discovery for seamless inter-service communication
-- **Health Checking**: Multiple health check protocols including TCP, HTTP, and MySQL
-- **Load Balancing**: Integrates with Spring Cloud LoadBalancer for client-side load balancing
-- **Management Console**: Rich web-based UI for service management and monitoring
+The application is split into these microservices:
 
-**Spring Cloud Gateway**
-- API Gateway serving as the single entry point for all microservices
-- Dynamic routing and request forwarding
-- Built-in CORS support and authentication integration
-- Filter chain for cross-cutting concerns
+- `haust-user-service` - Handles user accounts and authentication
+- `haust-referral-service` - Manages job referral posts
+- `haust-forum-service` - Runs the forum functionality
+- `haust-im-service` - Provides instant messaging
+- `haust-gateway` - Routes requests and handles cross-cutting concerns
+- `haust-common` - Shared code and utilities
 
-#### Microservices Modules
+All services register with Nacos for service discovery and use Spring Cloud Gateway for routing.
 
-1. **haust-user-service** - User management service (authentication, authorization, AI chatbot)
-2. **haust-referral-service** - Referral information service (job referrals, approval workflow)
-3. **haust-forum-service** - Forum service (posts, comments, likes)
-4. **haust-im-service** - Instant messaging service (WebSocket-based real-time chat)
-5. **haust-gateway** - API Gateway (routing, load balancing, CORS)
-6. **haust-common** - Common utilities and shared entities
+## Tech Stack
 
-#### Technology Stack
+**Backend:**
+- Spring Boot 2.7.6
+- Spring Cloud 2021.0.5
+- Spring Cloud Alibaba 2021.0.5.0
+- Nacos (service discovery and configuration)
+- MySQL 8.0+
+- Redis 6.0+
+- RabbitMQ 3.8+
+- MyBatis
+- JWT
 
-**Backend**
-- **Spring Boot 2.7.6** - Application framework
-- **Spring Cloud 2021.0.5** - Microservices framework
-- **Spring Cloud Alibaba 2021.0.5.0** - Alibaba microservices components
-- **Nacos 2.0+** - Service registry and configuration center
-- **MySQL 8.0+** - Relational database
-- **Redis 6.0+** - Caching layer
-- **RabbitMQ 3.8+** - Message queue for async processing
-- **MyBatis** - ORM framework
-- **JWT** - Token-based authentication
-- **WebSocket** - Real-time bidirectional communication
+**Frontend:**
+- Vue 3
+- TypeScript
+- Vite
+- Element Plus
+- Pinia
+- Axios
 
-**Frontend**
-- **Vue 3** - Progressive JavaScript framework with Composition API
-- **TypeScript** - Type-safe development
-- **Vite** - Next-generation frontend build tool
-- **Element Plus** - Vue 3 UI component library
-- **Pinia** - State management
-- **Axios** - HTTP client
+## Getting Started
 
-### ⭐ Why Spring Cloud Alibaba?
+### Requirements
 
-**Superior to Netflix OSS:**
+You'll need these installed:
+- JDK 8 or higher
+- Maven 3.6+
+- MySQL 8.0+
+- Redis 6.0+
+- RabbitMQ 3.8+
+- Nacos 2.0+
+- Node.js 16+ (for the frontend)
 
-1. **Better Performance**: Nacos has lower memory footprint and faster response times compared to Eureka
-2. **Richer Features**: Nacos combines service discovery and configuration management in one component
-3. **Active Maintenance**: Unlike Netflix OSS (most components are in maintenance mode), Spring Cloud Alibaba is actively developed
-4. **Battle-Tested**: Proven at scale during Alibaba's Double 11 shopping festival
-5. **Better Documentation**: Comprehensive Chinese and English documentation with active community support
+### Running Nacos
 
-**Nacos vs Eureka Comparison:**
-
-| Feature | Eureka | Nacos |
-|---------|--------|-------|
-| **CAP Model** | AP only | AP & CP modes |
-| **Health Check** | Client heartbeat | TCP/HTTP/MySQL/gRPC |
-| **Load Balancing** | Ribbon (maintenance mode) | Spring Cloud LoadBalancer |
-| **Management UI** | Basic | Feature-rich with metrics |
-| **Configuration Management** | Requires Config Server | Built-in |
-| **Active Development** | ❌ No | ✅ Yes |
-
-### 🚀 Quick Start
-
-#### Prerequisites
-
-- **JDK 8+**
-- **Maven 3.6+**
-- **MySQL 8.0+**
-- **Redis 6.0+**
-- **RabbitMQ 3.8+**
-- **Nacos 2.0+**
-- **Node.js 16+** (for frontend)
-
-#### Start Nacos Server
-
-**Download and run Nacos:**
+Download Nacos from https://nacos.io or use this command:
 
 ```bash
-# Download Nacos from https://nacos.io
 wget https://github.com/alibaba/nacos/releases/download/2.2.3/nacos-server-2.2.3.tar.gz
 tar -zxvf nacos-server-2.2.3.tar.gz
 cd nacos/bin
 
-# Start in standalone mode
-sh startup.sh -m standalone  # Linux/Mac
-startup.cmd -m standalone    # Windows
+# Start Nacos in standalone mode
+sh startup.sh -m standalone  # on Linux/Mac
+startup.cmd -m standalone    # on Windows
 ```
 
-**Access Nacos Console:**
-- URL: http://localhost:8848/nacos
-- Username: `nacos`
-- Password: `nacos`
+Access the Nacos console at http://localhost:8848/nacos (username and password are both `nacos`).
 
-#### Start Microservices
+### Running the Services
+
+Start each service in a separate terminal:
 
 ```bash
-# Start Gateway
+# Gateway (start this first)
 cd haust-gateway && mvn spring-boot:run
 
-# Start business services (in different terminals)
+# Other services
 cd haust-user-service && mvn spring-boot:run
 cd haust-referral-service && mvn spring-boot:run
 cd haust-forum-service && mvn spring-boot:run
 cd haust-im-service && mvn spring-boot:run
 ```
 
-#### Verify Service Registration
+Check the Nacos console to verify all services are registered and healthy.
 
-Check the Nacos Console → Service Management → Service List to see all registered services with healthy status (green indicator).
+### Running the Frontend
 
-### 📚 Architecture Highlights
+```bash
+cd haust-frontend
+npm install
+npm run dev
+```
 
-**Service Discovery with Nacos:**
-- All microservices automatically register with Nacos on startup
-- Services discover each other using service names instead of hardcoded URLs
-- Health checks ensure only healthy instances receive traffic
-- LoadBalancer automatically distributes requests across instances
+## Configuration
 
-**API Gateway Pattern:**
-- Single entry point for all client requests
-- Centralized authentication and authorization
-- Request routing based on service names
-- CORS handling and rate limiting
-
-**Async Processing with RabbitMQ:**
-- Sensitive word detection for posts and referrals
-- User behavior tracking and analytics
-- Decouples long-running operations from request-response cycle
-
-**Real-time Communication:**
-- WebSocket-based chat room for instant messaging
-- Real-time notifications and updates
-- Online user presence tracking
-
-### 📖 Documentation
-
-- **[MIGRATION_TO_NACOS.md](MIGRATION_TO_NACOS.md)** - Detailed guide on Nacos migration from Eureka
-- **[MIGRATION_SUMMARY.md](MIGRATION_SUMMARY.md)** - Summary of the migration process
-
-### 🔧 Configuration Example
-
-**Service Registration with Nacos:**
+Services register with Nacos using this basic configuration:
 
 ```yaml
 spring:
   application:
-    name: haust-user-service  # Service name for discovery
+    name: haust-user-service
   cloud:
     nacos:
       discovery:
-        server-addr: localhost:8848  # Nacos server address
+        server-addr: localhost:8848
 ```
 
-**Gateway Routing Configuration:**
+The gateway routes requests based on service names:
 
 ```yaml
 spring:
@@ -185,41 +132,28 @@ spring:
     gateway:
       routes:
         - id: user-service
-          uri: lb://haust-user-service  # Load balanced routing
+          uri: lb://haust-user-service
           predicates:
             - Path=/user/**
 ```
 
-### 📊 Microservices Communication Flow
+## How It Works
 
-```
-Client Request
-    ↓
-Gateway (Port 8080)
-    ↓
-Nacos Service Discovery
-    ↓
-LoadBalancer (Round Robin)
-    ↓
-Target Microservice
-    ↓
-MySQL / Redis / RabbitMQ
-```
+1. Client sends a request to the gateway (port 8080)
+2. Gateway looks up the service in Nacos
+3. Request is load-balanced across available service instances
+4. Service processes the request and accesses MySQL/Redis/RabbitMQ as needed
+5. Response flows back through the gateway to the client
 
-### 🌐 Learn More
+## Additional Documentation
 
-- **[Spring Cloud Alibaba Official Docs](https://spring-cloud-alibaba-group.github.io/github-pages/2021/en-us/index.html)**
-- **[Nacos Official Website](https://nacos.io/en-us/)**
-- **[Spring Cloud Gateway Docs](https://spring.io/projects/spring-cloud-gateway)**
+- [MIGRATION_TO_NACOS.md](MIGRATION_TO_NACOS.md) - Details about migrating to Nacos from Eureka
+- [MIGRATION_SUMMARY.md](MIGRATION_SUMMARY.md) - Summary of the migration
 
-### 📄 License
+## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - see [LICENSE](LICENSE) file for details.
 
-### 🤝 Contributing
+## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
----
-
-**Built with ❤️ using Spring Cloud Alibaba**
+Pull requests are welcome. For major changes, please open an issue first to discuss what you'd like to change.
