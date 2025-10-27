@@ -145,11 +145,6 @@ spring:
 4. Service processes the request and accesses MySQL/Redis/RabbitMQ as needed
 5. Response flows back through the gateway to the client
 
-## Additional Documentation
-
-- [MIGRATION_TO_NACOS.md](MIGRATION_TO_NACOS.md) - Details about migrating to Nacos from Eureka
-- [MIGRATION_SUMMARY.md](MIGRATION_SUMMARY.md) - Summary of the migration
-
 ## License
 
 MIT License - see [LICENSE](LICENSE) file for details.
